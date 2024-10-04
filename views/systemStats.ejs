@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>System Stats</title>
+      <link rel="icon" href="images/favicon-admin.png" type="image/png">
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <script src="js/chart.js"></script>
+      <style>
+         canvas {
+         max-width: 300px;
+         max-height: 300px;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="container mt-5">
+         <!-- Кнопка возврата в админпанель -->
+         <a href="/admin" class="btn btn-secondary mb-4">Back to Admin Panel</a>
+         <h1 class="mb-4">System Statistics</h1>
+         <!-- Графики CPU и памяти -->
+         <div class="row">
+            <div class="col text-center">
+               <h3>CPU Usage</h3>
+               <canvas id="combinedCpuChart"></canvas>
+            </div>
+            <div class="col text-center">
+               <h3>Memory Usage</h3>
+               <canvas id="combinedMemoryChart"></canvas>
+            </div>
+         </div>
+         <!-- Отображение используемой и свободной памяти и CPU -->
+         <div class="row mt-4">
+            <div class="col text-center">
+               <h4>CPU Used: <span id="usedCpu">0</span>%</h4>
+               <h4>CPU Free: <span id="freeCpu">0</span>%</h4>
+            </div>
+            <div class="col text-center">
+               <h4>Total Memory: <span id="totalMemory">0</span> MB</h4>
+               <h4>Free Memory: <span id="freeMemory">0</span> MB</h4>
+            </div>
+         </div>
+         <!-- Блок с характеристиками ПК, перемещенный вниз -->
+         <div class="card mt-5">
+            <div class="card-header">
+               <h3>Detailed System Information</h3>
+            </div>
+            <div class="card-body">
+               <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>CPU Model:</strong> <span id="cpuModel"></span></li>
+                  <li class="list-group-item"><strong>CPU Speed:</strong> <span id="cpuSpeed"></span> MHz</li>
+                  <li class="list-group-item"><strong>CPU Cores:</strong> <span id="cpuCores"></span></li>
+                  <li class="list-group-item"><strong>Total Memory:</strong> <span id="systemTotalMemory"></span> MB</li>
+                  <li class="list-group-item"><strong>Free Memory:</strong> <span id="systemFreeMemory"></span> MB</li>
+                  <li class="list-group-item"><strong>OS Type:</strong> <span id="osType"></span></li>
+                  <li class="list-group-item"><strong>OS Version:</strong> <span id="osRelease"></span></li>
+                  <li class="list-group-item"><strong>Platform:</strong> <span id="platform"></span></li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <script>
+         const ctxCombinedCpu = document.getElementById('combinedCpuChart').getContext('2d');
+         const ctxCombinedMemory = document.getElementById('combinedMemoryChart').getContext('2d');
+         
+         const combinedCpuChart = new Chart(ctxCombinedCpu, {
+             type: 'bar',
+             data: {
+                 labels: ['Used', 'Free'],
+                 datasets: [{
+                     label: 'CPU Usage (%)',
+                     data: [0, 100], // начальные значения
+                     backgroundColor: 'rgba(75, 192, 192, 1)',
+                 }]
+             },
+             options: {
+                 scales: {
+                     y: {
+                         beginAtZero: true,
+                         max: 100
+                     }
+                 }
+             }
+         });
+         
+         const combinedMemoryChart = new Chart(ctxCombinedMemory, {
+             type: 'bar',
+             data: {
+                 labels: ['Used', 'Free'],
+                 datasets: [{
+                     label: 'Memory Usage (%)',
+                     data: [0, 100], // начальные значения
+                     backgroundColor: 'rgba(153, 102, 255, 1)',
+                 }]
+             },
+             options: {
+                 scales: {
+                     y: {
+                         beginAtZero: true,
+                         max: 100
+                     }
+                 }
+             }
+         });
+         
+         // Обновление характеристик системы
+         function updateSystemInfo(systemInfo) {
+             document.getElementById('cpuModel').textContent = systemInfo.cpuModel;
+             document.getElementById('cpuSpeed').textContent = systemInfo.cpuSpeed;
+             document.getElementById('cpuCores').textContent = systemInfo.cpuCores;
+             document.getElementById('systemTotalMemory').textContent = systemInfo.totalMemory;
+             document.getElementById('systemFreeMemory').textContent = systemInfo.freeMemory;
+             document.getElementById('osType').textContent = systemInfo.osType;
+             document.getElementById('osRelease').textContent = systemInfo.osRelease;
+             document.getElementById('platform').textContent = systemInfo.platform;
+         }
+         
+         // Обновление статистики
+         function updateStats() {
+             fetch('/api/system-stats')
+                 .then(response => response.json())
+                 .then(data => {
+                     // Обновляем характеристики системы
+                     updateSystemInfo(data.systemInfo);
+         
+                     // Обновляем данные в графиках
+                     combinedCpuChart.data.datasets[0].data = [data.usedCpu, data.freeCpu];
+                     combinedMemoryChart.data.datasets[0].data = [data.usedMemory, 100 - data.usedMemory];
+         
+                     // Обновляем текстовые данные
+                     document.getElementById('usedCpu').textContent = data.usedCpu;
+                     document.getElementById('freeCpu').textContent = data.freeCpu;
+                     document.getElementById('totalMemory').textContent = data.totalMemory;
+                     document.getElementById('freeMemory').textContent = data.freeMemory;
+         
+                     // Обновляем графики
+                     combinedCpuChart.update();
+                     combinedMemoryChart.update();
+                 })
+                 .catch(error => console.error('Error:', error));
+         }
+         
+         setInterval(updateStats, 5000);
+         updateStats();
+      </script>
+   </body>
+</html>

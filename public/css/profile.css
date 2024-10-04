@@ -1,0 +1,332 @@
+ 
+/* Подключение шрифта SagrantinoRegular */
+ @font-face {
+     font-family: 'SagrantinoRegular';
+     src: url('../fonts/SagrantinoRegular.TTF') format('truetype');
+}
+ @font-face {
+     font-family: 'LakeshoreRegular';
+     src: url('../fonts/Lakeshore-Regular.ttf') format('truetype');
+}
+ @font-face {
+     font-family: 'FontAwesome';
+     src: url('../webfonts/fa-solid-900.woff2') format('woff2'), url('../webfonts/fa-solid-900.woff') format('woff');
+     font-weight: 900;
+     font-style: normal;
+}
+ @font-face {
+     font-family: 'FontAwesome Brands';
+     src: url('../webfonts/fa-brands-400.woff2') format('woff2'), url('../webfonts/fa-brands-400.woff') format('woff');
+     font-weight: 400;
+     font-style: normal;
+}
+/* Подключение шрифта Poppins Regular 400 */
+ @font-face {
+     font-family: 'Poppins';
+     font-style: normal;
+     font-weight: 400;
+     font-display: swap;
+     src: url('../fonts/pxiEyp8kv8JHgFVrJJnecmNE.woff2') format('woff2');
+     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Подключение шрифта Poppins Bold 600 */
+ @font-face {
+     font-family: 'Poppins';
+     font-style: normal;
+     font-weight: 600;
+     font-display: swap;
+     src: url('../fonts/pxiByp8kv8JHgFVrLEj6Z1JlFc-K.woff2') format('woff2');
+     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Для Webkit-браузеров (Chrome, Safari) */
+ body::-webkit-scrollbar {
+     display: none; /* Убираем полосу прокрутки */
+}
+/* Для Firefox */
+ html {
+     scrollbar-width: none; /* Убираем полосу прокрутки */
+}
+html, body {
+    height: 100%;
+    margin: 0; /* Убираем отступы */
+}
+
+body {
+    padding-top: 8%; /* Используем padding для отступа */
+    font-family: 'Arial', sans-serif;
+    background-image: url('../images/backgrounds/home-style-bg.jpg');
+    background-size: cover; /* Покрытие всего экрана */
+    background-attachment: fixed; /* Фиксация фона */
+    background-position: center center; /* Центрирование изображения */
+    background-repeat: no-repeat; /* Без повторений изображения */
+}
+/* Скрыть пункт "Profile" на странице профиля */
+ #profile-page #profileLink {
+     display: none !important;
+}
+ .container {
+    flex: 1; /* Занимает оставшееся пространство */
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    flex-direction: column;
+}
+/* Адаптивность */
+ @media (min-width: 768px) {
+     .container {
+         flex-direction: row;
+    }
+}
+.profile-card {
+    position: sticky;
+    top: 20px;
+    flex: 0 0 300px;
+    height: fit-content;
+    background-color: #1d242c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Замена оранжевой тени на нейтральную черную */
+    border-radius: 12px;
+    transition: box-shadow 0.3s ease; /* Плавный переход для тени */
+}
+
+.profile-card img {
+    border-radius: 50%;
+    border: 5px solid #fc6b01;
+    width: 100px;
+    height: 100px;
+}
+
+.card {
+    border-radius: 12px;
+    background-color: #1d242c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Замена оранжевой тени на черную */
+    transition: box-shadow 0.3s ease;
+}
+
+.username-header h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    color: #f0f0f0;
+    background: linear-gradient(to right, #1e90ff, #ff6347);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.deposit-header {
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: rgba(40, 45, 55, 0.8);
+    border-bottom: 2px solid #fc6b01;
+}
+
+.card-body {
+    background-color: #1d242c;
+    color: #ffffff;
+}
+
+.card-body .table {
+    background-color: #1d242c;
+    color: #ffffff;
+}
+
+.card-body .table thead th {
+    color: #ffffff;
+    border-bottom: 2px solid #fc6b01;
+}
+
+.card-body .table tbody tr {
+    border-bottom: 1px solid #fc6b01;
+}
+
+.card-body .table td,
+.card-body .table th {
+    color: #ffffff;
+}
+
+.card-body .table tbody > tr > td,
+.card-body .table tbody > tr > th,
+.card-body .table thead > tr > th {
+    background-color: #1d242c;
+    border-color: #fc6b01;
+}
+
+.card-body img {
+    width: 120px;
+    height: 120px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.9); /* Замена тени при наведении на черную */
+}
+
+/* Стили для аккордеона Profile */
+.accordion-body {
+    padding: 0; /* Убираем отступы у accordion-body */
+}
+
+.accordion-body table {
+    background-color: rgba(32, 37, 43, 0.7); /* Полупрозрачный фон для таблицы */
+    color: #ffffff; /* Белый цвет текста */
+    width: 100%; /* Ширина таблицы */
+    border-collapse: collapse; /* Убираем двойные границы */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Легкая тень для объема */
+    margin: 0; /* Убираем отступы у таблицы */
+}
+
+.accordion-body table th,
+.accordion-body table td {
+    background-color: rgba(32, 37, 43, 0.7); /* Полупрозрачный фон для ячеек */
+    color: #ffffff; /* Цвет текста в ячейках */
+    border-top: none; /* Убираем верхнюю границу */
+    border-bottom: 1px solid #fc6b01; /* Нижняя граница ячеек */
+    padding: 12px; /* Увеличенные отступы */
+    text-align: left; /* Выравнивание текста по левому краю */
+}
+
+.accordion-body table td,
+.accordion-body table th {
+    border-right: 1px solid #fc6b01; /* Вертикальные границы */
+}
+
+.accordion-body table tr td:last-child,
+.accordion-body table tr th:last-child {
+    border-right: none; /* Убираем правую границу у последней ячейки */
+}
+
+.accordion-body table th {
+    font-weight: bold; /* Жирный шрифт для заголовков */
+    background-color: rgba(40, 45, 55, 0.8); /* Более светлый фон для заголовков */
+    border-bottom: 2px solid #fc6b01; /* Более толстая граница */
+    letter-spacing: 1px; /* Расстояние между буквами */
+    text-align: left; /* Текст по левому краю */
+}
+
+.accordion-body table td:hover {
+    background-color: rgba(50, 55, 65, 0.9); /* Осветляем ячейку при наведении */
+    color: #fc6b01; /* Цвет текста при наведении */
+}
+
+.accordion-button {
+    background-color: #1d242c !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important; /* Легкая тень вместо оранжевого свечения */
+    transition: box-shadow 0.3s ease;
+    height: 60px;
+    position: relative; /* Позиционирование для наложения */
+    z-index: 1; /* Чтобы кнопка была над карточкой */
+    font-weight: bold; /* Жирный шрифт для заголовков */
+    background-color: rgba(40, 45, 55, 0.8); /* Более светлый фон для заголовков */
+    border-bottom: 2px solid #fc6b01; /* Более толстая граница */
+    letter-spacing: 1px; /* Расстояние между буквами */
+}
+
+.accordion-button img.job-image {
+    height: 200%; /* Занимает всю высоту кнопки */
+    width: auto; /* Ширина автоматически устанавливается в зависимости от высоты */
+    margin-right: 10px;
+    object-fit: contain; /* Сохраняет пропорции изображения и масштабирует его, чтобы оно помещалось в контейнер */
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #1d242c !important;
+    color: #fff !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important; /* Легкая тень вместо оранжевого свечения */
+    transition: box-shadow 0.3s ease;
+}
+
+.accordion-button:hover {
+    background-color: rgba(50, 55, 65, 0.8) !important; /* Прозрачный фон при наведении */
+    color: rgba(252, 107, 1, 0.9) !important; /* Оранжевый цвет текста с небольшой прозрачностью */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4) !important; /* Легкая тень */
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* Плавный переход */
+}
+
+
+.accordion-item {
+    background-color: #1d242c !important;
+    border: none !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important; /* Легкая тень вместо оранжевого свечения */
+    transition: box-shadow 0.3s ease;
+    position: relative; /* Позиционирование для наложения */
+    z-index: 0; /* Чтобы элементы были под кнопкой */
+}
+
+.accordion-item:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4) !important; /* Более темное свечение при наведении */
+}
+
+/* Добавляем кастомную иконку стрелки вниз */
+.accordion-button::before {
+    content: '\f078'; /* Иконка FontAwesome для стрелки вниз */
+    font-family: 'FontAwesome';
+    font-size: 1.2rem;
+    color: #fc6b01; /* Цвет стрелки */
+    position: absolute;
+    right: 1rem; /* Положение справа */
+    top: 50%; /* Центрирование по вертикали */
+    transform: translateY(-50%);
+    transition: transform 0.3s ease; /* Анимация вращения */
+}
+
+/* Изменение стрелки на стрелку вверх при закрытом аккордеоне */
+.accordion-button.collapsed::before {
+    content: '\f077'; /* Иконка стрелки вверх */
+    transform: translateY(-50%) rotate(180deg); /* Вращение стрелки */
+}
+
+/* Полностью убирает стандартный индикатор */
+.accordion-button::after {
+    display: none;
+}
+
+ .table-container {
+     flex: 1;
+     max-height: 100%;  /* Максимальная высота контейнера */
+}
+ .image-text-container {
+     display: flex;
+     align-items: center;
+     gap: 10px;
+}
+ .image-small {
+     width: 25px; /* Ширина изображения */
+     height: auto; /* Высота устанавливается пропорционально ширине */
+}
+/* Подвал сайта */
+ footer {
+    position: fixed; /* Фиксируем подвал */
+    left: 0;
+    bottom: 0; /* Привязываем к низу страницы */
+    width: 100%; /* Ширина подвала на всю ширину экрана */
+    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.5);
+    color: #ffffff; /* Цвет текста */
+    padding: 20px 0; /* Внутренние отступы */
+    text-align: center; /* Выравнивание текста по центру */
+    z-index: 1000; /* Обеспечивает, что подвал будет поверх другого контента */
+}
+/* Адаптивные стили */
+ @media (max-width: 600px) {
+     .profile-card {
+         flex: 1;
+         width: 100%;
+    }
+     .profile-card img {
+         width: 80px;
+         height: 80px;
+    }
+     .container {
+         padding: 10px;
+    }
+}
+ @media (min-width: 1200px) {
+     .profile-card img {
+         width: 150px;
+         height: 150px;
+    }
+}

@@ -1,0 +1,101 @@
+html, body {
+  height: 100%; /* Обеспечивает полную высоту */
+  margin: 0; /* Убирает отступы по умолчанию */
+}
+
+.wrapper {
+  min-height: 100vh; /* Обеспечивает высоту экрана */
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1; /* Растягивает контент на всю доступную высоту */
+  margin-top: 180px; /* Отступ сверху для учета высоты фиксированной навигационной панели */
+  display: flex;
+  gap: 20px; /* Расстояние между карточкой и таблицей */
+  padding: 20px; /* Отступы внутри контейнера */
+  box-sizing: border-box; /* Учитывает padding в общей ширине/высоте */
+}
+
+footer {
+  background-color: #343a40;
+  color: #ffffff;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.profile-card {
+  width: 300px; /* Фиксированная ширина карточки */
+  border: 1px solid #ddd; /* Легкая граница */
+  border-radius: 15px; /* Скругленные углы */
+  background-color: #4d4d33; /* Фоновый цвет карточки */
+  color: #ffffff; /* Цвет текста */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для карточки */
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; /* Круглый аватар */
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.profile-button {
+  background-color: #007bff; /* Цвет кнопки */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.profile-button:hover {
+  background-color: #0056b3; /* Цвет кнопки при наведении */
+}
+
+.table-container {
+  flex: 1; /* Растягивает таблицу на доступное пространство */
+  border: 1px solid #ddd; /* Граница таблицы */
+  border-radius: 15px; /* Скругленные углы таблицы */
+  background-color: #4d4d33; /* Фоновый цвет таблицы */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для таблицы */
+  overflow: hidden; /* Скрывает переполнение */
+  display: flex;
+  flex-direction: column; /* Вертикальное расположение элементов */
+}
+
+.table-container .table-wrapper {
+  overflow-y: auto; /* Вертикальный скролл для таблицы */
+  flex: 1; /* Растягивает таблицу на доступное пространство внутри контейнера */
+}
+
+.table-container caption {
+  font-size: 1.5rem; /* Размер шрифта для названия таблицы */
+  margin-bottom: 20px; /* Отступ снизу для названия таблицы */
+  color: #ffffff; /* Цвет текста заголовка */
+  text-align: left; /* Выравнивание заголовка */
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse; /* Убирает двойные границы */
+}
+
+.table-container th, .table-container td {
+  padding: 10px;
+  text-align: left;
+  color: #ffffff; /* Цвет текста ячеек */
+}
+
+.table-container th {
+  background-color: #333333; /* Цвет заголовков таблицы */
+}
+
+.table-container td {
+  background-color: #555555; /* Цвет ячеек таблицы */
+}

@@ -1,0 +1,53 @@
+body {
+     background-color: #f8f9fa;
+}
+ .container {
+     margin-top: 2rem;
+}
+ .table th, .table td {
+     text-align: center;
+}
+ .table-striped tbody tr:nth-of-type(odd) {
+     background-color: #e9ecef;
+}
+ .table-dark th {
+     background-color: #343a40;
+     color: #ffffff;
+}
+ .username-highlight {
+     font-weight: bold;
+     color: #007bff;
+}
+ .btn-custom {
+     margin: 0 0.5rem;
+}
+.header-container {
+    display: flex;
+    align-items: center;
+}
+
+.header-title {
+    flex-grow: 1; /* Заголовок занимает доступное пространство */
+}
+.total-count{
+	padding: 0px 10px;
+    font-weight: bold;
+	font-size: 1rem;
+    color: #6c757d;
+}
+
+.account-count,
+.creature-count,
+.deleted-creature-count {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #6c757d;
+}
+.accounts-count,
+.created-count {
+    color: #2E8B57;
+}
+
+.deleted-count {
+    color: #FF0000;
+}

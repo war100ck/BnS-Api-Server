@@ -1,0 +1,120 @@
+/* Общие стили */
+.container {
+    margin-top: 2rem;
+}
+
+/* Стили для формы */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+}
+
+/* Стили для описания */
+.description {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Стили для кнопок */
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Стили для карточек */
+.card {
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.update-button-container {
+    display: flex;
+    justify-content: flex-end; /* Выравнивание по правому краю */
+    margin-top: 1rem; /* Отступ сверху для лучшего визуального восприятия */
+}
+
+
+/* Стили для таблицы */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+    color: #212529;
+}
+
+.table th, .table td {
+    padding: 10px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #f2f2f2;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+/* Стили для Toast уведомлений */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050; /* Убедитесь, что уведомление выше другого контента */
+}
+
+/* Заголовки */
+h3 {
+    color: #4CAF50;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+h4 {
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Стили для никнейма */
+.username {
+    font-weight: bold; /* Жирный текст */
+    color: #4CAF50; /* Цвет текста (например, синий) */
+}
+
+.addeposit{
+    font-weight: bold; /* Жирный текст */
+}

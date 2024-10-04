@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+  <a href="#" class="navbar-logo">
+    <img src="images/logo/logo.png" alt="Logo" class="logo-img navbar-logo-img">
+  </a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ms-auto">
+      <!-- Элементы навигации -->
+      <li class="nav-item d-none" id="homeItem">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item" id="aboutItem">
+        <a class="nav-link" href="#about">About</a>
+      </li>
+      <li class="nav-item" id="classesItem">
+        <a class="nav-link" href="#classes">Classes</a>
+      </li>
+      <li class="nav-item" id="buyItItem">
+        <a class="nav-link" href="#profs">Overview</a>
+      </li>
+      <!-- Выпадающее меню для SignIn/SignUp -->
+      <li class="nav-item dropdown signup-container d-none" id="signupContainer">
+        <a class="nav-link dropdown-toggle signup-text" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          SignIn/SignUp
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="#" id="signInLink" data-bs-toggle="modal" data-bs-target="#signinModal">Sign In</a></li>
+          <li><a class="dropdown-item" href="#" id="signUpLink" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></li>
+        </ul>
+      </li>
+      <!-- Для Никнейм -->
+      <li class="nav-item dropdown d-none" id="usernameContainer">
+  <a class="nav-link dropdown-toggle username" href="#" id="username" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
+  <ul class="dropdown-menu" aria-labelledby="username">
+    <li><a class="dropdown-item" href="#" id="profileLink">Profile</a></li>
+    <li><a class="dropdown-item" href="#" id="logoutLink">Logout</a></li>
+  </ul>
+</li>
+
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Blade & Soul</title>
+      <link rel="icon" href="images/favicon.png" type="image/png">
+      <link rel="stylesheet" href="/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/css/styles.css">
+      <link rel="stylesheet" href="/css/navbar.css">
+      <link rel="stylesheet" href="/css/all.min.css"><!-- Подключение Font Awesome -->
+      <link rel="stylesheet" href="/css/toast.css"><!-- Стили для Toast уведомлений -->
+      <script src="js/navbar.js"></script>
+   </head>
+   <body>
+      <%- include('partials/navbar') %>
+      <!-- Carousel -->
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+         <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6"></button>
+			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-label="Slide 7"></button>
+			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7" aria-label="Slide 8"></button>
+			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8" aria-label="Slide 9"></button>
+			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="9" aria-label="Slide 10"></button>
+			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="10" aria-label="Slide 11"></button>
+         </div>
+         <div class="carousel-inner">
+            <div class="carousel-item active">
+               <img class="d-block w-100" src="images/slide/index.jpg" alt="First slide">
+            </div>
+            <div class="carousel-item">
+               <img class="d-block w-100" src="images/slide/index_2.jpg" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+               <img class="d-block w-100" src="images/slide/index_3.jpg" alt="Third slide">
+            </div>
+            <div class="carousel-item">
+               <img class="d-block w-100" src="images/slide/index_4.jpg" alt="Fourth slide">
+            </div>
+			<div class="carousel-item">
+               <img class="d-block w-100" src="images/slide/index_5.jpg" alt="Fourth slide">
+            </div>
+			<div class="carousel-item">
+               <img class="d-block w-100" src="images/slide/index_6.jpg" alt="Fourth slide">
+            </div>
+			<div class="carousel-item">
+               <img class="d-block w-100" src="images/slide/index_7.jpg" alt="Fourth slide">
+            </div>
+			<div class="carousel-item">
+               <img class="d-block w-100" src="images/slide/index_8.jpg" alt="Fourth slide">
+            </div>
+			<div class="carousel-item">
+               <img class="d-block w-100" src="images/slide/index_9.jpg" alt="Fourth slide">
+            </div>
+			<div class="carousel-item">
+               <img class="d-block w-100" src="images/slide/index_10.jpg" alt="Fourth slide">
+            </div>
+			<div class="carousel-item">
+               <img class="d-block w-100" src="images/slide/index_11.jpg" alt="Fourth slide">
+            </div>
+         </div>
+      </div>
+      <!-- Hero Content for Desktop -->
+      <div class="hero-content d-none d-md-block text-center">
+         <h1 class="hero-title">Welcome to <img src="images/logo/logo-bns.png" alt="Blade & Soul" class="logo-img hero-logo-img"> private server</h1>
+         <p class="hero-subtitle">Immerse yourself in the world of Blade & Soul</p>
+         <!-- Добавлен идентификатор для кнопки -->
+         <button id="join-us-button" class="sprite-button" data-bs-toggle="modal" data-bs-target="#signupModal">Join Us Now</button>
+      </div>
+      <!-- Hero Content for Mobile -->
+      <div class="hero-content-mobile d-block d-md-none text-center">
+         <h1 class="hero-title">Welcome to our <br> private server</h1>
+         <p class="hero-subtitle">Immerse yourself in the world of Blade & Soul</p>
+         <!-- Добавлен идентификатор для кнопки -->
+         <button id="join-us-button-mobile" class="sprite-button" data-bs-toggle="modal" data-bs-target="#signupModal">Join Us Now</button>
+      </div>
+      </div>
+      <!-- About Section -->
+      <div class="container lazy-section" id="about">
+         <h1 class="section-title">About the Game</h1>
+         <div class="row">
+            <div class="col-lg-6">
+               <p class="lead">
+                  Blade & Soul is a fantasy role-playing game based on non-targeting and combo attacks, where betrayal and dark cult conspiracies have turned the Middle World into ruins of civilization. Players are tasked with defending their home settlement from pirate raids and then embark on a thrilling journey to uncover hidden secrets and knowledge from nature. The game features 250 chapters of the main storyline and several multiplayer modes.
+               </p>
+               <p class="lead">
+                  The spectacle and dynamism of the combat system dominate all other game mechanics. There are 12 classes with unique combat styles, but they all share the necessity of keeping the enemy in sight, stunning them, knocking them down, or launching them into the air. To activate combo attacks, players must capture the opponent, counterattack, or block their strikes.
+               </p>
+            </div>
+            <div class="col-lg-6 text-center position-relative video-container">
+               <!-- Изображение превью -->
+               <img id="videoThumbnail" src="images/backgrounds/video-bg.webp" class="img-fluid rounded shadow" alt="Game Thumbnail">
+               <!-- Кнопка воспроизведения -->
+               <button id="playButton" class="btn position-absolute"></button>
+               <!-- Видео -->
+               <video id="videoPlayer" class="img-fluid rounded shadow d-none" controls controlslist="nodownload noplaybackrate" disablePictureInPicture onclick="togglePlayPause()">
+                  <source src="media/trailer.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+               </video>
+            </div>
+         </div>
+      </div>
+      <!-- Раздел событий -->
+<div class="container mb-5 lazy-section" id="events">
+    <h1 class="section-title text-center text-light">Current Events</h1>
+    
+    <!-- Подключение новостей -->
+    <%- include('partials/events') %>
+    
+    <!-- Элементы управления каруселью (скрыты) -->
+    <style>
+        .carousel-control-prev, .carousel-control-next {
+            display: none;
+        }
+    </style>
+</div>
+      <!-- Раздел Особенности игры -->
+      <div class="container mb-5 lazy-section" id="game-features">
+         <h1 class="section-title text-center text-light">Game Features</h1>
+         <div id="featuresCarousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+               <div class="carousel-item active">
+                  <div class="row">
+                     <div class="col-md-4 mb-4">
+                        <div class="card feature-card" style="height: 250px;">
+                           <div class="card-body">
+                              <h5 class="card-title text-light" style="margin-top: -0.5rem; margin-bottom: 1.5rem;">Beauty</h5>
+                              <p class="text-light">One of the main features of Blade & Soul is its stunningly beautiful game world, featuring breathtaking views.</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 mb-4">
+                        <div class="card feature-card" style="height: 250px;">
+                           <div class="card-body">
+                              <h5 class="card-title text-light" style="margin-top: -0.5rem; margin-bottom: 1.5rem;">Stylistics</h5>
+                              <p class="text-light">The Asian flair creates a unique atmosphere with majestic pagodas and beautiful nature scenes.</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 mb-4">
+                        <div class="card feature-card" style="height: 250px;">
+                           <div class="card-body">
+                              <h5 class="card-title text-light" style="margin-top: -0.5rem; margin-bottom: 1.5rem;">Engine</h5>
+                              <p class="text-light">To maximize dynamics and spectacle, the developers at NC Soft chose the Unreal Engine 3.</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="carousel-item">
+                  <div class="row">
+                     <div class="col-md-4 mb-4">
+                        <div class="card feature-card" style="height: 250px;">
+                           <div class="card-body">
+                              <h5 class="card-title text-light" style="margin-top: -0.5rem; margin-bottom: 1.5rem;">Faction Camps</h5>
+                              <p class="text-light">In the world, there are special camps where players can receive faction quests, ranks, and rewards.</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 mb-4">
+                        <div class="card feature-card" style="height: 250px;">
+                           <div class="card-body">
+                              <h5 class="card-title text-light" style="margin-top: -0.5rem; margin-bottom: 1.5rem;">Dragon Paths</h5>
+                              <p class="text-light">Streams of spiritual energy are distributed throughout the world, allowing heroes to reach hard-to-access places.</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 mb-4">
+                        <div class="card feature-card" style="height: 250px;">
+                           <div class="card-body">
+                              <h5 class="card-title text-light" style="margin-top: -0.5rem; margin-bottom: 1.5rem;">Customization</h5>
+                              <p class="text-light">Blade & Soul offers diverse customization options for creating unique characters. Players can choose from various hairstyles, facial features, and outfits.</p>
+                              <p class="text-light">Experiment to find the perfect look for your hero!</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <a class="carousel-control-prev" href="javascript:void(0);" role="button" data-slide="prev" onclick="$('#featuresCarousel').carousel('prev');">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="javascript:void(0);" role="button" data-slide="next" onclick="$('#featuresCarousel').carousel('next');">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+            </a>
+         </div>
+      </div>
+      <!-- Раздел Классов-->
+      <div class="container mb-5 lazy-section" id="classes">
+         <div class="row justify-content-center text-center">
+            <ul class="game-classes-nav">
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon assassin" 
+                     style="background-image:url('images/classes/class-icons-assassin.png')" 
+                     data-class="Assassin" 
+                     data-image="images/classes/assasin1.webp" 
+                     data-races='["images/races/race-sheng.png", "images/races/race-sheng.png"]'
+                     data-races-text='["jin"]'
+                     data-description="Assassin — While most classes charge in bold and daring, the Assassin is a stealthy sort that prefers to take things at their own pace. They can control the battlefield like no other, luring enemies into deadly traps before they even know what hit them.
+                     The Assassin whittles away at their enemy’s strength with rapid fire attacks that cause bleeding and poison damage, which drain the life from their foes over time. While their razor-sharp Dagger is vital, they also employ explosives, poisons, smoke, and other potent utilities to hobble their enemies. On top of their ingenuity, they can also use strange martial arts that allow them to turn nearly invisible, teleport around the field, and even swap places with enemies in an instant.
+                     In comparison to others, Assassins work best alone. However, their status-altering abilities and damage-over-time effects make them an important addition to any large-scale battle.">
+                     <div class="game-classes-icon-title">Assassin</div>
+                  </a>
+               </li>
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon blademaster" 
+                     style="background-image:url('images/classes/class-icons-blademaster.png')" 
+                     data-class="Blade Master" 
+                     data-image="images/classes/blademaster.webp" 
+                     data-races='["images/races/race-sheng.png", "images/races/race-feng.png"]'
+                     data-races-text='["Jin", "Yun"]'
+                     data-description="Blade Master - (not to be confused with Blade Dancer) is a *Warrior* class that specializes in sword combat to deliver a variety of attacks. Blade Masters do not have high static defense but are adept at parrying and evading their enemies' blows and then following up with counter attacks. Blade Master can also go on the offensive with their Draw stance to inflict quick and powerful blows. As far as range, Blade Masters can use Flying Sword techniques that will harm their enemies from afar.">
+                     <div class="game-classes-icon-title">Blade Master</div>
+                  </a>
+               </li>
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon destroyer" 
+                     style="background-image:url('images/classes/class-icons-destroyer.png')" 
+                     data-class="Destroyer" 
+                     data-image="images/classes/destroyer.webp" 
+                     data-races='["images/races/race-wan.png"]'
+                     data-races-text='["Gon"]'
+                     data-description="The Destroyer is an axe-wielding melee class that specializes in powerful crowd controls, decent party support, and solid, consistent damage. Relentless and brutal, Destroyers are well known for their mobility and large variety of stuns, dazes, knockdowns, as well as their infamous ability to grapple and lift their opponents. As such, they are considered one of the primary frontline classes, always in the face of the enemy and ready to change the flow of battle. To say that the Destroyer's attack patterns lack elegance and complexity would be a complete misnomer; they hardly have a pattern to begin with. Instead, Destroyers favor a completely straightforward rule of combat: Constantly chop away at the enemy's health and look for opportunities to crowd control them. For this reason, one may find themselves interested in picking a Destroyer if they enjoy domination above all else. The Destroyer is limited to the Gon race only.">
+                     <div class="game-classes-icon-title">Destroyer</div>
+                  </a>
+               </li>
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon forcemaster" 
+                     style="background-image:url('images/classes/class-icons-forcemaster.png')" 
+                     data-class="Force Master" 
+                     data-image="images/classes/forcemaster.webp" 
+                     data-races='["images/races/race-lin.png", "images/races/race-wan.png", "images/races/race-feng.png"]'
+                     data-races-text='["Lyn", "Gon", "Yun"]'
+                     data-description="The Force Master (aka FM) is a ranged class that excels in dealing strong, continuous damage while offering moderate amounts of crowd control and utility. Using bangles to cast elemental projectiles, FMs effectively function as mobile *gunners* by relying on movement and positioning in order to kite around their enemies without compromising DPS. Within the lore of Blade and Soul, FMs epitomize the nature of duality, owing to their distinct fire and ice stances; which they use for damage and defense/utility, respectively. To walk the path of a Force Master, one must be wary of using the two stances together, lest they should accidentally cast the wrong spell at the wrong moment. In choosing a FM, you will find versatility and great damage potential, making you both an excellent party member and a capable solo player.">
+                     <div class="game-classes-icon-title">Force Master</div>
+                  </a>
+               </li>
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon kungfumaster" 
+                     style="background-image:url('images/classes/class-icons-kungfumaster.png')" 
+                     data-class="Kung Fu Master" 
+                     data-image="images/classes/kungfumaster.webp" 
+                     data-races='["images/races/race-wan.png", "images/races/race-sheng.png", "images/races/race-feng.png"]'
+                     data-races-text='["Gon", "Jin", "Yun"]'
+                     data-description="The Kung Fu Master - (aka KFM) is a close-quarter combat class that relies upon quick reflexes (and good latency) to fight with near-invincibility while delivering respectful, oftentimes surprising damage. Armed with nothing more than gauntlets and their own bodies, KFMs are renown as the most difficult class to play in Blade and Soul, due to the unforgiving nature of their timing-based attack conditions. On the defensive, KFMs can effortlessly dodge and counter nearly anything thrown their way, which effectively makes them an ideal tank class (if players chose to generate and hold threat). However, the higher level KFM players goes, gameplay revolves around using their attacks and dodges together in one fluid style, giving off the appearance of constantly fighting within the eye of a storm. The decision to main a KFM isn't one meant to be taken lightly; that being said, all other classes will feel easier by comparison, should you successfully master the art of kung fu.">
+                     <div class="game-classes-icon-title">Kung Fu Master</div>
+                  </a>
+               </li>
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon summoner" 
+                     style="background-image:url('images/classes/class-icons-summoner.png')" 
+                     data-class="Summoner" 
+                     data-image="images/classes/summoner1.webp" 
+                     data-races='["images/races/race-lin.png"]'
+                     data-races-text='["Lyn"]'
+                     data-description="The Summoner and their Familiar are a team, fighting together to overwhelm their enemies. The Familiar rushes into the thick of it, dealing heavy physical damage and holding the attention of their opponent. Meanwhile, the Summoner hangs back, supporting their Familiar with long range skills that both help their feline friend and hinder their shared enemy.
+                     Don`t let the adorable appearance of these two fool you. Summoner attacks deal constant damage and can readily control the flow of battle, making them particularly hard to deal with. Even if one part of the team is defeated, they can revive their fallen ally and jump right back into the fight.
+                     The Summoner and their Familiar are the strongest at transferring health from foes to themselves. While it is a great class for novices, actually mastering the Summoner is a difficult process given their wide range of tactics and abilities.">
+                     <div class="game-classes-icon-title">Summoner</div>
+                  </a>
+               </li>
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon bladedancer" 
+                     style="background-image:url('images/classes/class-icons-bladedancer.png')" 
+                     data-class="Blade Dancer" 
+                     data-image="images/classes/bladedancer.webp" 
+                     data-races='["images/races/race-lin.png"]'
+                     data-races-text='["Lyn"]'
+                     data-description="The Blade Dancer is a Lyn-only class. Using their small size, Lyns utilize swift precise movements to nimbly attack their opponents. The Blade Dancer is a sword wielding class that delivers powerful melee attacks, has a decent number of defensive abilities, and has a few ranged attacks at their disposal. It is a well rounded class that is able to unleash a lot of both burst and consistent damage over time. They are relatively easy to level, thanks to their massive collection of AoE skills and the relatively low difficulty in playing the class effectively.
+                     Although it is similar to Blade Master in name, both are very different.
+                     • Blade Dancers have lower health, defense and block, but have higher crit and evasion.
+                     • Blade Dancers have more AoE skills and skills with crowd control effects but overall damage is lower.
+                     • Blade Dancers cannot use the skill `Block`. They have to utilize the 0.5 second parry window of the upgraded `Vortex` ability or an upgraded version of their `Guardian Tempest` ability to nullify attacks.
+                     • Blade Dancers can only shift to the quick draw stance using `Lightning Slash` or through an upgraded version of `Dual Strike`.
+                     • Conditions for using some skills are different.
+                     • Overall simpler mechanics.
+                     • Although weaker weapons are shared between the two classes, stronger swords (obtained in party dungeons) are separately labeled as a `Lyn Blade`.">
+                     <div class="game-classes-icon-title">Blade Dancer</div>
+                  </a>
+               </li>
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon warlock" 
+                     style="background-image:url('images/classes/class-icons-warlock.png')" 
+                     data-class="Warlock" 
+                     data-image="images/classes/warlock.webp" 
+                     data-races='["images/races/race-lin.png", "images/races/race-sheng.png"]'
+                     data-races-text='["Lyn", "Jin"]'
+                     data-description="Harnessing dark magics, the Warlock is a medium-ranged caster that relies on empowered Talismans—floating supernatural writings that can be consumed or unleashed to great effect—to protect or attack. Through their Talismans they primarily focus on summoning visceral and nefarious restraints and weapons, like spikes and chains.
+                     While the Warlock can be considered a glass cannon, they have a number of ways to keep their enemies at bay, not the least of which is their ability to summon a giant demonic Thrall to finish off their enemies. By keeping enemies at a distance, marking them with limited-time debuffs, and mastering their lengthy ability cooldowns, a Warlock can be a difficult—but rewarding—martial art to master.
+                     Their flamboyant attitude is matched only by their deadly cunning, but catch a Warlock off guard and their cocky expression could be wiped from their face; just keep an eye out for the giant demon.">
+                     <div class="game-classes-icon-title">Warlock</div>
+                  </a>
+               </li>
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon soulfighter" 
+                     style="background-image:url('images/classes/class-icons-soulfighter.png')" 
+                     data-class="Soul Fighter" 
+                     data-image="images/classes/soulfighter.webp" 
+                     data-races='["images/races/race-wan.png", "images/races/race-sheng.png", "images/races/race-feng.png"]'
+                     data-races-text='["Gon", "Jin", "Yun"]'
+                     data-description="The Soul Fighter - is the only class that is able to deal heavy damage up close and from a distance. Their swift strikes are complemented by their equally-rapid dashes, keeping them from taking harm, and precisely positioning themselves to take advantage of their opponent’s vulnerabilities.
+                     Soul Fighters actively manage their ranged and melee abilities by changing stances to best fit the situation. The Elemental stance abilities will freeze enemies in place, while the Kung Fu stance focuses on fast close-combat combos. At their maximum Chi level the Soul Fighter unlocks their most powerful and devastating attack, laying waste to opponents with a single strike.
+                     A flexible and fast warrior, the Soul Fighter can be efficient as a solo combatant, but relies on the support of others in more difficult challenges. However, as a master of the Chi, their party-healing buffs ensure they’re a welcome addition in any group.">
+                     <div class="game-classes-icon-title">Soul Fighter</div>
+                  </a>
+               </li>
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon gunslinger" 
+                     style="background-image:url('images/classes/class-icons-gunslinger.png')" 
+                     data-class="Gunslinger" 
+                     data-image="images/classes/gunslinger.webp" 
+                     data-races='["images/races/race-lin.png", "images/races/race-sheng.png", "images/races/race-feng.png"]'
+                     data-races-text='["Lyn", "Jin", "Yun"]'
+                     data-description="As a gun-toting wrecking machine, the Gunslinger is a unique martial artist; entering battle with dual wielding pistols capable of taking down the hardiest of enemies. Gunslingers can also make use of a special grappling hook that aids them in both offense and defense!
+                     Visualizing their attacks as a “harmony of destruction,” the Gunslinger is seen as the maestro of combat, orchestrating an unstoppable barrage of gunfire against any opponents that get in their way. With lightning quick reflexes, this mobile shooter moves on the battlefield unlike any other warrior.
+                     Gunslingers come to the table with an impressive array of skills that separate them from any other type of combatant. Able to channel the elements of Flame or Shadow, Gunslingers can generate special attacks that enhance their projectiles.">
+                     <div class="game-classes-icon-title">Gunslinger</div>
+                  </a>
+               </li>
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon warden" 
+                     style="background-image:url('images/classes/class-icons-warden.png')" 
+                     data-class="Warden" 
+                     data-image="images/classes/warden.webp" 
+                     data-races='["images/races/race-wan.png", "images/races/race-lin.png", "images/races/race-sheng.png"]'
+                     data-races-text='["Gon", "Lin", "Jin"]'
+                     data-description="Wielding a massive greatsword, the Warden is both capable of absorbing punishment and unleashing it upon its foes. This resilient tank will decimate all those who stand in its way, even if it must spill its own blood to do so.
+                     Mastery of the Warden involves the balance of when to control the enemy and neutralize their attacks and when to unleash their fury to slay the enemy. The Warden is mobile as well, able to maneuver around the battlefield in order to deflect opponent attacks and intercept their targets.
+                     The Warden will choose the path of Lightning or Frost. The Lightning Warden embodies the chaos of a storm and uses Frenzy Stance to furiously slash at its enemies with no regard for its own life. The Frost Warden embraces the elements, using the power of the sun and moon to enter an enlightened state of Sentry Stance and overwhelm the opponent with devestating strikes.">
+                     <div class="game-classes-icon-title">Warden</div>
+                  </a>
+               </li>
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon zenarcher" 
+                     style="background-image:url('images/classes/class-icons-zenarcher.png')" 
+                     data-class="Zen Archer" 
+                     data-image="images/classes/zenarcher.webp" 
+                     data-races='["images/races/race-sheng.png", "images/races/race-feng.png"]'
+                     data-races-text='["Jin", "Yun"]'
+                     data-description="Unlike their ranged combat counterparts, the Zen Archer approaches the battlefield with relative calm. As chaos reigns in the middle of combat, Zen Archers can adapt to any scenario while maintaining a harmonic balance of control and precision in the heat of battle.
+                     The Zen Archer can only truly achieve perfection of their skills by sustaining inner peace while in the throes of battle. Their intent is to use nothing more than their bow to unleash a flurry of sharpened destruction, taking down all those who oppose them with absolute composure.
+                     The Zen Archer can follow either the path of Light or the Wind. A Zen Archer specialized as a Lightbringer will leverage the harmony of light and sound to perfect their attacks as they seamlessly flow through combat. Zen Archers that follow the Way of the Windpiercer excel at targeting their enemies’ weakest point with unparalleled precision.">
+                     <div class="game-classes-icon-title">Zen Archer</div>
+                  </a>
+               </li>
+               <!-- <li style="opacity: 1; transform: none;"> -->
+               <!-- <a href="javascript:void(0)" class="game-classes-icon astromancer"  -->
+               <!-- style="background-image:url('images/classes/class-icons-astromancer.png')"  -->
+               <!-- data-class="Astromancer"  -->
+               <!-- data-image="images/classes/astromancer.webp"  -->
+               <!-- data-races='["images/races/race-lin.png"]' -->
+               <!-- data-races-text='["Lyn"]' -->
+               <!-- data-description="The Astromancer calls upon the powers of the stars as well as the heavens, delivering devastating combos that lay waste to enemies. A true Astromancer balances the powers of the cosmos as well as the electrifying powers of the storms to defeat their foes. -->
+               <!-- Able to twist the very fabric of space, the Astromancer can change their form to move around the battlefield and better position to deliver maxium lethality. Whether with lightning fast combos, or destructive abilities, the Astromancer controls combat like no other. -->
+               <!-- The Astromancer can focus on one of two specializations, that of the Starcaster or the Stormweaver. The Starcaster focuses their talents on cosmic level abilities such as metor rain and blackholes, whereas the Stromweaver delivers spinning lighting disks, bouncing lightning balls, and rapid fire attacks to devastate their opponents."> -->
+               <!-- <div class="game-classes-icon-title">Astromancer</div> -->
+               <!-- </a> -->
+               <!-- </li>  -->
+               <li style="opacity: 1; transform: none;">
+                  <a href="javascript:void(0)" class="game-classes-icon dualblade" 
+                     style="background-image:url('images/classes/class-icons-dualblade.png')" 
+                     data-class="Dual Blade" 
+                     data-image="images/classes/dualblade.webp" 
+                     data-races='["images/races/race-sheng.png", "images/races/race-feng.png"]'
+                     data-races-text='["Jin", "Yun"]'
+                     data-description="Dual Blades live by one mantra: the best defense is a good offense.
+                     Risking their own lives in combat to keep pushing blade mastery to the limits earned Dual Blades a reputation of being seekers of overwhelming power. Their lightning speed, devastating attacks, and flashy combat are unmatched.
+                     Dual Blades can control their difficulty level by focusing on one of two specializations: the Way of the Lotus, which lets them harvest on the energy of harmony to unlock powerful skills; and the Way of the Shifting Blades – one of the most challenging specializations which focuses on cycling through stances with blades changing directions during lighting fast attacks.
+                     The Dual Blade is a close-combat (melee) class, which martial arts style emanates agility and elegance. Wielding Twin Swords, they aim to push their limits with fluid movement and lightning-speed swordplay. This class is only available to the Jin or Yun race.
+                     While there are no defined roles in Blade & Soul, melee classes are often the `tank` of the party and Dual Blades will have no issues tanking a boss with asset of numerous evade skills, at the same time still providing continuous and high burst attacks.">
+                     <div class="game-classes-icon-title">Dual Blade</div>
+                  </a>
+               </li>
+               <!-- Повторите аналогично для остальных классов -->
+            </ul>
+         </div>
+      </div>
+      <!-- Модальное окно классов -->
+      <div class="custom-modal" id="customModal">
+         <div class="custom-modal-content">
+            <span class="close-button"></span> <!-- Кнопка закрытия с изображением -->
+            <div class="custom-modal-body">
+               <div class="modal-image">
+                  <img src="" alt="" class="img-fluid" id="modal-class-image">
+               </div>
+               <div class="modal-text">
+                  <h5 id="modal-class-title" class="modal-class-title"></h5>
+                  <p id="modal-class-description" class="modal-class-description"></p>
+                  <div class="info-row">
+                     <div class="available-races">
+                        <h6>Available Races:</h6>
+                        <div id="modal-races-images"></div>
+                     </div>
+                     <div class="difficulty">
+                        <h6>Difficulty:</h6>
+                        <div id="modal-difficulty-stars" class="difficulty-stars"></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Раздел системных требований -->
+      <div class="container mb-5 lazy-section" id="system-requirements">
+         <h1 class="section-title text-center text-light">System Requirements</h1>
+         <div class="row">
+            <div class="col-md-6 mb-4">
+               <div class="card" style="background: rgba(0, 0, 0, 0.7); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+                  <div class="card-body">
+                     <h5 class="card-title text-light" style="margin-top: -0.5rem; margin-bottom: 1.5rem;">Minimum Requirements</h5>
+                     <ul class="text-light">
+                        <li>Operating System: Windows 7 (x32/x64)</li>
+                        <li>Processor: AMD FX-4xxx / Intel Core i3</li>
+                        <li>Graphics Card: AMD Radeon HD 3870 / GeForce 9800</li>
+                        <li>RAM: 4 GB</li>
+                        <li>Hard Disk Space: 55 GB</li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6 mb-4">
+               <div class="card" style="background: rgba(0, 0, 0, 0.7); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+                  <div class="card-body">
+                     <h5 class="card-title text-light" style="margin-top: -0.5rem; margin-bottom: 1.5rem;">Recommended Requirements</h5>
+                     <ul class="text-light">
+                        <li>Operating System: Windows 7 (x64)</li>
+                        <li>Processor: AMD FX-6xxx / Intel Core i5</li>
+                        <li>Graphics Card: AMD Radeon HD 4890 / GeForce GTS 450</li>
+                        <li>RAM: 8 GB</li>
+                        <li>Hard Disk Space: 55 GB</li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Blade & Soul раздел обзора -->
+      <div class="container mb-5 " id="profs">
+         <h1 class="section-title text-center text-light">Blade & Soul Overview</h1>
+         <div id="accordion" class="accordion" role="tablist">
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Combat System
+                  </button>
+               </h2>
+               <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                  <div class="accordion-body" style="background: rgba(0, 0, 0, 0.7); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+                     <p>Blade & Soul features an action-oriented combat system that emphasizes player skill and timing. Players can execute combos and special moves, which adds depth to the combat experience.</p>
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Character Classes
+                  </button>
+               </h2>
+               <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordion">
+                  <div class="accordion-body" style="background: rgba(0, 0, 0, 0.7); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+                     <p>There are various character classes in Blade & Soul, each offering unique skills and mechanics. Players can select a class that aligns with their preferred playstyle.</p>
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Quests and Story
+                  </button>
+               </h2>
+               <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordion">
+                  <div class="accordion-body" style="background: rgba(0, 0, 0, 0.7); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+                     <p>The game offers a rich narrative with various quests, including main and side quests, that delve deeper into the story and world of Blade & Soul.</p>
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingFour">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                  PvP and PvE
+                  </button>
+               </h2>
+               <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordion">
+                  <div class="accordion-body" style="background: rgba(0, 0, 0, 0.7); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+                     <p>Players can engage in both PvP and PvE combat. There are arenas and special PvP modes available for competitive players.</p>
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingFive">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                  Customization
+                  </button>
+               </h2>
+               <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordion">
+                  <div class="accordion-body" style="background: rgba(0, 0, 0, 0.7); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+                     <p>Blade & Soul offers extensive character customization options, allowing players to modify their appearance and skill sets.</p>
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingSix">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                  Graphics and Animation
+                  </button>
+               </h2>
+               <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordion">
+                  <div class="accordion-body" style="background: rgba(0, 0, 0, 0.7); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+                     <p>The game is known for its high-quality graphics and animations, featuring unique character designs and immersive environments.</p>
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingSeven">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                  Social Aspects
+                  </button>
+               </h2>
+               <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordion">
+                  <div class="accordion-body" style="background: rgba(0, 0, 0, 0.7); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+                     <p>Blade & Soul provides social features that allow players to communicate with others, including guilds and group dungeons.</p>
+                  </div>
+               </div>
+            </div>
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingEight">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                  Regular Updates
+                  </button>
+               </h2>
+               <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordion">
+                  <div class="accordion-body" style="background: rgba(0, 0, 0, 0.7); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+                     <p>The developers frequently add new content, such as classes, zones, quests, and events, keeping the game fresh and engaging.</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Footer -->
+      <footer class="custom-footer text-light text-center py-3">
+         <p class="mb-0">&copy; 2024 Blade & Soul: Private Server</p>
+         <p class="mb-0">All rights reserved.</p>
+      </footer>
+      <!-- Include Modals -->
+      <%- include('partials/signupModal') %>
+      <%- include('partials/signinModal') %>
+      <!-- Сообщение о сохранении -->
+      <div id="save-status" class="alert alert-success d-none" role="alert">
+         Configuration saved!
+      </div>
+      <!-- Сообщение об успешной регистрации -->
+      <div id="success-message" class="success-message d-none"></div>
+      <!-- Сообщение о успешной регистрации с никнеймом -->
+      <div id="congratulations-message" class="congratulations-message"></div>
+      <!-- Контейнер для Toast уведомлений -->
+      <div class="toast-container position-fixed top-0 end-0 p-3"></div>
+      </div>
+      <!-- Scripts -->
+      <script src="js/jquery-3.6.0.min.js"></script>
+      <script src="js/popper.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/signup.js"></script> <!-- Подключаем скрипт для регистрации -->
+      <script src="js/main.js"></script>
+   </body>
+</html>

@@ -1,0 +1,120 @@
+@font-face {
+  font-family: 'LakeshoreRegular';
+  src: url('../fonts/Lakeshore-Regular.ttf') format('truetype');
+}
+
+.custom-navbar {
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  padding: 1rem 2rem;
+}
+
+.navbar-brand, .signup-text, .section-title, .modal-title, .btn-primary {
+  font-family: 'LakeshoreRegular', cursive;
+}
+
+/* Стили для логотипа в навигационной панели */
+.navbar-logo-img {
+  width: 130px !important;
+  height: auto;
+}
+
+.logo-img {
+  vertical-align: middle;
+}
+
+/* Общие стили для навигационных ссылок */
+.navbar-nav .nav-link {
+  font-family: 'LakeshoreRegular', sans-serif;
+  font-size: 1.5rem;
+  color: #fff;
+  position: relative;
+  padding-bottom: 5px;
+  transition: color 0.3s ease;
+}
+
+/* Подчеркивание, которое появляется при наведении */
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Эффект подчеркивания и изменение цвета при наведении */
+.navbar-nav .nav-link:hover {
+  color: #ff8c00;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+  background-color: #ff8c00;
+}
+
+/* Убираем эффект подчеркивания и ховеры для никнейма и SignIn/SignUp */
+#username, .signup-text {
+  color: #fff;
+  padding-bottom: 0;
+  position: relative;
+}
+
+/* Полное отключение псевдоэлемента ::after для никнейма и SignIn/SignUp */
+#username::after, .signup-text::after {
+  content: none !important; /* Полностью убираем псевдоэлемент */
+}
+
+/* Изменение цвета текста при наведении на никнейм и SignIn/SignUp */
+#username:hover, .signup-text:hover {
+  color: #ff8c00;
+}
+
+/* Стили для выпадающего меню в темных тонах и с прозрачностью */
+.navbar .dropdown-menu {
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  font-family: 'LakeshoreRegular', sans-serif;
+  padding: 0.5rem 0;
+  width: auto;
+  min-width: 100px !important;
+  max-width: 200px !important;
+}
+
+/* Стили для элементов выпадающего меню */
+.navbar .dropdown-menu .dropdown-item {
+  color: #fff;
+  font-size: 1.3rem;
+  padding: 0.7rem 1rem;
+  background: transparent;
+  border: none;
+  white-space: nowrap;
+  position: relative;
+  text-decoration: none;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Подчеркивание для элементов выпадающего меню */
+.navbar .dropdown-menu .dropdown-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Эффект при наведении для выпадающего меню */
+.navbar .dropdown-menu .dropdown-item:hover {
+  color: #ff8c00;
+}
+
+.navbar .dropdown-menu .dropdown-item:hover::after {
+  width: 100%;
+  background-color: #ff8c00;
+}

@@ -1,0 +1,26 @@
+<!-- Sign In Modal -->
+<div class="modal fade" id="signinModal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signinModalLabel">Sign In</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Сообщения об ошибках -->
+        <div id="signin-error-message" class="error-message d-none"></div>
+        <form id="signin-form" method="post">
+          <div class="mb-3">
+            <label for="signin-email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="signin-email" name="signin_email" placeholder="Enter your email" required>
+          </div>
+          <div class="mb-3">
+            <label for="signin-password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="signin-password" name="signin_password" placeholder="Enter your password" required>
+          </div>
+          <button type="submit" id="signin-submit-button" class="sprite-button-smal">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

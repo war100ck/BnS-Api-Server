@@ -1,0 +1,122 @@
+.container
+{
+	margin-top: 2rem;
+}
+.stylized-name {
+    font-weight: bold;
+    font-size: 18px;
+}
+.card
+{
+	margin-bottom: 1rem;
+}
+.card-header
+{
+	background-color: #4CAF50;
+	color: white;
+	font-size: 18px;
+	font-weight: bold;
+	padding: 10px;
+}
+.form-inline
+{
+	align-items: center;
+	display: flex;
+	margin-bottom: 0.5rem;
+}
+.form-control
+{
+	flex: 1;
+	margin-right: 10px;
+	width: 100%;
+}
+.btn-update
+{
+	font-size: 0.875rem;
+	padding: 0.5rem 1rem;
+	text-align: center;
+}
+.form-container
+{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+.form-group
+{
+	flex: 1 1 30%;
+}
+.description
+{
+	color: #6c757d;
+	font-size: 0.875rem;
+}
+.update-button-container
+{
+	align-items: center;
+	display: flex;
+	justify-content: flex-end;
+}
+.deleted-status
+{
+	color: red;
+	font-weight: bold;
+}
+#toast-container .toast
+{
+	margin-bottom: 1rem;
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+}
+#toast-container .toast.show
+{
+	opacity: 1;
+}
+.username
+{
+	color: #4CAF50;
+	font-weight: bold;
+}
+.worldname
+{
+	color: #FFA500;
+	font-weight: bold;
+}
+.input-group
+{
+	align-items: center;
+	display: flex;
+	margin-bottom: 1rem;
+}
+.input-group input,
+ .input-group select
+{
+	flex: 1;
+}
+.input-group button
+{
+	margin-left: 0.5rem;
+}
+.custom-card
+{
+	background-color: #f8f9fa;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin-bottom: 20px;
+	padding: 20px;
+}
+.custom-checkbox
+{
+	align-items: center;
+	display: flex;
+	gap: 10px;
+}
+.custom-checkbox input[type="checkbox"]
+{
+	margin-right: 10px;
+	transform: scale(1.5);
+}
+.update-btn
+{
+	margin-left: auto;
+}

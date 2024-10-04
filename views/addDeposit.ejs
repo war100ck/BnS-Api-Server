@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Add Deposit</title>
+      <link rel="icon" href="images/favicon-admin.png" type="image/png">
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/deposit.css">
+      <script src="js/jquery-3.6.0.min.js"></script>
+   </head>
+   <body>
+      <div class="container">
+         <!-- Кнопка возврата в админпанель -->
+         <a href="/admin" class="btn btn-secondary">Back to Admin Panel</a>
+         <h1 class="mb-4">Add Deposit for user <span class="username"><%= username %></span></h1>
+         <h4>UserId: <%= userId %>!</h4>
+         <!-- Карточка с таблицей информации о депозите -->
+         <div class="card mb-4">
+            <div class="card-header deposit-header">
+               <h5><i class="fas fa-wallet icon"></i> Deposit Information</h5>
+            </div>
+            <div class="card-body">
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <th>Total Amount</th>
+                        <th>Total Balance</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <%= totalAmount %> <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px;"> Hangmoon Coins
+                        </td>
+                        <td>
+                           <%= totalBalance %> <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px;"> Hangmoon Coins
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <h4 class="mb-4"><span class="addeposit">Add Deposit</span></h4>
+         <!-- Карточка с формой для добавления депозита -->
+         <div class="card">
+            <form id="addDepositForm">
+               <input type="hidden" id="game_account_id" name="game_account_id" value="<%= userId %>">
+               <% const depositFields = [
+                  { label: 'Amount of Hangmoon Coins', field: 'amount', type: 'number', min: 0, max: 9007199254740991, description: 'Enter the amount you want to add. Min: 0, max: 9007199254740991' }
+                  ]; %>
+               <div class="form-group">
+                  <label for="amount"><%= depositFields[0].label %></label>
+                  <input type="<%= depositFields[0].type %>" class="form-control" id="<%= depositFields[0].field %>" name="<%= depositFields[0].field %>" min="<%= depositFields[0].min %>" max="<%= depositFields[0].max %>" required>
+                  <p class="description mt-2"><%= depositFields[0].description %></p>
+               </div>
+               <div class="update-button-container">
+                  <button type="submit" class="btn btn-primary">Add Deposit</button>
+               </div>
+            </form>
+         </div>
+         <div id="result"></div>
+         <div id="toastContainer" class="toast-container"></div>
+      </div>
+      <script src="js/bootstrap.bundle.min.js"></script>
+      <script src="js/axios.min.js"></script>
+      <script>
+         document.getElementById('addDepositForm').addEventListener('submit', async function(e) {
+             e.preventDefault();
+         
+             const formData = new FormData(this);
+             const data = {};
+             formData.forEach((value, key) => {
+                 data[key] = value;
+             });
+         
+             try {
+                 const response = await axios.post('/add-deposit/process', data);
+                 
+                 if (response.data.totalAmount && response.data.totalBalance) {
+                     updateTotals(response.data.totalAmount, response.data.totalBalance);
+                     document.getElementById('result').innerHTML = response.data.resultPageContent;
+                 } else {
+                     console.error("Failed to get totalAmount or totalBalance from the response.");
+                 }
+         
+                 showToast('success', data.amount);
+                 
+             } catch (error) {
+                 showToast('error', 'An error occurred while adding the deposit.');
+             }
+         });
+         
+         // Проверка значения при изменении поля
+         document.getElementById('amount').addEventListener('input', function() {
+             const maxAmount = 9007199254740991;
+             const value = parseFloat(this.value);
+             if (value > maxAmount) {
+                 alert(`Maximum allowed value: ${maxAmount}.`);
+                 this.value = maxAmount; // Устанавливаем максимальное значение
+             }
+         });
+         
+         function showToast(type, amount) {
+             const toastContainer = document.getElementById('toastContainer');
+             const toast = document.createElement('div');
+             toast.className = `toast align-items-center text-white bg-${type} border-0`;
+             toast.role = 'alert';
+             toast.ariaLive = 'assertive';
+             toast.ariaAtomic = 'true';
+         
+             let displayMessage = '';
+             if (type === 'success') {
+                 displayMessage = `Deposit successfully added: ${amount} Hangmoon Coins!`;
+             } else {
+                 displayMessage = 'An error occurred while adding the deposit.';
+             }
+         
+             toast.innerHTML = `
+                 <div class="d-flex">
+                     <div class="toast-body">
+                         ${displayMessage}
+                     </div>
+                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                 </div>
+             `;
+             toastContainer.appendChild(toast);
+             const bsToast = new bootstrap.Toast(toast);
+             bsToast.show();
+         }
+         
+         function updateTotals(totalAmount, totalBalance) {
+             const totalAmountCell = document.querySelector('tbody tr td:nth-child(1)');
+             const totalBalanceCell = document.querySelector('tbody tr td:nth-child(2)');
+             totalAmountCell.innerHTML = `${totalAmount} <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px;"> Hangmoon Coins`;
+             totalBalanceCell.innerHTML = `${totalBalance} <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px;"> Hangmoon Coins`;
+         }
+      </script>
+   </body>
+</html>

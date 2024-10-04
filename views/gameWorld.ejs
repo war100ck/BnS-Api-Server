@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Editing Game World Data</title>
+      <link rel="icon" href="images/favicon-admin.png" type="image/png">
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/edit-character.css">
+      <script src="js/jquery-3.6.0.min.js"></script>
+   </head>
+   <body>
+      <div id="toast-container" style="position: fixed; top: 1rem; right: 1rem; z-index: 1050;"></div>
+      <div class="container">
+         <a href="/admin" class="btn btn-secondary mb-4">Back to Admin Panel</a>
+         <% if (gameWorldData.length === 0) { %>
+         <div class="alert alert-info" role="alert">
+            No data available to display.
+         </div>
+         <% } else { %>
+         <% gameWorldData.forEach((item, index) => { %>
+         <h1 class="mb-4">Editing Game World Data: <span class="worldname"><%= item.WorldName %></span></h1>
+         <div class="accordion mb-4" id="accordionGameWorld<%= index %>">
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="heading<%= index %>">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="false" aria-controls="collapse<%= index %>">
+                  Game World ID: <%= item.WorldID %>
+                  </button>
+               </h2>
+               <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>" data-bs-parent="#accordionGameWorld<%= index %>">
+                  <div class="accordion-body">
+                     <form id="updateGameWorldForm" method="POST">
+                        <input type="hidden" name="WorldID" value="<%= item.WorldID %>">
+                        <div class="row">
+                           <% const fields = [
+                              { label: 'World Cluster ID', field: 'WorldClusterID', value: item.WorldClusterID, type: 'number' },
+                              { label: 'World Name', field: 'WorldName', value: item.WorldName, type: 'text' },
+                              { label: 'World Type', field: 'WorldType', value: item.WorldType, type: 'number' },
+                              { label: 'Play Type', field: 'PlayType', value: item.PlayType, type: 'number' },
+                              { label: 'Crowdedness', field: 'Crowdedness', value: item.Crowdedness, type: 'number' }
+                              ]; %>
+                           <% fields.forEach((field) => { %>
+                           <div class="col-md-6 mb-3">
+                              <label for="<%= field.field %>-<%= item.WorldID %>"><%= field.label %>:</label>
+                              <div class="input-group">
+                                 <input type="<%= field.type %>" id="<%= field.field %>-<%= item.WorldID %>" name="<%= field.field %>" class="form-control" value="<%= field.value %>">
+                                 <button type="submit" class="btn btn-primary">Update</button>
+                              </div>
+                              <p class="description mt-2">
+                                 <% if (field.field === 'WorldClusterID') { %>
+                                 Identifier of the world cluster to which this world belongs. Used for grouping related worlds.
+                                 <% } else if (field.field === 'WorldName') { %>
+                                 The name of the game world. Can contain Unicode characters for supporting multiple languages. Supports various languages. Maximum length: 16 characters. This field can store strings up to 16 characters (including Unicode).
+                                 <% } else if (field.field === 'WorldType') { %>
+                                 Type of game world (e.g., PvE, PvP, Role-play, etc.). Values may represent different game modes or characteristics of the world.
+                                 <% } else if (field.field === 'PlayType') { %>
+                                 Type of gameplay supported in this world (e.g., solo play, team play, etc.).
+                                 <% } else if (field.field === 'Crowdedness') { %>
+                                 Level of world crowdedness, can be used to determine the number of players in the world (e.g., from 0 to 10, where 0 is empty, and 10 is overcrowded).
+                                 <% } %>
+                              </p>
+                           </div>
+                           <% }); %>
+                        </div>
+                        <div class="custom-card mt-4">
+                           <h5 class="mb-3">Checkbox Settings</h5>
+                           <div class="row">
+                              <% const checkboxFields = [
+                                 { label: 'Usable', field: 'Usable', value: item.Usable },
+                                 { label: 'Enterable', field: 'Enterable', value: item.Enterable },
+                                 { label: 'Character Creation Limit', field: 'CharacterCreationLimit', value: item.CharacterCreationLimit },
+                                 { label: 'Character Of New Account Creation Limit', field: 'CharacterOfNewAccountCreationLimit', value: item.CharacterOfNewAccountCreationLimit },
+                                 { label: 'Brand New', field: 'BrandNew', value: item.BrandNew },
+                                 { label: 'Recommendation', field: 'Recommendation', value: item.Recommendation }
+                                 ]; %>
+                              <% checkboxFields.forEach((field) => { %>
+                              <div class="col-md-6 mb-3">
+                                 <div class="custom-checkbox">
+                                    <input type="checkbox" id="<%= field.field %>-<%= item.WorldID %>" name="<%= field.field %>" value="1" <%= field.value ? 'checked' : '' %>>
+                                    <label for="<%= field.field %>-<%= item.WorldID %>"><%= field.label %></label>
+                                 </div>
+                                 <p class="description mt-2">
+                                    <% if (field.field === 'Usable') { %>
+                                    Indicates whether the world is available for play (1 - available, 0 - not available).
+                                    <% } else if (field.field === 'Enterable') { %>
+                                    Indicates whether players can enter this world (1 - enterable, 0 - not enterable).
+                                    <% } else if (field.field === 'CharacterCreationLimit') { %>
+                                    Indicates if there are character creation limits in this world (1 - limit exists, 0 - no limit).
+                                    <% } else if (field.field === 'CharacterOfNewAccountCreationLimit') { %>
+                                    Indicates if there are character creation limits for new accounts in this world (1 - limit exists, 0 - no limit).
+                                    <% } else if (field.field === 'BrandNew') { %>
+                                    Indicates if the world is new (1 - new, 0 - not new).
+                                    <% } else if (field.field === 'Recommendation') { %>
+                                    Indicates whether this world is recommended to players (1 - recommended, 0 - not recommended).
+                                    <% } %>
+                                 </p>
+                              </div>
+                              <% }); %>
+                           </div>
+                           <button type="submit" class="btn btn-primary">Update All Checkbox Settings</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="accordion mb-4" id="accordionGameWorldCluster<%= index %>">
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingCluster<%= index %>">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCluster<%= index %>" aria-expanded="true" aria-controls="collapseCluster<%= index %>">
+                  Game World Cluster
+                  </button>
+               </h2>
+               <div id="collapseCluster<%= index %>" class="accordion-collapse" aria-labelledby="headingCluster<%= index %>" data-bs-parent="#accordionGameWorldCluster<%= index %>">
+                  <div class="accordion-body">
+                     <% gameWorldClusterData.forEach((cluster) => { %>
+                     <form action="/update-game-world-cluster" method="POST" id="updateGameWorldClusterForm<%= cluster.WorldClusterID %>">
+                        <div class="row mb-3">
+                           <% const fields = [
+                              { label: 'World Cluster ID', field: 'WorldClusterID', value: cluster.WorldClusterID, type: 'number' },
+                              { label: 'Game Public IPv4 Address', field: 'GamePublicIPv4Address', value: cluster.GamePublicIPv4Address, type: 'text' },
+                              { label: 'Game Public Port', field: 'GamePublicPort', value: cluster.GamePublicPort, type: 'number' },
+                              { label: 'Max Player Count', field: 'MaxPlayerCount', value: cluster.MaxPlayerCount, type: 'number' },
+                              { label: 'Max Waiting Count', field: 'MaxWaitingCount', value: cluster.MaxWaitingCount, type: 'number' },
+                              { label: 'Game Internal IPv4 Address', field: 'GameInternalIPv4Address', value: cluster.GameInternalIPv4Address, type: 'text' },
+                              { label: 'Game Internal Port', field: 'GameInternalPort', value: cluster.GameInternalPort, type: 'number' }
+                              ]; %>
+                           <% fields.forEach((field) => { %>
+                           <div class="col-md-6 mb-3">
+                              <label for="<%= field.field %>-<%= cluster.WorldClusterID %>"><%= field.label %>:</label>
+                              <div class="input-group mb-2">
+                                 <input type="<%= field.type %>" id="<%= field.field %>-<%= cluster.WorldClusterID %>" name="<%= field.field %>" class="form-control" value="<%= field.value %>">
+                                 <button type="submit" class="btn btn-primary">Update</button>
+                              </div>
+                              <p class="description mt-2">
+                                 <% if (field.field === 'WorldClusterID') { %>
+                                 Identifier of the world cluster. Used for grouping related worlds.
+                                 <% } else if (field.field === 'GamePublicIPv4Address') { %>
+                                 Public IPv4 address for the game world, allowing players to connect from outside.
+                                 <% } else if (field.field === 'GamePublicPort') { %>
+                                 Public port for the game world, allowing players to connect.
+                                 <% } else if (field.field === 'MaxPlayerCount') { %>
+                                 Maximum number of players allowed in this game world.
+                                 <% } else if (field.field === 'MaxWaitingCount') { %>
+                                 Maximum number of players allowed to wait in this game world before being queued.
+                                 <% } else if (field.field === 'GameInternalIPv4Address') { %>
+                                 Internal IPv4 address for the game world used within the server network.
+                                 <% } else if (field.field === 'GameInternalPort') { %>
+                                 Internal port for the game world used within the server network.
+                                 <% } %>
+                              </p>
+                           </div>
+                           <% }); %>
+                           <input type="hidden" name="WorldClusterID" value="<%= cluster.WorldClusterID %>"> <!-- Скрытое поле для WorldClusterID -->
+                        </div>
+                     </form>
+                     <% }); %>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <% }); %>
+         <% } %>
+      </div>
+      <script src="js/bootstrap.bundle.min.js"></script>
+      <script>
+         function showToast(message, type = 'success') {
+             const toastHtml = `
+                 <div class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                     <div class="d-flex">
+                         <div class="toast-body">
+                             ${message}
+                         </div>
+                         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                     </div>
+                 </div>
+             `;
+             $('#toast-container').append(toastHtml);
+             const toastElement = $('#toast-container .toast').last()[0];
+             const bsToast = new bootstrap.Toast(toastElement);
+             bsToast.show();
+             setTimeout(() => {
+                 $(toastElement).remove();
+             }, 3000);
+         }
+         
+         $(document).ready(function() {
+             <% if (message) { %>
+                 showToast('<%= message %>');
+                 const url = new URL(window.location);
+                 url.searchParams.delete('message');
+                 window.history.replaceState({}, document.title, url);
+             <% } %>
+         });
+         
+         $(document).ready(function() {
+             $('#updateGameWorldForm').on('submit', function(e) {
+                 e.preventDefault();
+                 const formData = $(this).serialize();
+                 
+                 $.ajax({
+                     type: 'POST',
+                     url: '/update-game-world',
+                     data: formData,
+                     success: function(response) {
+                         showToast(response.message);
+                     },
+                     error: function(xhr, status, error) {
+                         showToast('An error occurred while updating.', 'danger');
+                     }
+                 });
+             });
+         });
+         $(document).ready(function() {
+         <% gameWorldClusterData.forEach((cluster) => { %>
+         $('#updateGameWorldClusterForm<%= cluster.WorldClusterID %>').on('submit', function(e) {
+             e.preventDefault();
+             const formData = $(this).serialize();
+             
+             $.ajax({
+                 type: 'POST',
+                 url: '/update-game-world-cluster',
+                 data: formData,
+                 success: function(response) {
+                     showToast(response.message);
+                 },
+                 error: function(xhr, status, error) {
+                     showToast('An error occurred while updating.', 'danger');
+                 }
+             });
+         });
+         <% }); %>
+         });
+         
+      </script>
+   </body>
+</html>

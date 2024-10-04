@@ -1,0 +1,102 @@
+/* Стили для Toast уведомлений */
+.toast-container {
+  top: 20px;
+  right: 20px;
+  max-width: 600px; /* Ограничение ширины уведомлений */
+  z-index: 1060; /* Обеспечивает отображение поверх других элементов */
+}
+
+.toast {
+  border-radius: 0; /* Прямые углы */
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Анимация появления сообщения об ошибке */
+.error-message.show {
+  opacity: 1; /* Показать сообщение */
+  transform: translateY(0); /* Вернуть на место */
+}
+
+/* Анимация исчезновения сообщения об ошибке */
+.error-message.d-none {
+  opacity: 0; /* Скрыть сообщение */
+  transform: translateY(-20px); /* Сместить вверх */
+}
+
+/* Успешное сообщение */
+.success-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 0; /* Прямые углы */
+  z-index: 1050; /* Убедитесь, что сообщение поверх остальных элементов */
+  transition: opacity 0.5s ease;
+}
+
+.success-message.show {
+  opacity: 1;
+}
+
+.success-message.d-none {
+  display: none;
+  opacity: 0;
+}
+
+/* Стиль для сообщения о регистрации */
+#congratulations-message {
+  display: none;
+  padding: 20px;
+  border: 1px solid #343a40; /* Темный цвет границы */
+  border-radius: 0; /* Острые углы */
+  background-color: #343a40; /* Темный цвет фона */
+  color: #f8f9fa; /* Светлый цвет текста */
+  font-size: 1.25rem;
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1050; /* Обеспечивает отображение поверх других элементов */
+  animation: moveFadeInOut 3s ease-in-out;
+}
+
+/* Эффект движения и затухания */
+@keyframes moveFadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -60%) translateY(-20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40%) translateY(20px);
+  }
+}
+
+/* Стиль для текста сообщения */
+#congratulations-message em {
+  font-style: italic; /* Основной текст курсивный */
+}
+
+/* Стиль для выделения ника */
+#congratulations-message strong {
+  font-weight: bold; /* Жирный текст */
+  color: #ffc107; /* Выделение ника золотым цветом */
+}
+
+/* Стиль для выделения ника */
+#congratulations-message strong {
+  font-weight: bold; /* Жирный текст */
+  color: #ffc107; /* Выделение ника золотым цветом */
+}
