@@ -12,6 +12,7 @@ This API server has been tested on the server found at [RaGEZONE](https://forum.
 - [API Endpoints](#api-endpoints)
 - [Environment Variables](#environment-variables)
 - [Dependencies](#dependencies)
+- [B&S Game Launcher](#bns-game-launcher)
 - [License](#license)
 
 ## Key Features
@@ -165,6 +166,8 @@ This project relies on the following npm packages:
 - **chalk**: Adds colorful output for logging and debugging.
 - **express-session**: Manages user sessions.
 - **mysql2**: MySQL database connection support.
+
+## BnS Game Launcher
 
 *Note: The game launcher for this server can be downloaded from [B&S Game Launcher](https://github.com/war100ck/blade-soul-game-launcher).*
 
