@@ -27,7 +27,7 @@ To set up the API server, follow these steps:
 1. **Clone the repository**:
 
     ```bash
-    git clone https://github.com/war100ck/blade-soul-api-server.git
+    git clone https://github.com/war100ck/Server-Api-BnS-Server.git
     cd blade-soul-api-server
     ```
 
