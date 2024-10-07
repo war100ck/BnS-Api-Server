@@ -1,8 +1,19 @@
-
-
 # Blade & Soul Game API Server
 
-This repository contains the backend API server for the **Blade & Soul** private game server. The API facilitates user registration, login, profile management, virtual currency transactions, and character management. It integrates multiple databases and provides secure and scalable routes to handle user data efficiently.
+This repository contains the backend API server for the **Blade & Soul** private game server. The API facilitates user registration, login, profile management, virtual currency transactions, and character management. It integrates multiple databases and provides secure and scalable routes to handle user data efficiently. **Currently, it is designed only for the 2020 version of the game.**
+
+This API server has been tested on the server found at [RaGEZONE](https://forum.ragezone.com/threads/bns-2020-server-vm-client-simple-installation.1210163/), ensuring compatibility and performance within that specific environment.
+
+## Table of Contents
+
+- [Key Features](#key-features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [API Endpoints](#api-endpoints)
+- [Environment Variables](#environment-variables)
+- [Dependencies](#dependencies)
+- [B&S Game Launcher](#bns-game-launcher)
+- [License](#license)
 
 ## Key Features
 
@@ -17,7 +28,7 @@ This repository contains the backend API server for the **Blade & Soul** private
 ## Requirements
 
 - **Node.js** (v14.0.0 or higher)
-- **Microsoft SQL Server** for handling game-related data
+- **Microsoft SQL Server** (no lower than version 2017) for handling game-related data
 - **npm** (Node Package Manager)
 
 ## Installation
@@ -27,8 +38,8 @@ To set up the API server, follow these steps:
 1. **Clone the repository**:
 
     ```bash
-    git clone https://github.com/yourusername/blade-soul-api-server.git
-    cd blade-soul-api-server
+    git clone https://github.com/war100ck/Server-Api-BnS-Server.git
+    cd Server-Api-BnS-Server
     ```
 
 2. **Run the Database Setup Script**:
@@ -156,7 +167,9 @@ This project relies on the following npm packages:
 - **express-session**: Manages user sessions.
 - **mysql2**: MySQL database connection support.
 
-*Note: The game launcher for this server can be downloaded from [https://github.com/war100ck/blade-soul-game-launcher](https://github.com/war100ck/blade-soul-game-launcher).*
+## BnS Game Launcher
+
+*Note: The game launcher for this server can be downloaded from [B&S Game Launcher](https://github.com/war100ck/blade-soul-game-launcher).*
 
 ## License
 
