@@ -1,7 +1,3 @@
-![Downloads](https://img.shields.io/github/downloads/war100ck/Server-Api-BnS-Server/total.svg)
-
-
-
 # Blade & Soul Game API Server
 
 This repository contains the backend API server for the **Blade & Soul** private game server. The API facilitates user registration, login, profile management, virtual currency transactions, and character management. It integrates multiple databases and provides secure and scalable routes to handle user data efficiently. **Currently, it is designed only for the 2020 version of the game.**
