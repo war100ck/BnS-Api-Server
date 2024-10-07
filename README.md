@@ -1,3 +1,5 @@
+![ViewCount](https://hits.sh/github.com/war100ck/Server-Api-BnS-Server.svg?style=flat-square)
+
 ![Dev.to blog](https://img.shields.io/badge/dev.to-0A0A0A?style=for-the-badge&logo=dev.to&logoColor=white)![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 # Blade & Soul Game API Server
 
