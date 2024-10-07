@@ -9,6 +9,7 @@ import { config } from './config/config.js';
 import { convertFaction, convertSex, convertRace, convertMoney, convertJob, cutStr } from './utils/dataTransformations.js';
 import { getOwnerAccId } from './utils/characterUtils.js';
 import { logRegistrationData } from './utils/logUtils.js';
+import './utils/logger.js';
 import { configPlatformAcctDb, configBlGame, configVirtualCurrencyDb, configLobbyDb, WH_config } from './config/dbConfig.js';
 import adminRoutes from './routes/adminRoutes.js';
 import editCharacterRoutes from './routes/editCharacterRoutes.js';
