@@ -1,6 +1,5 @@
-<p align="left">
-  <img src="https://badges.pufler.dev/visits/war100ck/Server-Api-BnS-Server" alt="Profile views" />
-</p>
+![Downloads](https://img.shields.io/github/downloads/war100ck/Server-Api-BnS-Server/total.svg)
+
 
 
 # Blade & Soul Game API Server
