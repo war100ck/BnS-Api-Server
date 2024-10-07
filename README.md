@@ -4,6 +4,15 @@ This repository contains the backend API server for the **Blade & Soul** private
 
 This API server has been tested on the server found at [RaGEZONE](https://forum.ragezone.com/threads/bns-2020-server-vm-client-simple-installation.1210163/), ensuring compatibility and performance within that specific environment.
 
+![Server Api B&S Server](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/0-1.png)
+
+<details>
+<summary>Click to see more screenshots</summary>
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/0-2.png)
+
+</details>
+
 ## Table of Contents
 
 - [Key Features](#key-features)
