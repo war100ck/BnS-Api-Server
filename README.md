@@ -135,7 +135,7 @@ To set up the API server, follow these steps:
         - `signin_email`: The user's email.
         - `signin_password`: The user's password.
 
-## Admin Panel Management
+### Admin Panel Management
 
 - **GET /admin**: Provides access to the administrative panel, where the following information is displayed:
     - List of all users from the `PlatformAcctDb` database.
