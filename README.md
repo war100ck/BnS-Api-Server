@@ -135,6 +135,13 @@ To set up the API server, follow these steps:
         - `signin_email`: The user's email.
         - `signin_password`: The user's password.
 
+## Admin Panel Management
+
+- **GET /admin**: Provides access to the administrative panel, where the following information is displayed:
+    - List of all users from the `PlatformAcctDb` database.
+    - The total number of characters created in the game from the `BlGame` database.
+    - The total number of deleted characters from the game (`deletion = 1` in the `CreatureProperty` table).
+
 ### Profile Management
 
 - **GET /profile**: Retrieves detailed profile information, including in-game character stats and settings.
