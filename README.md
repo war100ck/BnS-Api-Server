@@ -40,7 +40,7 @@ This API server has been tested on the server found at [RaGEZONE](https://forum.
 ## Requirements
 
 - **Node.js** (v14.0.0 or higher)
-- **Microsoft SQL Server** (no lower than version 2017) for handling game-related data
+- **Microsoft SQL Server** (***no lower than version 2017***) for handling game-related data
 - **npm** (Node Package Manager)
 
 ## Installation
