@@ -26,6 +26,7 @@ This API server has been tested on the server found at [RaGEZONE](https://forum.
 - [Dependencies](#dependencies)
 - [B&S Game Launcher](#bns-game-launcher)
 - [License](#license)
+- [Additions / Fixes](#additions--fixes)
 
 ## Key Features
 
