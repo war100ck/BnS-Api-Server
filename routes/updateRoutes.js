@@ -39,7 +39,7 @@ router.post('/update-character', async (req, res) => {
     await pool.close();
 
     // Перенаправление на страницу редактирования с корректным userName
-    res.redirect(`/edit-character?userName=${encodeURIComponent(userName)}`);
+    res.redirect(`/admin/edit-character?userName=${encodeURIComponent(userName)}`);
   } catch (err) {
     console.error(err);
     res.status(500).send('Ошибка сервера');
@@ -79,7 +79,7 @@ router.post('/update-deposit', async (req, res) => {
     await pool.close();
 
     // Перенаправление на страницу редактирования с корректным userName
-    res.redirect(`/edit-character?userName=${encodeURIComponent(userName)}`);
+    res.redirect(`/admin/edit-character?userName=${encodeURIComponent(userName)}`);
   } catch (err) {
     console.error(err);
     res.status(500).send('Ошибка сервера');

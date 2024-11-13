@@ -5,11 +5,12 @@ import {
     configLobbyDb
 }
 from '../config/dbConfig.js';
+import { isAdmin } from '../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
 // Обработчик маршрута для получения данных из GameWorld и GameWorldCluster
-router.get('/gameworld', async(req, res) => {
+router.get('/admin/gameworld', isAdmin, async(req, res) => {
     let pool = null;
 
     try {
@@ -39,7 +40,8 @@ router.get('/gameworld', async(req, res) => {
         res.render('gameWorld', {
             gameWorldData: gameWorldData, // Передаем данные в шаблон
             gameWorldClusterData: gameWorldClusterData, // Передаем данные из GameWorldCluster в шаблон
-            message: message // Передаем сообщение в шаблон
+            message: message, // Передаем сообщение в шаблон
+			pathname: req.originalUrl.split('?')[0]
         });
     } catch (err) {
         console.error(err);

@@ -1,9 +1,10 @@
-// Импортируем необходимые модули
+// routes/addDepositRoutes.js
+
 import express from 'express';
 import sql from 'mssql';
 import axios from 'axios';
-// import { v4 as uuidv4 } from 'uuid'; // Импортируем uuid
-import { configPlatformAcctDb, configVirtualCurrencyDb, WH_config } from '../config/dbConfig.js'; // Импортируем настройки баз данных
+import { configPlatformAcctDb, configVirtualCurrencyDb, WH_config } from '../config/dbConfig.js';
+import { isAdmin } from '../middleware/adminMiddleware.js';
 import path from 'path';
 
 const router = express.Router();
@@ -41,33 +42,6 @@ async function check_user_id(userId) {
     }
 }
 
-// Функция для генерации уникального ключа для депозита
-// async function generateUniqueDepositRequestKey() {
-    // let uniqueKey;
-    // let isUnique = false;
-
-    // while (!isUnique) {
-        // uniqueKey = uuidv4();
-        // let pool;
-        // try {
-            // pool = await sql.connect(WH_connectionInfo);
-            // const result = await pool.request()
-                // .input('DepositRequestKey', sql.VarChar, uniqueKey)
-                // .query('SELECT COUNT(*) AS count FROM Deposits WHERE DepositRequestKey = @DepositRequestKey');
-            // isUnique = result.recordset[0].count === 0;
-        // } catch (err) {
-            // console.error('Ошибка проверки уникальности DepositRequestKey:', err);
-            // throw new Error('Ошибка при генерации уникального ключа');
-        // } finally {
-            // if (pool) {
-                // await pool.close(); // Закрываем соединение
-            // }
-        // }
-    // }
-
-    // return uniqueKey;
-// }
-
 // Функция для получения никнейма по UserId из базы данных PlatformAcctDb
 async function getUsernameByUserId(userId) {
     let pool;
@@ -88,7 +62,7 @@ async function getUsernameByUserId(userId) {
     }
 }
 
-router.get('/add-deposit', async (req, res) => {
+router.get('/admin/add-deposit', isAdmin, async (req, res) => {
     const { userId } = req.query;
 
     if (!userId) {
@@ -148,6 +122,7 @@ router.get('/add-deposit', async (req, res) => {
         username, // Передаем никнейм в шаблон
         totalAmount,
         totalBalance,
+		pathname: req.originalUrl
     });
 });
 
@@ -298,8 +273,5 @@ const resultPageContent = `
         }
     }
 });
-
-
-
 
 export default router;

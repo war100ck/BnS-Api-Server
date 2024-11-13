@@ -1,11 +1,12 @@
 import express from 'express';
 import sql from 'mssql';
+import { isAdmin } from '../middleware/adminMiddleware.js';
 import { configPlatformAcctDb, configBlGame, configVirtualCurrencyDb, configLobbyDb } from '../config/dbConfig.js';
 
 const router = express.Router();
 
 // Обработчик маршрута для отображения страницы редактирования персонажа
-router.get('/edit-character', async (req, res) => {
+ router.get('/admin/edit-character', isAdmin, async (req, res) => {
   const { userName } = req.query;
 
   if (!userName) {
@@ -101,7 +102,8 @@ router.get('/edit-character', async (req, res) => {
       creatures: creatures,
       deposits: deposits,
 	  totalBalance: totalBalance, // Передача общего баланса в шаблон
-	  totalAmount: totalAmount // Передача общей суммы Amount в шаблон
+	  totalAmount: totalAmount, // Передача общей суммы Amount в шаблон
+	  pathname: req.originalUrl
     });
   } catch (err) {
     console.error(err);
@@ -119,7 +121,7 @@ router.get('/edit-character', async (req, res) => {
 });
 
 // Обработчик маршрута для обновления данных GameAccountExp
-router.post('/update-game-account-exp', async (req, res) => {
+router.post('/admin/update-game-account-exp', isAdmin, async (req, res) => {
   const { gameAccountId, accountExp, accountExpQuotaPerDay } = req.body;
 
   if (!gameAccountId || accountExp === undefined || accountExpQuotaPerDay === undefined) {
@@ -141,7 +143,7 @@ router.post('/update-game-account-exp', async (req, res) => {
                   LastUpdateTime = DATEDIFF_BIG(MILLISECOND, '1970-01-01', GETDATE())
               WHERE GameAccountID = @gameAccountId`);
 
-    res.redirect(`/edit-character?userName=${req.body.userName}`);
+    res.redirect(`/admin/edit-character?userName=${req.body.userName}`);
   } catch (err) {
     console.error(err);
     res.status(500).send('Ошибка сервера');
