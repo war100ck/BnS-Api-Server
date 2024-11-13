@@ -26,7 +26,7 @@ router.post('/admin/login', async (req, res) => {
         const user = userResult.recordset[0];
 
         if (!user || user.WebsitePassword !== password) {
-            return res.status(401).send('Invalid login or password');
+            return res.render('adminLogin', { errorMessage: 'Invalid login or password' });
         }
 
         req.session.user = {
@@ -41,7 +41,6 @@ router.post('/admin/login', async (req, res) => {
             chalk.red.bold(username) + 
             chalk.green(' logged in successfully.'));
             }
-            // Устанавливаем флаг, чтобы логировать только один раз при первом входе
             if (!req.session.adminLoggedIn) {
                 console.log(chalk.green(`GET /admin: Rendering admin page for the first time, displaying users.`));
                 req.session.adminLoggedIn = true;  // Устанавливаем флаг, что админ уже вошел
@@ -51,7 +50,7 @@ router.post('/admin/login', async (req, res) => {
             if (process.env.LOG_TO_CONSOLE === 'true') {
                 console.log(chalk.yellow(`POST /admin/login: User ${username} tried to log in as admin.`));
             }
-            res.redirect('/admin/login?error=This panel is for administrators only!!!');
+            res.render('adminLogin', { errorMessage: 'This panel is for administrators only!' });
         }
     } catch (err) {
         console.error(err);
