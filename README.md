@@ -29,6 +29,10 @@ This API server has been tested on the server found at [RaGEZONE](https://forum.
 
 ![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/site-02.png)
 
+<hr style="border: 1px solid #ccc; margin: 10px 0;">
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/site-03.png)
+
 </details>
 
 <details>
