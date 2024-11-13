@@ -16,6 +16,60 @@ This API server has been tested on the server found at [RaGEZONE](https://forum.
 
 </details>
 
+<details>
+<summary>Click to explore website screenshots</summary>
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/full_page_screen.png)
+
+<hr style="border: 1px solid #ccc; margin: 10px 0;">
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/site-01.png)
+
+<hr style="border: 1px solid #ccc; margin: 10px 0;">
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/site-02.png)
+
+</details>
+
+<details>
+<summary>Click to view more screenshots of the Admin Panel</summary>
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/admin-00.png)
+
+<hr style="border: 1px solid #ccc; margin: 10px 0;">
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/admin-01.png)
+
+<hr style="border: 1px solid #ccc; margin: 10px 0;">
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/admin-02.png)
+
+<hr style="border: 1px solid #ccc; margin: 10px 0;">
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/admin-003.png)
+
+<hr style="border: 1px solid #ccc; margin: 10px 0;">
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/admin-03.png)
+
+<hr style="border: 1px solid #ccc; margin: 10px 0;">
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/admin-04.png)
+
+<hr style="border: 1px solid #ccc; margin: 10px 0;">
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/admin-05.png)
+
+<hr style="border: 1px solid #ccc; margin: 10px 0;">
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/admin-06.png)
+
+<hr style="border: 1px solid #ccc; margin: 10px 0;">
+
+![2.](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/admin-07.png)
+
+</details>
+
 ## Table of Contents
 
 - [Key Features](#key-features)
