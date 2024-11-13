@@ -1,0 +1,85 @@
+body {
+      background: url('../images/backgrounds/home-style-bg.jpg?fit=crop&w=1920&h=1080&q=80') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative; /* Добавлено для позиционирования кнопки */
+    }
+
+    .login-container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .login-container .form-control {
+      margin-bottom: 1rem;
+    }
+
+    .login-container .btn-primary {
+      background-color: #007bff;
+      border: none;
+      width: 100%;
+      padding: 0.75rem;
+    }
+
+    .login-container .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .login-container .form-text {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .error-message {
+      color: red;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 20px;
+      width: 100px;
+    }
+
+    /* Стили для тост-сообщений */
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1050; /* Должен быть выше остальных элементов */
+    }
+
+    /* Позиционирование иконки глаза */
+    .password-container {
+      position: relative;
+    }
+
+    .password-container .fa-eye {
+      position: absolute;
+      right: 10px;
+      top: 73%; /* Установите здесь значение 73% для точного позиционирования */
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: rgba(0, 0, 0, 0.5); /* Измените цвет иконки */
+    }
+
+    /* Стили для кнопки "Return to Home" */
+    .return-home {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1050; /* Должен быть выше остальных элементов */
+    }

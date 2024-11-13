@@ -4,19 +4,25 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Edit Character</title>
-      <link rel="icon" href="images/favicon-admin.png" type="image/png">
-      <link rel="stylesheet" href="css/bootstrap.min.css">
-      <link rel="stylesheet" href="css/edit-character.css">
-      <script src="js/jquery-3.6.0.min.js"></script>
+      <link rel="icon" href="../images/favicon-admin.png" type="image/png">
+      <link rel="stylesheet" href="../css/bootstrap.min.css">
+      <link rel="stylesheet" href="../css/edit-character.css">
+      <script src="../js/jquery-3.6.0.min.js"></script>
+      <link rel="stylesheet" href="../css/admin.css">
    </head>
    <body>
+      <%- include('partials/nav') %>
       <div id="toast-container" style="position: fixed; top: 1rem; right: 1rem; z-index: 1050;"></div>
       <!-- Тост уведомления будут добавляться сюда -->
       </div>
       <div class="container">
          <!-- Кнопка возврата в админпанель -->
-         <a href="/admin" class="btn btn-secondary mb-4">Back to Admin Panel</a>
-         <h1 class="mb-4">Edit Character for <span class="username"><%= UserName %></span></h1>
+         <h1 class="mb-4">
+            Account and Character Management for 
+            <a href="/profile?userName=<%= UserName %>" style="text-decoration: none;">
+            <span class="username"><%= UserName %></span>
+            </a>
+         </h1>
          <h5 class="mb-4">Created: <%= Created %></h5>
          <!-- Deposits Section -->		 
          <div class="card mb-4">
@@ -44,7 +50,7 @@
          </div>
          <!-- GameAccountExp с двумя колонками -->
          <div class="accordion-body">
-            <form action="/update-game-account-exp" method="POST" class="update-game-account-exp-form" onsubmit="event.preventDefault(); showToast('Game account experience updated successfully!'); this.submit();">
+            <form action="/admin/update-game-account-exp" method="POST" class="update-game-account-exp-form" onsubmit="event.preventDefault(); showToast('Game account experience updated successfully!'); this.submit();">
                <% if (gameAccountExp.length === 0) { %>
                <div class="alert alert-info" role="alert">
                   Record in GameAccountExp not found. Or characters not created yet.
@@ -54,7 +60,7 @@
                <input type="hidden" name="gameAccountId" value="<%= exp.GameAccountID %>">
                <input type="hidden" name="userName" value="<%= UserName %>">
                <% const expFields = [
-                  { label: 'Account Level', field: 'accountExp', value: exp.AccountExp, type: 'number', min: 0, max: 101 },
+                  { label: 'Account Level', field: 'accountExp', value: exp.AccountExp, type: 'number', min: 0, max: 195852760 },
                   { label: 'Account Exp Quota Per Day', field: 'accountExpQuotaPerDay', value: exp.AccountExpQuotaPerDay, type: 'number', min: 0, max: 2147483647 }
                   ]; %>
                <div class="accordion mb-4">
@@ -74,7 +80,7 @@
                                     <input type="<%= field.type %>" id="<%= field.field %>-<%= exp.GameAccountID %>" name="<%= field.field %>" class="form-control" value="<%= field.value %>" <% if (field.min !== undefined) { %> min="<%= field.min %>" <% } %> <% if (field.max !== undefined) { %> max="<%= field.max %>" <% } %>>
                                     <p class="description mt-2">
                                        <% if (field.field === 'accountExp') { %>
-                                       Bonuses and levels are shared among all your characters. Right now, there are 100 levels in the game. The value must be between 0 and 101.
+                                       Bonuses and levels are shared among all your characters. Right now, there are 100 levels in the game. The value must be between 0 and 195852760.
                                        <% } else if (field.field === 'accountExpQuotaPerDay') { %>
                                        The maximum amount of experience points that can be accumulated per day. The value must be between 0 and 2147483647.
                                        <% } %>
@@ -264,7 +270,7 @@
          
              // AJAX form submission for Game Account Exp
              $('.update-game-account-exp-form').submit(function(event) {
-                 handleFormSubmission($(this), '/update-game-account-exp', 'Game Account Exp updated successfully!');
+                 handleFormSubmission($(this), '/admin/update-game-account-exp', 'Game Account Exp updated successfully!');
              });
          
              // AJAX form submission for character details
@@ -323,6 +329,6 @@
              }, 3000);
          }
       </script>
-      <script src="js/bootstrap.bundle.min.js"></script>
+      <script src="../js/bootstrap.bundle.min.js"></script>
    </body>
 </html>

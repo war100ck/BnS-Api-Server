@@ -1,0 +1,111 @@
+@font-face
+{
+	font-family: 'LakeshoreRegular';
+	src: url('../fonts/Lakeshore-Regular.ttf') format('truetype');
+}
+@font-face
+{
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 400;
+	src: url('../fonts/pxiEyp8kv8JHgFVrJJnecmNE.woff2') format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face
+{
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 600;
+	src: url('../fonts/pxiByp8kv8JHgFVrLEj6Z1JlFc-K.woff2') format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+body, html
+{
+	height: 100%;
+	overflow: hidden;
+}
+body
+{
+	align-items: center;
+	background: url() no-repeat center fixed;
+	background-color: #ededed;
+	background-size: cover;
+	color: #333;
+	display: flex;
+	font-family: source-sans-pro, sans-serif;
+	justify-content: center;
+}
+h2
+{
+	display: inline;
+	font-size: 200px;
+	line-height: 0;
+	margin: 0;
+	margin-top: 50px;
+	padding: 0;
+}
+.error
+{
+	margin-top: 70px;
+	position: relative;
+	text-align: center;
+}
+.text
+{
+	position: absolute;
+	right: 13px;
+}
+.container
+{
+	padding: 5px;
+	width: 334px;
+}
+.info-label
+{
+	display: inline;
+}
+.info-text
+{
+	text-align: center;
+}
+.info-text h1
+{
+	color: #333;
+	font-family: 'Poppins', sans-serif;
+	font-size: 36px;
+	font-weight: 600;
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+.info-text p
+{
+	color: #555;
+	font-family: 'LakeshoreRegular', serif;
+	font-size: 28px;
+	font-style: italic;
+	line-height: 1.5;
+	margin-top: 15px;
+	text-align: center;
+}
+a
+{
+	color: #3B81BE;
+	line-height: inherit;
+	text-decoration: none;
+}
+a:after
+{
+	background-repeat: no-repeat;
+	background-size: 100%;
+	content: '';
+	display: inline-block;
+	height: 13px;
+	vertical-align: top;
+	width: 13px;
+}
+p
+{
+	text-align: justify;
+}

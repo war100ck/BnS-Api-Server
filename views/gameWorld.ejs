@@ -4,22 +4,23 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Editing Game World Data</title>
-      <link rel="icon" href="images/favicon-admin.png" type="image/png">
-      <link rel="stylesheet" href="css/bootstrap.min.css">
-      <link rel="stylesheet" href="css/edit-character.css">
-      <script src="js/jquery-3.6.0.min.js"></script>
+      <link rel="icon" href="../images/favicon-admin.png" type="image/png">
+      <link rel="stylesheet" href="../css/bootstrap.min.css">
+      <link rel="stylesheet" href="../css/edit-character.css">
+      <script src="../js/jquery-3.6.0.min.js"></script>
+	  <link rel="stylesheet" href="../css/admin.css">
    </head>
    <body>
+   <%- include('partials/nav') %>
       <div id="toast-container" style="position: fixed; top: 1rem; right: 1rem; z-index: 1050;"></div>
       <div class="container">
-         <a href="/admin" class="btn btn-secondary mb-4">Back to Admin Panel</a>
          <% if (gameWorldData.length === 0) { %>
          <div class="alert alert-info" role="alert">
             No data available to display.
          </div>
          <% } else { %>
          <% gameWorldData.forEach((item, index) => { %>
-         <h1 class="mb-4">Editing Game World Data: <span class="worldname"><%= item.WorldName %></span></h1>
+         <h2 class="mb-4">Editing Game World Data: <span class="worldname"><%= item.WorldName %></span> Server</h2>
          <div class="accordion mb-4" id="accordionGameWorld<%= index %>">
             <div class="accordion-item">
                <h2 class="accordion-header" id="heading<%= index %>">
@@ -162,7 +163,7 @@
          <% }); %>
          <% } %>
       </div>
-      <script src="js/bootstrap.bundle.min.js"></script>
+      <script src="../js/bootstrap.bundle.min.js"></script>
       <script>
          function showToast(message, type = 'success') {
              const toastHtml = `

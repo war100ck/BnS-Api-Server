@@ -4,51 +4,255 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Admin Panel</title>
-      <link rel="icon" href="images/favicon-admin.png" type="image/png">
-      <link rel="stylesheet" href="css/bootstrap.min.css">
-      <link rel="stylesheet" href="css/admin.css">
+      <link rel="icon" href="/images/favicon-admin.png" type="image/png">
+      <link rel="stylesheet" href="/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/css/admin.css">
+      <link rel="stylesheet" href="/css/all.min.css">
+      <!-- Подключение Font Awesome -->
    </head>
    <body>
+      <%- include('partials/nav') %>
       <div class="container">
          <div class="header-container mb-4">
-            <h1 class="header-title">Admin Panel</h1>
+            <h2 class="header-title">Admin Panel</h2>
             <span class="total-count">Total All: </span>
-            <span class="account-count"> Accounts: <span class="accounts-count"><%= users.length %> </span>
+            <span class="account-count"> Accounts: <span class="accounts-count"><%= totalUsers %> </span>
             <span class="creature-count"> | Characters: <span class="created-count"><%= creatureCount %> </span> 
             <span class="deleted-creature-count"> | Deleted Characters: <span class="deleted-count"><%= deletedCreatureCount %></span>
-         </div>
-         <!-- Ряд кнопок над таблицей -->
-         <div class="button-row mb-3 d-flex">
-            <div class="me-auto">
-               <a href="/gameworld" class="btn btn-success">Game World Data</a>
-               <!-- <a href="/view-deleted" class="btn btn-warning">Просмотреть удаленных</a> -->
-               <a href="http://127.0.0.1:6605/Apps-State" class="btn btn-info">Apps-State</a>
-               <a href="/system-stats" class="btn btn-secondary">System Stats</a>
-            </div>
-            <a href="/" class="btn btn-info">Go to website</a>
          </div>
          <table class="table table-striped table-bordered">
             <thead class="table-dark">
                <tr>
                   <th>#</th>
-                  <th>UserName</th>
+                  <th>UserName 
+                     <span id="sort-username" style="cursor: pointer;">
+                     <i class="fa-solid fa-sort-alpha-up" id="sort-asc" title="Sort Ascending"></i>
+                     <i class="fa-solid fa-sort-alpha-down" id="sort-desc" title="Sort Descending" style="display: none;"></i>
+                     </span>
+                  </th>
+                  <th>Role</th>
                   <th>Actions</th>
                </tr>
             </thead>
-            <tbody>
+            <tbody id="user-table-body">
                <% users.forEach((user, index) => { %>
-               <tr>
+               <tr data-user-id="<%= user.UserId %>">
                   <td><%= index + 1 %></td>
                   <td class="username-highlight"><%= user.UserName %></td>
                   <td>
-                     <a href="/edit-character?userName=<%= user.UserName %>" class="btn btn-primary btn-custom">Edit Characters</a>
-                     <a href="/add-deposit?userId=<%= user.UserId %>" class="btn btn-secondary btn-custom">Add Deposit</a>
+                     <form class="role-form" data-user-id="<%= user.UserId %>">
+                        <input type="hidden" name="userId" value="<%= user.UserId %>">
+                        <label for="user-<%= user.UserId %>" class="user-label">
+                        <input type="radio" id="user-<%= user.UserId %>" name="admin" value="0" <%= user.admin === false ? 'checked' : '' %> class="user-radio">
+                        User
+                        </label>
+                        <label for="admin-<%= user.UserId %>" class="admin-label">
+                        <input type="radio" id="admin-<%= user.UserId %>" name="admin" value="1" <%= user.admin === true ? 'checked' : '' %> class="admin-radio">
+                        Admin
+                        </label>
+                     </form>
+                  </td>
+                  <td>
+                     <a href="admin/edit-character?userName=<%= user.UserName %>" class="btn btn-primary btn-custom">Edit Characters</a>
+                     <a href="admin/add-deposit?userId=<%= user.UserId %>" class="btn btn-secondary btn-custom">Add Deposit</a>
                   </td>
                </tr>
                <% }) %>
             </tbody>
          </table>
+         <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center" id="pagination">
+               <!-- Пагинация будет здесь -->
+            </ul>
+         </nav>
+      </div>
+      <div id="toast-container" class="position-fixed top-0 end-0 p-3">
+         <div id="success-toast" class="toast align-items-center text-bg-success d-none" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+               <div class="toast-body">
+                  <strong>Success:</strong> User role updated successfully.
+               </div>
+               <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+         </div>
+         <div id="error-toast" class="toast align-items-center text-bg-danger d-none" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+               <div class="toast-body">
+                  <strong>Error:</strong> Something went wrong. Please try again.
+               </div>
+               <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+         </div>
       </div>
       <script src="js/bootstrap.bundle.min.js"></script>
+      <script>
+         const allUsers = <%- JSON.stringify(users) %>;
+         let usersPerPage = 10; // Начальное значение для количества пользователей на странице
+         let currentPage = 1;
+         let displayedUsers = [...allUsers];
+         let isAscending = true;
+         
+         function filterUsers(query) {
+             return allUsers.filter(user => user.UserName.toLowerCase().includes(query.toLowerCase()));
+         }
+         
+         function sortUsers(users, ascending) {
+             return users.sort((a, b) => {
+                 const nameA = a.UserName.toLowerCase();
+                 const nameB = b.UserName.toLowerCase();
+                 return ascending ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+             });
+         }
+         
+         function showToast(toastId, message) {
+             const toastElement = document.getElementById(toastId);
+             const toastBody = toastElement.querySelector('.toast-body');
+             toastBody.innerHTML = `<strong>Success:</strong> ${message}`;
+             toastElement.classList.remove('d-none');
+         
+             const toast = new bootstrap.Toast(toastElement);
+             toast.show();
+         }
+         
+         function bindRoleChangeHandlers() {
+             document.querySelectorAll('.role-form input[type="radio"]').forEach(input => {
+                 input.addEventListener('change', async (event) => {
+                     const form = input.closest('.role-form');
+                     const userId = form.dataset.userId;
+                     const adminStatus = input.value;
+         
+                     const confirmationMessage = adminStatus === '1'
+                         ? 'Are you sure you want to give the administrator role?'
+                         : 'Are you sure you want to give the role to a regular user?';
+         
+                     if (!confirm(confirmationMessage)) {
+                         form.reset();
+                         return;
+                     }
+         
+                     try {
+                         const response = await fetch('/admin/update-admin-status', {
+                             method: 'POST',
+                             headers: {
+                                 'Content-Type': 'application/json',
+                             },
+                             body: JSON.stringify({ userId, admin: adminStatus }),
+                         });
+         
+                         const data = await response.json();
+                         if (response.ok) {
+                             showToast('success-toast', data.message);
+                         } else {
+                             throw new Error('Failed to update role');
+                         }
+                     } catch (error) {
+                         showToast('error-toast', 'Something went wrong. Please try again.');
+                     }
+                 });
+             });
+         }
+         
+         function displayUsersForPage(page) {
+             const start = (page - 1) * usersPerPage;
+             const end = start + usersPerPage;
+             const usersToDisplay = displayedUsers.slice(start, end);
+             updateUserTable(usersToDisplay);
+         }
+         
+         function updateUserTable(users) {
+             const tableBody = document.getElementById('user-table-body');
+             tableBody.innerHTML = '';
+         
+             users.forEach((user, index) => {
+                 const row = document.createElement('tr');
+                 row.dataset.userId = user.UserId;
+                 row.innerHTML = `
+                     <td>${index + 1}</td>
+                     <td class="username-highlight">${user.UserName}</td>
+                     <td>
+                         <form class="role-form" data-user-id="${user.UserId}">
+                             <input type="hidden" name="userId" value="${user.UserId}">
+                             <label for="user-${user.UserId}" class="user-label">
+                                 <input type="radio" id="user-${user.UserId}" name="admin" value="0" ${user.admin === false ? 'checked' : ''} class="user-radio">
+                                 User
+                             </label>
+                             <label for="admin-${user.UserId}" class="admin-label">
+                                 <input type="radio" id="admin-${user.UserId}" name="admin" value="1" ${user.admin === true ? 'checked' : ''} class="admin-radio">
+                                 Admin
+                             </label>
+                         </form>
+                     </td>
+                     <td>
+                         <a href="admin/edit-character?userName=${user.UserName}" class="btn btn-primary btn-custom">Edit Characters</a>
+                         <a href="admin/add-deposit?userId=${user.UserId}" class="btn btn-secondary btn-custom">Add Deposit</a>
+                     </td>
+                 `;
+                 tableBody.appendChild(row);
+             });
+         
+             bindRoleChangeHandlers();
+         }
+         
+         function updatePagination() {
+             const totalPages = Math.ceil(displayedUsers.length / usersPerPage);
+             const pagination = document.getElementById('pagination');
+             pagination.innerHTML = '';
+         
+             for (let i = 1; i <= totalPages; i++) {
+                 const pageItem = document.createElement('li');
+                 pageItem.classList.add('page-item');
+                 if (i === currentPage) {
+                     pageItem.classList.add('active');
+                 }
+                 pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                 pageItem.addEventListener('click', (event) => {
+                     event.preventDefault();
+                     currentPage = i;
+                     displayUsersForPage(i);
+                     updatePagination();
+                 });
+                 pagination.appendChild(pageItem);
+             }
+         }
+         
+         function handleSearch() {
+             const query = document.getElementById('search-input').value;
+             displayedUsers = filterUsers(query);
+             currentPage = 1;
+             displayUsersForPage(currentPage);
+             updatePagination();
+         }
+         
+         document.getElementById('search-input').addEventListener('input', handleSearch);
+         
+         function handleSortToggle() {
+             const sortIconAsc = document.getElementById('sort-asc');
+             const sortIconDesc = document.getElementById('sort-desc');
+             sortIconAsc.style.display = isAscending ? 'none' : 'inline';
+             sortIconDesc.style.display = isAscending ? 'inline' : 'none';
+         
+             displayedUsers = sortUsers(displayedUsers, isAscending);
+             displayUsersForPage(1);
+             updatePagination();
+         
+             isAscending = !isAscending;
+         }
+         
+         document.getElementById('sort-username').addEventListener('click', handleSortToggle);
+         
+         // Обработчик для изменения количества пользователей на странице
+         document.getElementById('users-per-page').addEventListener('change', (event) => {
+             usersPerPage = parseInt(event.target.value, 10);
+             currentPage = 1; // сбрасываем текущую страницу на первую
+             displayedUsers = allUsers; // сбрасываем фильтрацию, если она была
+             displayUsersForPage(currentPage);
+             updatePagination();
+         });
+         
+         // Инициализация страницы с отсортированными данными и пагинацией
+         displayedUsers = sortUsers(allUsers, isAscending);
+         displayUsersForPage(currentPage);
+         updatePagination();
+      </script>
    </body>
 </html>

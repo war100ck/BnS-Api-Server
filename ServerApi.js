@@ -1,9 +1,11 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import session from 'express-session';
 import sql from 'mssql';
 import cors from 'cors';
 import path from 'path';
 import chalk from 'chalk';
+import os from 'os';
 import { fileURLToPath } from 'url';
 import { config } from './config/config.js';
 import { convertFaction, convertSex, convertRace, convertMoney, convertJob, cutStr } from './utils/dataTransformations.js';
@@ -28,6 +30,13 @@ const app = express();
 const port = config.port;
 const host = config.host;
 
+// Установка заголовков для всех ответов
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Cache-Control', 'no-store'); // Устанавливаем заголовок Cache-Control
+  next();
+});
+
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -37,12 +46,30 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(session({
+  secret: process.env.SESSION_SECRET, // Используем переменную окружения для секрета
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: process.env.SESSION_COOKIE_SECURE === 'true' } // Используем переменную окружения для флага secure
+}));
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Middleware для удаления завершающего слэша для определённых маршрутов
+app.use((req, res, next) => {
+    // Проверяем, если путь длиннее одного символа и заканчивается на "/"
+    if (req.path.length > 1 && req.path.endsWith('/')) {
+        // Убираем завершающий слэш и перенаправляем на правильный путь
+        const newPath = req.path.slice(0, -1) + req.url.slice(req.path.length);
+        return res.redirect(301, newPath);
+    }
+    next();
+});
 
 // Подключение маршрутов
 app.use('/', adminRoutes);
@@ -83,8 +110,8 @@ async function initializePools() {
         poolLobbyDb = await sql.connect(configLobbyDb); // Инициализация пула для LobbyDB
         console.log(chalk.green('Connection to LobbyDb established successfully.'));
 
-        poolGame = await sql.connect(Game_config); // Инициализация пула для базы данных Game
-        console.log(chalk.green('Connection to Game established successfully.'));
+        // poolGame = await sql.connect(Game_config); // Инициализация пула для базы данных Game
+        // console.log(chalk.green('Connection to Game established successfully.'));
     } catch (err) {
         console.error(chalk.red('Error during connection pool initialization:', err));
         throw err; // Пробрасываем ошибку для обработки на более высоком уровне
@@ -102,12 +129,35 @@ async function initializePools() {
 //         process.exit(1); // Прекращаем работу приложения, если инициализация пула не удалась
 //     });
 
-// Маршрут для главной страницы
-app.get('/', (req, res) => {
-    res.render('index'); // Рендерим файл 'index.ejs' из папки 'views'
+app.get('/api/current-time', (req, res) => {
+    const currentTime = new Date();
+    res.json({ currentTime: currentTime.toISOString() }); // Отправляем время в формате ISO
 });
 
+app.get('/', (req, res) => {
+    const user = req.session.user || null; // Предполагаем, что информация о пользователе хранится в сессии
+    res.render('index', { user }); // Передаем объект user в шаблон
+});
+
+// Обработчик для всех несуществующих маршрутов (404)
+app.use((req, res) => {
+  res.status(404).render('404'); // Рендерим страницу 404
+});
+
+function getLocalIp() {
+    const interfaces = os.networkInterfaces();
+    for (const interfaceKey in interfaces) {
+        for (const interfaceInfo of interfaces[interfaceKey]) {
+            if (interfaceInfo.family === 'IPv4' && !interfaceInfo.internal) {
+                return interfaceInfo.address;
+            }
+        }
+    }
+    return '127.0.0.1'; // Возвращаем localhost, если IP не найден
+}
+
 // Запуск сервера
+const localIp = getLocalIp();
 app.listen(port, host, () => {
-    console.log(chalk.bgGreen(`Server is running on ${host}:${port}`));
+    console.log(chalk.bgGreen(`B&S Api Server is running on ${host}:${port} (Local IP: ${chalk.blue(`${localIp}:${port}`)})`));
 });

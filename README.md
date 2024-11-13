@@ -56,7 +56,7 @@ To set up the API server, follow these steps:
 
 2. **Run the Database Setup Script**:
 
-    Before installing the server, make sure to run the `add_column_webadmin.bat` script, which adds the `WebsitePassword` column to the `Users` table in the `PlatformAcctDb` database.
+    Before installing the server, make sure to run the `add_column_webadmin.bat` script, which adds the `WebsitePassword` and `admin` column to the `Users` table in the `PlatformAcctDb` database.
 
     To run the script, use the following command (on Windows):
 
@@ -66,7 +66,7 @@ To set up the API server, follow these steps:
 
     This script will:
     
-    - Check if the `WebsitePassword` column exists in the `Users` table of the `PlatformAcctDb` database.
+    - Check if the `WebsitePassword` and `admin` column exists in the `Users` table of the `PlatformAcctDb` database.
     - If the column does not exist, it will add it.
     - Confirm success or report any issues encountered during the operation.
 	
@@ -86,7 +86,7 @@ To set up the API server, follow these steps:
     - Create `Start_Api.bat` for easy server startup.
     - Create the `.env` file with essential configuration for connecting to the game databases.
     - Install the required npm packages:
-      - `express`, `mssql`, `dotenv`, `axios`, `cors`, `ejs`, `argon2`, `bcrypt`, `chalk`, `express-session`, `mysql2`, `os-utils`.
+      - `express`, `mssql`, `dotenv`, `axios`, `cors`, `ejs`, `argon2`, `bcrypt`, `chalk`, `express-session`, `mysql2`, `os-utils`, `pidusage`.
 
 4. **Configuration**:
 
@@ -119,7 +119,20 @@ To set up the API server, follow these steps:
     ```
 
     Replace `<server_address>` with the actual address of your server.
-	
+
+### Administrator Assignment and Permissions:
+
+- **Initial Administrator Setup**:  
+  The first web administrator is assigned directly in the database:
+
+  **Database**: `PlatformAcctDb`  
+  **Table**: `Users`  
+  **Column**: `admin` (type: `bit`)  
+
+  Set the value of the `admin` column to `1` for the corresponding user to grant them administrative privileges.
+
+- **Adding New Administrators**:  
+  Once the initial web administrator is assigned, they gain access to special features in the admin panel. This includes the ability to add or remove other administrators directly through the website, ensuring efficient and secure delegation of administrative tasks.
 
 ## API Endpoints
 
@@ -193,3 +206,19 @@ This project relies on the following npm packages:
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Additions / Fixes
+<details>
+  <summary><b>Change Log: 13/11/2024</b></summary>
+
+  1. **Added authentication for accessing the admin panel**:  
+     Implemented a credential verification system to ensure that only authorized administrators can access the admin panel.
+
+  2. **Added a navigation panel to the Admin Panel**:  
+     Introduced a navigation bar to improve usability, providing quick access to key sections of the admin panel.
+
+  3. **Minor code tweaks and adjustments**:  
+     Made small improvements and optimizations to enhance code stability and readability.
+
+</details>
+

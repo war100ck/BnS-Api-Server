@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Admin Login</title>
+      <link href="../css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="../css/all.min.css">
+      <link rel="stylesheet" href="../css/adminlogin.css">
+   </head>
+   <body>
+      <a href="/" class="btn btn-secondary return-home">Return to Home</a> <!-- Кнопка в левом верхнем углу -->
+      <div class="login-container">
+         <img src="../images/avatar/software-engineer.png" alt="Admin Icon" class="logo">
+         <h2>Admin Login</h2>
+         <% if (errorMessage) { %>
+         <div class="error-message"><%= errorMessage %></div>
+         <% } %>
+         <form action="/admin/login" method="POST">
+            <div class="mb-3">
+               <label for="username" class="form-label">Username</label>
+               <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3 password-container">
+               <label for="password" class="form-label">Password</label>
+               <input type="password" class="form-control" id="password" name="password" required>
+               <i class="far fa-eye" id="togglePassword"></i> <!-- Используем иконку far -->
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <div class="form-text">Only authorized administrators can access this page.</div>
+         </form>
+      </div>
+      <!-- Тост-сообщение -->
+      <div class="toast bg-danger text-white" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
+         <div class="toast-body">
+            ACCESS DENIED!<br>
+            This panel is for administrators only!
+         </div>
+      </div>
+      <script src="../js/bootstrap.bundle.min.js"></script>
+      <script>
+         const passwordField = document.getElementById('password');
+         const togglePassword = document.getElementById('togglePassword');
+         const toast = document.getElementById('toast');
+         
+         // Переключение видимости пароля
+         togglePassword.addEventListener('click', function () {
+           const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+           passwordField.setAttribute('type', type);
+           this.classList.toggle('fa-eye-slash');
+         });
+         
+         // Функция для отображения тост-сообщения
+         function showToast() {
+           const bsToast = new bootstrap.Toast(toast);
+           bsToast.show();
+         }
+         
+         // Проверка наличия сообщения об ошибке и отображение тоста
+         <% if (errorMessage) { %>
+           showToast();
+         <% } %>
+      </script>
+   </body>
+</html>

@@ -4,9 +4,10 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>System Stats</title>
-      <link rel="icon" href="images/favicon-admin.png" type="image/png">
-      <link href="css/bootstrap.min.css" rel="stylesheet">
-      <script src="js/chart.js"></script>
+      <link rel="icon" href="../images/favicon-admin.png" type="image/png">
+      <link href="../css/bootstrap.min.css" rel="stylesheet">
+      <script src="../js/chart.js"></script>
+      <link rel="stylesheet" href="../css/admin.css">
       <style>
          canvas {
          max-width: 300px;
@@ -15,11 +16,11 @@
       </style>
    </head>
    <body>
+      <%- include('partials/nav') %>
       <div class="container mt-5">
-         <!-- Кнопка возврата в админпанель -->
-         <a href="/admin" class="btn btn-secondary mb-4">Back to Admin Panel</a>
-         <h1 class="mb-4">System Statistics</h1>
-         <!-- Графики CPU и памяти -->
+         <h2 class="mb-4">System Statistics</h2>
+         <div id="serverStartTime"></div>
+         <div id="currentTime"></div>
          <div class="row">
             <div class="col text-center">
                <h3>CPU Usage</h3>
@@ -30,7 +31,6 @@
                <canvas id="combinedMemoryChart"></canvas>
             </div>
          </div>
-         <!-- Отображение используемой и свободной памяти и CPU -->
          <div class="row mt-4">
             <div class="col text-center">
                <h4>CPU Used: <span id="usedCpu">0</span>%</h4>
@@ -41,22 +41,48 @@
                <h4>Free Memory: <span id="freeMemory">0</span> MB</h4>
             </div>
          </div>
-         <!-- Блок с характеристиками ПК, перемещенный вниз -->
-         <div class="card mt-5">
-            <div class="card-header">
-               <h3>Detailed System Information</h3>
+         <!-- Accordion for Detailed System Information -->
+         <div class="accordion mt-5" id="systemInfoAccordion">
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingSystemInfo">
+                  <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSystemInfo" aria-expanded="false" aria-controls="collapseSystemInfo">
+                  Detailed System Information
+                  </button>
+               </h2>
+               <div id="collapseSystemInfo" class="accordion-collapse collapse" aria-labelledby="headingSystemInfo" data-bs-parent="#systemInfoAccordion">
+                  <div class="accordion-body">
+                     <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>CPU Model:</strong> <span id="cpuModel"></span></li>
+                        <li class="list-group-item"><strong>CPU Speed:</strong> <span id="cpuSpeed"></span> MHz</li>
+                        <li class="list-group-item"><strong>CPU Cores:</strong> <span id="cpuCores"></span></li>
+                        <li class="list-group-item"><strong>Total Memory:</strong> <span id="systemTotalMemory"></span> MB</li>
+                        <li class="list-group-item"><strong>Free Memory:</strong> <span id="systemFreeMemory"></span> MB</li>
+                        <li class="list-group-item"><strong>OS Type:</strong> <span id="osType"></span></li>
+                        <li class="list-group-item"><strong>OS Version:</strong> <span id="osRelease"></span></li>
+                        <li class="list-group-item"><strong>Platform:</strong> <span id="platform"></span></li>
+                     </ul>
+                  </div>
+               </div>
             </div>
-            <div class="card-body">
-               <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><strong>CPU Model:</strong> <span id="cpuModel"></span></li>
-                  <li class="list-group-item"><strong>CPU Speed:</strong> <span id="cpuSpeed"></span> MHz</li>
-                  <li class="list-group-item"><strong>CPU Cores:</strong> <span id="cpuCores"></span></li>
-                  <li class="list-group-item"><strong>Total Memory:</strong> <span id="systemTotalMemory"></span> MB</li>
-                  <li class="list-group-item"><strong>Free Memory:</strong> <span id="systemFreeMemory"></span> MB</li>
-                  <li class="list-group-item"><strong>OS Type:</strong> <span id="osType"></span></li>
-                  <li class="list-group-item"><strong>OS Version:</strong> <span id="osRelease"></span></li>
-                  <li class="list-group-item"><strong>Platform:</strong> <span id="platform"></span></li>
-               </ul>
+         </div>
+         <!-- Accordion for Server Api Process Information -->
+         <div class="accordion mt-4" id="processInfoAccordion">
+            <div class="accordion-item">
+               <h2 class="accordion-header" id="headingProcessInfo">
+                  <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProcessInfo" aria-expanded="false" aria-controls="collapseProcessInfo">
+                  Server Api Process Information
+                  </button>
+               </h2>
+               <div id="collapseProcessInfo" class="accordion-collapse collapse" aria-labelledby="headingProcessInfo" data-bs-parent="#processInfoAccordion">
+                  <div class="accordion-body">
+                     <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>PID:</strong> <span id="processPid">N/A</span></li>
+                        <li class="list-group-item"><strong>Process Name:</strong> <span id="processName">N/A</span></li>
+                        <li class="list-group-item"><strong>Memory Usage:</strong> <span id="processMemory">N/A</span></li>
+                        <li class="list-group-item"><strong>CPU Usage:</strong> <span id="processCpu">N/A</span></li>
+                     </ul>
+                  </div>
+               </div>
             </div>
          </div>
       </div>
@@ -70,7 +96,7 @@
                  labels: ['Used', 'Free'],
                  datasets: [{
                      label: 'CPU Usage (%)',
-                     data: [0, 100], // начальные значения
+                     data: [0, 100],
                      backgroundColor: 'rgba(75, 192, 192, 1)',
                  }]
              },
@@ -90,7 +116,7 @@
                  labels: ['Used', 'Free'],
                  datasets: [{
                      label: 'Memory Usage (%)',
-                     data: [0, 100], // начальные значения
+                     data: [0, 100],
                      backgroundColor: 'rgba(153, 102, 255, 1)',
                  }]
              },
@@ -104,7 +130,9 @@
              }
          });
          
-         // Обновление характеристик системы
+         let serverStartTime; // Переменная для хранения времени запуска сервера
+         
+         // Обновление информации о системе
          function updateSystemInfo(systemInfo) {
              document.getElementById('cpuModel').textContent = systemInfo.cpuModel;
              document.getElementById('cpuSpeed').textContent = systemInfo.cpuSpeed;
@@ -116,13 +144,25 @@
              document.getElementById('platform').textContent = systemInfo.platform;
          }
          
+         // Обновление информации о процессе
+         function updateProcessInfo(processInfo) {
+             document.getElementById('processPid').textContent = processInfo.pid;
+             document.getElementById('processName').textContent = processInfo.name;
+             document.getElementById('processMemory').textContent = processInfo.memory;
+             document.getElementById('processCpu').textContent = processInfo.cpu;
+         }
+         
          // Обновление статистики
          function updateStats() {
              fetch('/api/system-stats')
                  .then(response => response.json())
                  .then(data => {
-                     // Обновляем характеристики системы
+                     // Сохраняем время запуска сервера
+                     serverStartTime = new Date(data.serverStartTime);
+         
+                     // Обновляем системную информацию и информацию о процессе
                      updateSystemInfo(data.systemInfo);
+                     updateProcessInfo(data.processInfo);
          
                      // Обновляем данные в графиках
                      combinedCpuChart.data.datasets[0].data = [data.usedCpu, data.freeCpu];
@@ -141,8 +181,55 @@
                  .catch(error => console.error('Error:', error));
          }
          
-         setInterval(updateStats, 5000);
+         // Форматирование времени с учетом месяцев и недель
+         function formatTime(seconds) {
+         const months = Math.floor(seconds / (30 * 24 * 3600)); // 30 дней в месяце
+         const weeks = Math.floor((seconds % (30 * 24 * 3600)) / (7 * 24 * 3600)); // 7 дней в неделе
+         const days = Math.floor((seconds % (7 * 24 * 3600)) / (24 * 3600));
+         const hours = Math.floor((seconds % (24 * 3600)) / 3600);
+         const minutes = Math.floor((seconds % 3600) / 60);
+         const secs = seconds % 60;
+         
+         // Формирование строки времени
+         return `
+             <span class="time-part month">${months}m</span> 
+             <span class="time-part week">${weeks}w</span> 
+             <span class="time-part day">${days}d</span>
+             <span class="slash">/</span>
+             <span class="time-part hour">${hours.toString().padStart(2, '0')}</span>: 
+             <span class="time-part minute">${minutes.toString().padStart(2, '0')}</span>: 
+             <span class="time-part second">${secs.toString().padStart(2, '0')}</span>
+         `;
+         }
+         
+         // Функция для отображения времени с момента старта сервера
+         function updateTimeDisplay() {
+         const currentTime = new Date();
+         const elapsedTime = Math.floor((currentTime - serverStartTime) / 1000); // Время в секундах
+         const elapsedTimeFormatted = formatTime(elapsedTime);
+         
+         // Отображение времени
+         const serverStartTimeElement = document.getElementById('serverStartTime');
+         serverStartTimeElement.innerHTML = `Server Uptime: ${elapsedTimeFormatted}`;
+         serverStartTimeElement.style.fontSize = '18px';
+         serverStartTimeElement.style.color = '#0d6efd';
+         serverStartTimeElement.style.fontWeight = 'bold';
+         
+         // Стилизация для текущего времени
+         const currentTimeElement = document.getElementById('currentTime');
+         currentTimeElement.textContent = `Current Time: ${currentTime.toLocaleTimeString()}`;
+         currentTimeElement.style.fontSize = '18px';
+         currentTimeElement.style.color = '#0d6efd';
+         currentTimeElement.style.fontWeight = 'bold';
+         }
+         
+         // Обновление времени каждую секунду
+         setInterval(updateTimeDisplay, 1000);
+         
+         // Первоначальный вызов для загрузки данных
          updateStats();
+         setInterval(updateStats, 5000); // Обновляем статистику каждые 5 секунд
       </script>
+      <script src="../js/bootstrap.bundle.min.js"></script>
    </body>
 </html>

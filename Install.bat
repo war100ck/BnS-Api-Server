@@ -24,7 +24,8 @@ echo     "bcrypt": "latest", >> package.json
 echo     "chalk": "latest", >> package.json
 echo     "express-session": "latest", >> package.json
 echo     "mysql2": "latest", >> package.json
-echo     "os-utils":"latest" >> package.json
+echo     "os-utils":"latest", >> package.json
+echo     "pidusage": "latest" >> package.json
 echo   }, >> package.json
 echo   "devDependencies": {}, >> package.json
 echo   "engines": { >> package.json
@@ -38,13 +39,16 @@ echo ===============================
 echo File creation .... completed
 echo ===============================
 
-
 :: Create Start_Api.bat
 echo Creating Start_Api.bat...
 echo @echo off > Start_Api.bat
+echo @cls >> Start_Api.bat
+echo Color 03 >> Start_Api.bat 
 echo echo Starting server... >> Start_Api.bat
-echo node ServerApi.js >> Start_Api.bat
+echo set NODE_NO_WARNINGS=1 >> Start_Api.bat
+echo node --trace-deprecation ServerApi.js >> Start_Api.bat
 echo pause >> Start_Api.bat
+
 timeout /t 1 /nobreak > NUL
 echo ===============================
 echo File creation .... completed
@@ -93,6 +97,12 @@ echo LOG_FILE_PATH=registration_log.txt >> .env
 echo. >> .env
 echo # Вкл/Откл. Логирования в консоли >> .env
 echo LOG_TO_CONSOLE=true >> .env
+echo. >> .env
+echo # Секрет для сессий: Используется для подписи сессионных данных (не забудьте заменить на свой собственный секретный ключ) >> .env
+echo SESSION_SECRET=9f4e85ecdc9bb4038d0a5ed2d20a06f739c6bdb539e217f8252b033e2c3dbd5e >> .env
+echo. >> .env
+echo # Безопасность cookie: Если true, сессионные cookie будут передаваться только по HTTPS (используйте true для HTTPS) >> .env
+echo SESSION_COOKIE_SECURE=false >> .env
 timeout /t 1 /nobreak > NUL
 echo ===============================
 echo File creation .... completed
