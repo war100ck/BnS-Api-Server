@@ -1,5 +1,4 @@
 {
-  "files": {
     "add_column_webadmin.bat": "ca02d9a09352c9fd219f1f83c962953c48d6867f261f7a9e3df56ed286e5a672",
     "Install.bat": "24b9eeabbe85d18999ec27d64c6f498c41d4dd478f702b9015592ca818f97c10",
     "LICENSE": "ebf9e6b28682b0104a6018583e0c013a9b37ad748d8831597baf80e7ebce4c88",
@@ -174,5 +173,4 @@
     "views/partials/navbar.ejs": "2b8b312a3ecf187bd247915599a670626a04aced408aa1f04a5f38de784c011c",
     "views/partials/signinModal.ejs": "c911cc1eeb2a95809476eeb0561d801c4b116634256bd8e015af7966762dd660",
     "views/partials/signupModal.ejs": "d187f10310637140181dd279f7664d3ec17d5f99aa2d725ea08d60bc2315593a"
-  }
 }
