@@ -62,31 +62,31 @@ echo. >> .env
 echo # Настройки для PlatformAcctDb >> .env
 echo PLATFORM_ACCT_DB_USER=sa >> .env
 echo PLATFORM_ACCT_DB_PASSWORD=U6SjJk3ZyQhrv5tq >> .env
-echo PLATFORM_ACCT_DB_SERVER=127.0.0.1 >> .env
+echo PLATFORM_ACCT_DB_SERVER=localhost >> .env
 echo PLATFORM_ACCT_DB_DATABASE=PlatformAcctDb >> .env
 echo. >> .env
 echo # Настройки для BlGame >> .env
 echo BLGAME_DB_USER=sa >> .env
 echo BLGAME_DB_PASSWORD=U6SjJk3ZyQhrv5tq >> .env
-echo BLGAME_DB_SERVER=127.0.0.1 >> .env
+echo BLGAME_DB_SERVER=localhost >> .env
 echo BLGAME_DB_DATABASE=BlGame >> .env
 echo. >> .env
 echo # Настройки для VirtualCurrencyDb >> .env
 echo VIRTUAL_CURRENCY_DB_USER=sa >> .env
 echo VIRTUAL_CURRENCY_DB_PASSWORD=U6SjJk3ZyQhrv5tq >> .env
-echo VIRTUAL_CURRENCY_DB_SERVER=127.0.0.1 >> .env
+echo VIRTUAL_CURRENCY_DB_SERVER=localhost >> .env
 echo VIRTUAL_CURRENCY_DB_DATABASE=VirtualCurrencyDb >> .env
 echo. >> .env
 echo # Настройки для LobbyDB >> .env
 echo LOBBY_DB_USER=sa >> .env
 echo LOBBY_DB_PASSWORD=U6SjJk3ZyQhrv5tq >> .env
-echo LOBBY_DB_SERVER=127.0.0.1 >> .env
+echo LOBBY_DB_SERVER=localhost >> .env
 echo LOBBY_DB_DATABASE=LobbyDB >> .env
 echo. >> .env
 echo # Конфигурация базы данных (Web) >> .env
 echo DB_USER=sa >> .env
 echo DB_PASSWORD=U6SjJk3ZyQhrv5tq >> .env
-echo DB_SERVER=127.0.0.1 >> .env
+echo DB_SERVER=localhost >> .env
 echo DB_NAME=PlatformAcctDb >> .env
 echo. >> .env
 echo # Внешний сервис >> .env
