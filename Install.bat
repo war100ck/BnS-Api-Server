@@ -44,7 +44,7 @@ echo Creating Start_Api.bat...
 echo @echo off > Start_Api.bat
 echo @cls >> Start_Api.bat
 echo Color 03 >> Start_Api.bat 
-echo echo Starting server... >> Start_Api.bat
+echo echo. >> Start_Api.bat
 echo set NODE_NO_WARNINGS=1 >> Start_Api.bat
 echo node --trace-deprecation ServerApi.js >> Start_Api.bat
 echo pause >> Start_Api.bat
