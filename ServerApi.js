@@ -156,8 +156,40 @@ function getLocalIp() {
     return '127.0.0.1'; // Возвращаем localhost, если IP не найден
 }
 
-// Запуск сервера
+// Получаем локальный IP
 const localIp = getLocalIp();
+
+// Получаем ширину консоли
+const consoleWidth = process.stdout.columns || 80;
+
+// Функция для центрирования текста
+function centerText(text, maxWidth) {
+    const padding = Math.max(0, Math.floor((consoleWidth - maxWidth) / 2));
+    return ' '.repeat(padding) + text;
+}
+
+// Находим максимальную длину строк
+const lines = [
+    "███████████████████████████████████████████████████████",
+	"██                                                   ██",
+    "██        B&S API SERVER STARTING NOW                ██",
+    "██        SERVER IS RUNNING ON PORT: 3000            ██",
+    "██        LOCAL IP ADDRESS: 192.168.0.107            ██",
+    "██        ACCESS IT VIA: http://0.0.0.0:3000         ██",
+	"██                                                   ██",
+    "███████████████████████████████████████████████████████"
+];
+const maxLineLength = Math.max(...lines.map(line => line.length));
+
+// Выводим строки по центру
+lines.forEach(line => {
+    console.warn(chalk.bold(centerText(line, maxLineLength)));
+});
+
+// Пустая строка между секциями
+console.log(); // или console.log('');
+
+// Запуск сервера
 app.listen(port, host, () => {
     console.log(chalk.bgGreen(`B&S Api Server is running on ${host}:${port} (Local IP: ${chalk.blue(`${localIp}:${port}`)})`));
 });
