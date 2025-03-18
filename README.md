@@ -279,7 +279,7 @@ Here you will find project details, exchange of experiences, and solutions to va
 
 ## Blade & Soul Game API Server for 2017
 
-If you are looking for the **Blade & Soul** Game API Server for the 2020 version, you can download it here:
+If you are looking for the **Blade & Soul** Game API Server for the 2017 version, you can download it here:
 
 [Download Blade & Soul Game API Server 2017](https://github.com/war100ck/Server-Api-BnS-2017)
 
