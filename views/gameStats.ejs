@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Game-Stats</title>
+      <link rel="icon" href="/images/favicon-admin.png" type="image/png">
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+      <script src="/node_modules/chart.js/dist/chart.umd.js"></script>
+      <link rel="stylesheet" href="/css/admin-game-stats.css">
+   </head>
+   <body class="bg-light d-flex flex-column min-vh-100">
+      <%- include('partials/nav') %>
+      <main class="flex-grow-1 pb-5">
+         <div class="container py-4">
+            <!-- Header Card -->
+            <div class="card shadow-sm mb-4">
+               <div class="card-header bg-primary text-white">
+                  <h2 class="h4 mb-0"><i class="bi bi-speedometer2 me-2"></i>Game Server Statistics</h2>
+               </div>
+               <div class="card-body">
+                  <div class="row g-3">
+                     <div class="col-md-3">
+                        <div class="d-flex align-items-center">
+                           <div class="bg-info bg-opacity-10 p-3 rounded me-3">
+                              <i class="bi bi-people-fill text-info fs-4"></i>
+                           </div>
+                           <div>
+                              <h6 class="mb-0 text-muted">Total Accounts</h6>
+                              <p class="mb-0 fs-5 fw-bold"><%= statistics.totalUsers %></p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-3">
+                        <div class="d-flex align-items-center">
+                           <div class="bg-success bg-opacity-10 p-3 rounded me-3">
+                              <i class="bi bi-person-check-fill text-success fs-4"></i>
+                           </div>
+                           <div>
+                              <h6 class="mb-0 text-muted">Active Characters</h6>
+                              <p class="mb-0 fs-5 fw-bold"><%= statistics.accountCount %></p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-3">
+                        <div class="d-flex align-items-center">
+                           <div class="bg-danger bg-opacity-10 p-3 rounded me-3">
+                              <i class="bi bi-person-x-fill text-danger fs-4"></i>
+                           </div>
+                           <div>
+                              <h6 class="mb-0 text-muted">Deleted Characters</h6>
+                              <p class="mb-0 fs-5 fw-bold"><%= statistics.deletionCount %></p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-3">
+                        <div class="d-flex align-items-center">
+                           <div class="bg-warning bg-opacity-10 p-3 rounded me-3">
+                              <i class="bi bi-coin text-warning fs-4"></i>
+                           </div>
+                           <div>
+                              <h6 class="mb-0 text-muted">Total Money</h6>
+                              <p class="mb-0 fs-5 fw-bold">
+                                 <%= statistics.totalMoney.gold %> <img src="/images/money/gold.png" alt="Gold" style="height: 16px;" />
+                                 <%= statistics.totalMoney.silver %> <img src="/images/money/silver.png" alt="Silver" style="height: 16px;" />
+                                 <%= statistics.totalMoney.copper %> <img src="/images/money/copper.png" alt="Copper" style="height: 16px;" />
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Charts Row 1 -->
+            <div class="row g-4 mb-4">
+               <!-- Races Chart -->
+               <div class="col-md-6 col-lg-3">
+                  <div class="card h-100 shadow-sm">
+                     <div class="card-header bg-success text-white">
+                        <h4 class="h6 mb-0"><i class="bi bi-people-fill me-2"></i>Character Races</h4>
+                     </div>
+                     <div class="card-body text-center">
+                        <div class="chart-container" style="height: 200px;">
+                           <canvas id="raceChart"
+                              data-labels='<%- JSON.stringify(Object.keys(statistics.races)) %>'
+                              data-values='<%- JSON.stringify(Object.values(statistics.races)) %>'>
+                           </canvas>
+                        </div>
+                        <ul class="list-unstyled mt-3">
+                           <% let colors = ['#4CAF50', '#FF9800', '#2196F3', '#9C27B0']; %>
+                           <% let i = 0; %>
+                           <% for (let race in statistics.races) { %>
+                           <li class="mb-1">
+                              <span class="badge me-1" style="background-color: <%= colors[i % colors.length] %>;">&nbsp;</span>
+                              <%= race %>: <strong><%= statistics.races[race] %></strong>
+                           </li>
+                           <% i++; } %>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               <!-- Genders Chart -->
+               <div class="col-md-6 col-lg-3">
+                  <div class="card h-100 shadow-sm">
+                     <div class="card-header bg-info text-white">
+                        <h4 class="h6 mb-0"><i class="bi bi-gender-male me-2"></i><i class="bi bi-gender-female"></i> Character Genders</h4>
+                     </div>
+                     <div class="card-body text-center">
+                        <div class="chart-container" style="height: 200px;">
+                           <canvas id="sexChart"
+                              data-male="<%= statistics.sexes.male %>"
+                              data-female="<%= statistics.sexes.female %>">
+                           </canvas>
+                        </div>
+                        <ul class="list-unstyled mt-3">
+                           <li class="mb-1">
+                              <span class="badge me-1" style="background-color: #2196F3;">&nbsp;</span>
+                              Male: <strong><%= statistics.sexes.male %></strong>
+                           </li>
+                           <li class="mb-1">
+                              <span class="badge me-1" style="background-color: #FF4081;">&nbsp;</span>
+                              Female: <strong><%= statistics.sexes.female %></strong>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               <!-- Classes Chart -->
+               <div class="col-md-6 col-lg-3">
+                  <div class="card h-100 shadow-sm">
+                     <div class="card-header bg-warning text-dark">
+                        <h4 class="h6 mb-0"><i class="bi bi-person-badge-fill me-2"></i>Character Classes</h4>
+                     </div>
+                     <div class="card-body text-center">
+                        <div class="chart-container" style="height: 200px;">
+                           <canvas id="jobChart"
+                              data-labels='<%- JSON.stringify(Object.keys(statistics.jobs)) %>'
+                              data-values='<%- JSON.stringify(Object.values(statistics.jobs)) %>'>
+                           </canvas>
+                        </div>
+                        <ul class="list-unstyled mt-3">
+                           <% let jobColors = [
+                              '#FF5722', '#FFC107', '#009688', '#795548', '#3F51B5', 
+                              '#673AB7', '#3F9E5F', '#E91E63', '#FF9800', '#8BC34A', 
+                              '#2196F3', '#CDDC39', '#9C27B0', '#607D8B', '#FFEB3B', 
+                              '#4CAF50', '#00BCD4', '#F44336', '#03A9F4', '#795548'
+                              ]; %>
+                           <% let j = 0; %>
+                           <% for (let job in statistics.jobs) { %>
+                           <li class="mb-1">
+                              <span class="badge me-1" style="background-color: <%= jobColors[j % jobColors.length] %>;">&nbsp;</span>
+                              <%= job %>: <strong><%= statistics.jobs[job] %></strong>
+                           </li>
+                           <% j++; } %>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               <!-- Factions Chart -->
+               <div class="col-md-6 col-lg-3">
+                  <div class="card h-100 shadow-sm">
+                     <div class="card-header bg-danger text-white">
+                        <h4 class="h6 mb-0"><i class="bi bi-flag-fill me-2"></i>Factions</h4>
+                     </div>
+                     <div class="card-body text-center">
+                        <div class="chart-container" style="height: 200px;">
+                           <canvas id="factionChart"
+                              data-cerulean="<%= statistics.factions['Cerulean Order'] %>"
+                              data-crimson="<%= statistics.factions['Crimson Legion'] %>">
+                           </canvas>
+                        </div>
+                        <ul class="list-unstyled mt-3">
+                           <li class="mb-1">
+                              <span class="badge me-1" style="background-color: #009688;">&nbsp;</span>
+                              Cerulean Order: <strong><%= statistics.factions["Cerulean Order"] %></strong>
+                           </li>
+                           <li class="mb-1">
+                              <span class="badge me-1" style="background-color: #FF5722;">&nbsp;</span>
+                              Crimson Legion: <strong><%= statistics.factions["Crimson Legion"] %></strong>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Levels Chart -->
+            <div class="row mb-4">
+               <div class="col-12">
+                  <div class="card shadow-sm">
+                     <div class="card-header bg-purple text-dark">
+                        <h4 class="h6 mb-0"><i class="bi bi-bar-chart-line-fill me-2"></i>Character Levels Distribution</h4>
+                     </div>
+                     <div class="card-body">
+                        <div class="row">
+                           <div class="col-md-4">
+                              <div class="chart-container" style="height: 250px;">
+                                 <canvas id="levelChart"
+                                    data-labels='<%- JSON.stringify(Object.keys(statistics.levels)) %>'
+                                    data-values='<%- JSON.stringify(Object.values(statistics.levels)) %>'>
+                                 </canvas>
+                              </div>
+                           </div>
+                           <div class="col-md-8">
+                              <div class="row">
+                                 <% let levelColors = ['#FF5722', '#FFC107', '#009688', '#795548', '#3F51B5', '#FF4081', '#E91E63', '#8BC34A', '#FF9800', '#9C27B0', '#00BCD4', '#CDDC39']; %>
+                                 <% let l = 0; %>
+                                 <% for (let level in statistics.levels) { %>
+                                 <div class="col-6 col-md-4 mb-2">
+                                    <span class="badge me-1" style="background-color: <%= levelColors[l % levelColors.length] %>;">&nbsp;</span>
+                                    Level <%= level %>: <strong><%= statistics.levels[level] %></strong>
+                                 </div>
+                                 <% l++; } %>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Characters Table -->
+            <div class="card shadow">
+               <div class="card-header bg-dark text-white">
+                  <h4 class="mb-0"><i class="bi bi-table me-2"></i>All Characters</h4>
+               </div>
+               <div class="card-body p-0">
+                  <div class="table-responsive">
+                     <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                           <tr>
+                              <th><i class="bi bi-person-vcard me-1"></i> Name</th>
+                              <th><i class="bi bi-globe me-1"></i> Race</th>
+                              <th><i class="bi bi-gender-ambiguous me-1"></i> Gender</th>
+                              <th><i class="bi bi-person-arms-up me-1"></i> Class</th>
+                              <th><i class="bi bi-coin me-1"></i> Money</th>
+                              <th><i class="bi bi-trash me-1"></i> Status</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <% statistics.characters.forEach(character => { %>
+                           <tr>
+                              <td><strong><%= character.name %></strong></td>
+                              <td><img src="<%= character.raceImageUrl %>" style="filter:invert(1);height:16px;width:16px" class="me-1"><%= character.race %></td>
+                              <td><i class="<%= character.sexIconClass %> me-1"></i><%= character.sex %></td>
+                              <td><img src="<%= character.jobImageUrl %>" style="filter:invert(1);height:16px;width:16px" class="me-1"><%= character.job %></td>
+                              <td><span class="badge bg-warning bg-opacity-10 text-warning"><% ['gold','silver','copper'].forEach(c=>{ %><%= character.money[c].value %> <img src="<%= character.money[c].imageUrl %>" alt="" style="height:14px"><% }) %></span></td>
+                              <td>
+                                 <% if (character.deletion === 'Deleted') { %>
+                                 <span class="badge bg-danger bg-opacity-10 text-danger">
+                                 <i class="bi bi-trash-fill me-1"></i>
+                                 <%= character.deletion %>
+                                 </span>
+                                 <% } else { %>
+                                 <span class="badge bg-success bg-opacity-10 text-success">
+                                 <i class="bi bi-check-circle-fill me-1"></i>
+                                 <%= character.deletion %>
+                                 </span>
+                                 <% } %>
+                              </td>
+                           </tr>
+                           <% }) %>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </main>
+      <%- include('partials/adminFooter') %>
+      <script src="/js/admin-game-stats.js"></script>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   </body>
+</html>

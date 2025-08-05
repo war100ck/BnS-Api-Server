@@ -13,7 +13,11 @@ text-align:center;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-background-color:#e9ecef;
+    background-color: #e9ecef;
+}
+
+.user-data-table th, .user-data-table td {
+    text-align: left;
 }
 
 .table-dark th {
@@ -53,6 +57,10 @@ color:#2E8B57;
 
 .deleted-count {
 color:red;
+}
+
+td.deleted-count {
+  color: red;
 }
 
 .user-radio {
@@ -160,3 +168,106 @@ align-items:center;
 .month,.week,.day,.hour,.minute,.second {
 color:#0d6efd;
 }
+
+#new-petition-indicator {
+    display: none; /* Скрыть по умолчанию */
+}
+
+#new-petition-indicator .fa-envelope {
+    color: #FFD700; /* Желтый цвет для иконки */
+    animation: blink 1s step-start infinite;
+}
+
+#new-petition-indicator.active .fa-envelope {
+    color: #FF6347; /* Красный цвет, когда активен */
+}
+
+#new-petition-indicator.active #new-petition-text {
+    font-weight: bold;
+    color: #FF6347;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.form-label {
+    font-weight: bold;
+  }
+
+  .form-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .category-select, .item-select {
+    width: calc(100% - 95px); /* Уменьшаем ширину, чтобы хватило места для иконки */
+  }
+
+.col-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center; 
+}
+
+.item-select {
+    flex-grow: 1; 
+    margin-right: 50px; /* Добавьте отступ для иконки */
+}
+
+#vipStatusContainer .vip-alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+#vipStatusContainer .vip-alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+#vipStatusContainer .vip-alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.chart-container {
+  position: relative;
+  margin: 0; /* Убедитесь, что нет лишних отступов */
+  padding: 0;
+  height: 300px; /* Ограничение высоты */
+  width: 100%;
+}
+
+canvas {
+  display: block; /* Убирает дополнительные отступы */
+  height: 100%; /* Заполняет высоту родительского элемента */
+  width: 100%; /* Заполняет ширину родительского элемента */
+}
+
+.color-box {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+}
+
+.money-icon {
+  width: 10px;
+  height: auto;
+}
+		 
+.vip-status-icon {
+  width: 50px;
+  height: 50px;
+  margin-left: 10px; /* Отступ между текстом и иконкой */
+  vertical-align: middle; /* Центрирование по вертикали */
+}
+
+
+

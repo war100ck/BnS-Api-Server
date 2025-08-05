@@ -1,0 +1,25 @@
+<!-- partials/about-game.ejs -->
+<div class="container lazy-section left" id="about">
+   <h1 class="section-title">About the Game</h1>
+   <div class="row">
+      <div class="col-lg-6">
+         <p class="lead">
+            Blade & Soul is a fantasy role-playing game based on non-targeting and combo attacks, where betrayal and dark cult conspiracies have turned the Middle World into ruins of civilization. Players are tasked with defending their home settlement from pirate raids and then embark on a thrilling journey to uncover hidden secrets and knowledge from nature. The game features 250 chapters of the main storyline and several multiplayer modes.
+         </p>
+         <p class="lead">
+            The spectacle and dynamism of the combat system dominate all other game mechanics. There are 12 classes with unique combat styles, but they all share the necessity of keeping the enemy in sight, stunning them, knocking them down, or launching them into the air. To activate combo attacks, players must capture the opponent, counterattack, or block their strikes.
+         </p>
+      </div>
+      <div class="col-lg-6 text-center position-relative video-container">
+         <!-- Изображение превью -->
+         <img id="videoThumbnail" src="images/backgrounds/video-bg.webp" class="img-fluid rounded shadow" alt="Game Thumbnail">
+         <!-- Кнопка воспроизведения -->
+         <button id="playButton" class="btn position-absolute" aria-label="Play Video"></button>
+         <!-- Видео -->
+         <video id="videoPlayer" class="img-fluid rounded shadow d-none" controls controlslist="nodownload noplaybackrate" disablePictureInPicture onclick="togglePlayPause()">
+            <source src="media/trailer.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+         </video>
+      </div>
+   </div>
+</div>

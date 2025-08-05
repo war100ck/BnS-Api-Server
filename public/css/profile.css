@@ -1,332 +1,84 @@
+:root{        --bg-color:#1d242c;          --card-bg:#2a3038;          --card-header-bg:#343b44;          --text-primary:#fff;          --text-secondary:#b8c2cc;          --border-color:#3d4752;          --primary-accent:#fc6b01;          --table-header-bg:#3a424d}
+         body{        background-color:var(--bg-color);          background-image:url('../images/backgrounds/home-style-bg.webp');  background-attachment:fixed;  background-position:center;  background-repeat:no-repeat;  background-size:cover;  color:var(--text-primary);  font-family:Arial,sans-serif;  min-height:100vh;  padding-top:80px;  padding-bottom:80px}
+.custom-navbar .container-fluid{padding-left:55px !important;  padding-right:25px !important}
+.container{width:100%;  max-width:1400px;  margin:0 auto;  padding:20px;  display:grid;  grid-template-columns:300px 1fr;  gap:20px}
  
-/* Подключение шрифта SagrantinoRegular */
- @font-face {
-     font-family: 'SagrantinoRegular';
-     src: url('../fonts/SagrantinoRegular.TTF') format('truetype');
+.profile-section{position:sticky;  top:100px;  height:fit-content}
+.profile-card{background:var(--card-bg);  border-radius:10px;  box-shadow:0 4px 12px rgba(0,0,0,0.3);  overflow:hidden;  margin-bottom:20px}
+.profile-header{background:linear-gradient(135deg,#fc6b01 0%,#ff8c00 100%);  padding:15px;  text-align:center}
+.profile-header h3{margin:0;  color:white;  font-size:1.5rem;  font-weight:700;  text-transform:uppercase}
+.profile-body{padding:20px;  text-align:center}
+.avatar-container{ position:relative;  display:inline-block;  margin-bottom:15px}
+.user-avatar{width:150px;  height:150px;  border-radius:50%;  border:4px solid var(--primary-accent);  object-fit:cover}
+.avatar-edit-icon{ position:absolute;  bottom:5px;  right:10px;  background:var(--primary-accent);  width:32px;  height:32px;  border-radius:50%;  display:flex;  align-items:center;  justify-content:center;  cursor:pointer;  transition:all 0.3s;  border:2px solid var(--card-bg)}
+.avatar-edit-icon:hover{ transform:scale(1.1);  background:#ff8c00}
+.avatar-edit-icon i{ color:white;  font-size:14px}
+.profile-info{margin-bottom:15px;  font-size:0.95rem}
+.profile-info p{margin:5px 0}
+.vip-status{display:flex;  align-items:center;  justify-content:center;  gap:10px;  margin:10px 0}
+.vip-status-image{width:30px;  height:30px}
+.btn-change-avatar{background-color:transparent;  border:1px solid var(--primary-accent);  color:var(--primary-accent);  padding:8px 15px;  border-radius:5px;  cursor:pointer;  transition:all 0.3s;  margin-top:10px}
+.btn-change-avatar:hover{background-color:var(--primary-accent);  color:white}
+ 
+.content-section{display:flex;  flex-direction:column;  gap:20px}
+.data-card{background:var(--card-bg);  border-radius:10px;  box-shadow:0 4px 12px rgba(0,0,0,0.3);  overflow:hidden}
+.card-title{background:var(--card-header-bg);  padding:15px 20px;  font-size:1.2rem;  font-weight:600;  border-bottom:2px solid var(--primary-accent);  display:flex;  align-items:center;  gap:10px}
+.card-title i{color:var(--primary-accent)}
+ 
+.characters-table{width:100%;  border-collapse:collapse}
+.characters-table thead th{padding:12px 15px;  text-align:left;  background:var(--table-header-bg);  font-weight:600;  border-bottom:2px solid var(--primary-accent)}
+.characters-table tbody td{padding:12px 15px;  border-bottom:1px solid var(--border-color)}
+.characters-table tbody tr:hover{background-color:rgba(252,107,1,0.1)}
+.table-image-text{display:flex;  align-items:center;  gap:8px}
+.image-small{width:34px;  height:34px;  object-fit:contain}
+ 
+.deposit-grid{display:grid;  grid-template-columns:1fr 1fr;  gap:15px;  padding:20px}
+.deposit-item{background:rgba(40,45,55,0.5);  border-radius:8px;  padding:15px;  border-left:3px solid var(--primary-accent)}
+.deposit-label{font-size:0.9rem;  color:var(--text-secondary);  margin-bottom:5px}
+.deposit-value{display:flex;  align-items:center;  gap:8px;  font-size:1.1rem;  font-weight:500}
+.coin-icon{width:24px;  height:24px}
+ 
+.characters-mobile{display:none;  padding:15px}
+.character-card{background:rgba(40,45,55,0.5);  border-radius:8px;  padding:15px;  margin-bottom:15px;  border-left:3px solid var(--primary-accent)}
+.character-name{font-weight:600;  font-size:1.1rem;  margin-bottom:5px}
+.character-server{color:var(--text-secondary);  font-size:0.9rem;  margin-bottom:10px}
+.character-detail{display:flex;  justify-content:space-between;  padding:8px 0;  border-bottom:1px dashed var(--border-color)}
+.character-detail:last-child{border-bottom:none}
+.detail-label{color:var(--text-secondary)}
+.detail-value{display:flex;  align-items:center;  gap:8px}
+.character-created{margin-top:10px;  font-size:0.85rem;  color:var(--text-secondary);  text-align:right}
+ 
+@media (max-width:992px){.container{grid-template-columns:1fr}
+.profile-section{position:static}
+.deposit-grid{grid-template-columns:1fr}
+.characters-table{display:none}
+.characters-mobile{display:block}
 }
- @font-face {
-     font-family: 'LakeshoreRegular';
-     src: url('../fonts/Lakeshore-Regular.ttf') format('truetype');
-}
- @font-face {
-     font-family: 'FontAwesome';
-     src: url('../webfonts/fa-solid-900.woff2') format('woff2'), url('../webfonts/fa-solid-900.woff') format('woff');
-     font-weight: 900;
-     font-style: normal;
-}
- @font-face {
-     font-family: 'FontAwesome Brands';
-     src: url('../webfonts/fa-brands-400.woff2') format('woff2'), url('../webfonts/fa-brands-400.woff') format('woff');
-     font-weight: 400;
-     font-style: normal;
-}
-/* Подключение шрифта Poppins Regular 400 */
- @font-face {
-     font-family: 'Poppins';
-     font-style: normal;
-     font-weight: 400;
-     font-display: swap;
-     src: url('../fonts/pxiEyp8kv8JHgFVrJJnecmNE.woff2') format('woff2');
-     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* Подключение шрифта Poppins Bold 600 */
- @font-face {
-     font-family: 'Poppins';
-     font-style: normal;
-     font-weight: 600;
-     font-display: swap;
-     src: url('../fonts/pxiByp8kv8JHgFVrLEj6Z1JlFc-K.woff2') format('woff2');
-     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* Для Webkit-браузеров (Chrome, Safari) */
- body::-webkit-scrollbar {
-     display: none; /* Убираем полосу прокрутки */
-}
-/* Для Firefox */
- html {
-     scrollbar-width: none; /* Убираем полосу прокрутки */
-}
-html, body {
-    height: 100%;
-    margin: 0; /* Убираем отступы */
-}
-
-body {
-    padding-top: 8%; /* Используем padding для отступа */
-    font-family: 'Arial', sans-serif;
-    background-image: url('../images/backgrounds/home-style-bg.jpg');
-    background-size: cover; /* Покрытие всего экрана */
-    background-attachment: fixed; /* Фиксация фона */
-    background-position: center center; /* Центрирование изображения */
-    background-repeat: no-repeat; /* Без повторений изображения */
-}
-/* Скрыть пункт "Profile" на странице профиля */
- #profile-page #profileLink {
-     display: none !important;
-}
- .container {
-    flex: 1; /* Занимает оставшееся пространство */
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-    flex-direction: column;
-}
-/* Адаптивность */
- @media (min-width: 768px) {
-     .container {
-         flex-direction: row;
-    }
-}
-.profile-card {
-    position: sticky;
-    top: 20px;
-    flex: 0 0 300px;
-    height: fit-content;
-    background-color: #1d242c;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Замена оранжевой тени на нейтральную черную */
-    border-radius: 12px;
-    transition: box-shadow 0.3s ease; /* Плавный переход для тени */
-}
-
-.profile-card img {
-    border-radius: 50%;
-    border: 5px solid #fc6b01;
-    width: 100px;
-    height: 100px;
-}
-
-.card {
-    border-radius: 12px;
-    background-color: #1d242c;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Замена оранжевой тени на черную */
-    transition: box-shadow 0.3s ease;
-}
-
-.username-header h3 {
-    font-family: 'Roboto', sans-serif;
-    font-size: 24px;
-    color: #f0f0f0;
-    background: linear-gradient(to right, #1e90ff, #ff6347);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 0;
-    font-weight: bold;
-}
-
-.deposit-header {
-    color: #ffffff;
-    text-transform: uppercase;
-    font-weight: bold;
-    background-color: rgba(40, 45, 55, 0.8);
-    border-bottom: 2px solid #fc6b01;
-}
-
-.card-body {
-    background-color: #1d242c;
-    color: #ffffff;
-}
-
-.card-body .table {
-    background-color: #1d242c;
-    color: #ffffff;
-}
-
-.card-body .table thead th {
-    color: #ffffff;
-    border-bottom: 2px solid #fc6b01;
-}
-
-.card-body .table tbody tr {
-    border-bottom: 1px solid #fc6b01;
-}
-
-.card-body .table td,
-.card-body .table th {
-    color: #ffffff;
-}
-
-.card-body .table tbody > tr > td,
-.card-body .table tbody > tr > th,
-.card-body .table thead > tr > th {
-    background-color: #1d242c;
-    border-color: #fc6b01;
-}
-
-.card-body img {
-    width: 120px;
-    height: 120px;
-}
-
-.card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.9); /* Замена тени при наведении на черную */
-}
-
-/* Стили для аккордеона Profile */
-.accordion-body {
-    padding: 0; /* Убираем отступы у accordion-body */
-}
-
-.accordion-body table {
-    background-color: rgba(32, 37, 43, 0.7); /* Полупрозрачный фон для таблицы */
-    color: #ffffff; /* Белый цвет текста */
-    width: 100%; /* Ширина таблицы */
-    border-collapse: collapse; /* Убираем двойные границы */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Легкая тень для объема */
-    margin: 0; /* Убираем отступы у таблицы */
-}
-
-.accordion-body table th,
-.accordion-body table td {
-    background-color: rgba(32, 37, 43, 0.7); /* Полупрозрачный фон для ячеек */
-    color: #ffffff; /* Цвет текста в ячейках */
-    border-top: none; /* Убираем верхнюю границу */
-    border-bottom: 1px solid #fc6b01; /* Нижняя граница ячеек */
-    padding: 12px; /* Увеличенные отступы */
-    text-align: left; /* Выравнивание текста по левому краю */
-}
-
-.accordion-body table td,
-.accordion-body table th {
-    border-right: 1px solid #fc6b01; /* Вертикальные границы */
-}
-
-.accordion-body table tr td:last-child,
-.accordion-body table tr th:last-child {
-    border-right: none; /* Убираем правую границу у последней ячейки */
-}
-
-.accordion-body table th {
-    font-weight: bold; /* Жирный шрифт для заголовков */
-    background-color: rgba(40, 45, 55, 0.8); /* Более светлый фон для заголовков */
-    border-bottom: 2px solid #fc6b01; /* Более толстая граница */
-    letter-spacing: 1px; /* Расстояние между буквами */
-    text-align: left; /* Текст по левому краю */
-}
-
-.accordion-body table td:hover {
-    background-color: rgba(50, 55, 65, 0.9); /* Осветляем ячейку при наведении */
-    color: #fc6b01; /* Цвет текста при наведении */
-}
-
-.accordion-button {
-    background-color: #1d242c !important;
-    color: #fff !important;
-    border: none !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important; /* Легкая тень вместо оранжевого свечения */
-    transition: box-shadow 0.3s ease;
-    height: 60px;
-    position: relative; /* Позиционирование для наложения */
-    z-index: 1; /* Чтобы кнопка была над карточкой */
-    font-weight: bold; /* Жирный шрифт для заголовков */
-    background-color: rgba(40, 45, 55, 0.8); /* Более светлый фон для заголовков */
-    border-bottom: 2px solid #fc6b01; /* Более толстая граница */
-    letter-spacing: 1px; /* Расстояние между буквами */
-}
-
-.accordion-button img.job-image {
-    height: 200%; /* Занимает всю высоту кнопки */
-    width: auto; /* Ширина автоматически устанавливается в зависимости от высоты */
-    margin-right: 10px;
-    object-fit: contain; /* Сохраняет пропорции изображения и масштабирует его, чтобы оно помещалось в контейнер */
-}
-
-.accordion-button:not(.collapsed) {
-    background-color: #1d242c !important;
-    color: #fff !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important; /* Легкая тень вместо оранжевого свечения */
-    transition: box-shadow 0.3s ease;
-}
-
-.accordion-button:hover {
-    background-color: rgba(50, 55, 65, 0.8) !important; /* Прозрачный фон при наведении */
-    color: rgba(252, 107, 1, 0.9) !important; /* Оранжевый цвет текста с небольшой прозрачностью */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4) !important; /* Легкая тень */
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* Плавный переход */
-}
-
-
-.accordion-item {
-    background-color: #1d242c !important;
-    border: none !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important; /* Легкая тень вместо оранжевого свечения */
-    transition: box-shadow 0.3s ease;
-    position: relative; /* Позиционирование для наложения */
-    z-index: 0; /* Чтобы элементы были под кнопкой */
-}
-
-.accordion-item:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4) !important; /* Более темное свечение при наведении */
-}
-
-/* Добавляем кастомную иконку стрелки вниз */
-.accordion-button::before {
-    content: '\f078'; /* Иконка FontAwesome для стрелки вниз */
-    font-family: 'FontAwesome';
-    font-size: 1.2rem;
-    color: #fc6b01; /* Цвет стрелки */
-    position: absolute;
-    right: 1rem; /* Положение справа */
-    top: 50%; /* Центрирование по вертикали */
-    transform: translateY(-50%);
-    transition: transform 0.3s ease; /* Анимация вращения */
-}
-
-/* Изменение стрелки на стрелку вверх при закрытом аккордеоне */
-.accordion-button.collapsed::before {
-    content: '\f077'; /* Иконка стрелки вверх */
-    transform: translateY(-50%) rotate(180deg); /* Вращение стрелки */
-}
-
-/* Полностью убирает стандартный индикатор */
-.accordion-button::after {
-    display: none;
-}
-
- .table-container {
-     flex: 1;
-     max-height: 100%;  /* Максимальная высота контейнера */
-}
- .image-text-container {
-     display: flex;
-     align-items: center;
-     gap: 10px;
-}
- .image-small {
-     width: 25px; /* Ширина изображения */
-     height: auto; /* Высота устанавливается пропорционально ширине */
-}
-/* Подвал сайта */
- footer {
-    position: fixed; /* Фиксируем подвал */
-    left: 0;
-    bottom: 0; /* Привязываем к низу страницы */
-    width: 100%; /* Ширина подвала на всю ширину экрана */
-    background: rgba(0, 0, 0, 0.7);
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.5);
-    color: #ffffff; /* Цвет текста */
-    padding: 20px 0; /* Внутренние отступы */
-    text-align: center; /* Выравнивание текста по центру */
-    z-index: 1000; /* Обеспечивает, что подвал будет поверх другого контента */
-}
-/* Адаптивные стили */
- @media (max-width: 600px) {
-     .profile-card {
-         flex: 1;
-         width: 100%;
-    }
-     .profile-card img {
-         width: 80px;
-         height: 80px;
-    }
-     .container {
-         padding: 10px;
-    }
-}
- @media (min-width: 1200px) {
-     .profile-card img {
-         width: 150px;
-         height: 150px;
-    }
-}
+ 
+.avatar-grid{display:grid;  grid-template-columns:repeat(4,1fr);  gap:10px;  max-height:60vh;  overflow-y:auto;  padding:10px}
+.avatar-option-container{display:flex;  justify-content:center}
+.avatar-option{border:2px solid var(--primary-accent);  border-radius:8px;  width:80px;  height:80px;  object-fit:cover;  transition:all 0.3s;  cursor:pointer;  margin:5px}
+.avatar-option:hover{transform:scale(1.1);  box-shadow:0 0 15px rgba(252,107,1,0.7);  border-color:#ff8c00}
+ 
+.custom-swal-popup{background:var(--card-bg) !important;  border:1px solid var(--primary-accent) !important;  max-width:90%;  width:auto !important}
+.swal2-title{color:var(--primary-accent) !important;  margin-bottom:20px !important}
+.swal2-html-container{margin:0 !important;  padding:0 !important}
+.swal2-cancel{background:transparent !important;  color:var(--primary-accent) !important;  border:1px solid var(--primary-accent) !important;  margin-top:20px !important}
+ 
+.custom-footer{background:rgba(0,0,0,0.7);  padding:15px;  text-align:center;  position:fixed;  bottom:0;  left:0;  right:0;  z-index:1000}
+.custom-footer p{margin:5px 0;  color:var(--text-secondary);  font-size:0.9rem}
+ 
+.fa-mars{color:#3b82f6}
+.fa-venus{color:#ec4899}
+.fa-genderless{color:#9ca3af}
+#profileLink{display:none !important}
+ 
+.ban-alert-container{backdrop-filter:blur(5px)}
+.ban-alert-popup{border-radius:0;  border:1px solid #ff3e3e;  box-shadow:0 0 30px rgba(255,62,62,0.3);  padding:0;  overflow:hidden}
+.ban-alert-title{color:#ff3e3e;  font-size:28px;  font-weight:800;  text-transform:uppercase;  letter-spacing:1px;  padding:20px;  margin:0;  background:rgba(0,0,0,0.5);  border-bottom:1px solid #ff3e3e}
+.ban-alert-content{padding:0 30px;  margin:20px 0}
+.ban-alert-button{border-radius:0;  padding:12px 30px;  font-weight:bold;  letter-spacing:0.5px;  transition:all 0.3s;  margin-bottom:20px}
+.ban-alert-button:hover{transform:translateY(-2px);  box-shadow:0 5px 15px rgba(114,137,218,0.4)}
+.ban-alert-close{color:#aaa;  font-size:24px;  transition:all 0.3s}
+.ban-alert-close:hover{color:#ff3e3e}
+.swal2-icon.swal2-error{display:none}

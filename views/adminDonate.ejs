@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Admin Donate Management</title>
+      <link rel="icon" href="/images/favicon-admin.png" type="image/png">
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+   </head>
+   <body class="bg-light d-flex flex-column min-vh-100">
+      <%- include('partials/nav') %>
+      <!-- Toast Notifications Container -->
+      <div class="position-fixed top-0 end-0 p-3" style="z-index: 1031">
+         <div id="toastContainer"></div>
+      </div>
+      <main class="flex-grow-1 pb-5">
+         <div class="container py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+               <h2 class="mb-0">
+                  <i class="bi bi-box-seam me-2"></i>Product Management
+               </h2>
+               <button type="button" class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#donateInfoModal">
+               <i class="fas fa-info-circle"></i> <span class="d-none d-md-inline">Info</span>
+               </button>
+            </div>
+            <!-- Add Product Form -->
+            <div class="card mb-4 border-start border-primary border-4">
+               <div class="card-body">
+                  <h5 class="mb-4 d-flex align-items-center">
+                     <i class="bi bi-plus-circle-fill text-primary me-2"></i>Add New Product
+                  </h5>
+                  <form id="addProductForm" action="/admin/donate/add" method="POST" enctype="multipart/form-data">
+                     <div class="row g-3">
+                        <div class="col-md-4">
+                           <label for="name" class="form-label">Product Name</label>
+                           <div class="input-group">
+                              <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                              <input type="text" id="name" name="name" class="form-control" required>
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <label for="quantity" class="form-label">Quantity</label>
+                           <div class="input-group">
+                              <span class="input-group-text"><i class="bi bi-123"></i></span>
+                              <input type="number" id="quantity" name="quantity" class="form-control" required>
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <label for="price" class="form-label">Price</label>
+                           <div class="input-group">
+                              <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
+                              <input type="number" id="price" name="price" class="form-control" step="0.01" required>
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <label for="bonus" class="form-label">Bonus (if any)</label>
+                           <div class="input-group">
+                              <span class="input-group-text"><i class="bi bi-gift"></i></span>
+                              <input type="text" id="bonus" name="bonus" class="form-control" placeholder="Enter bonus">
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <label for="image" class="form-label">Product Image</label>
+                           <div class="input-group">
+                              <span class="input-group-text"><i class="bi bi-image"></i></span>
+                              <input type="file" id="image" name="image" class="form-control" accept="image/*">
+                           </div>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                           <div class="form-check form-switch">
+                              <input class="form-check-input" type="checkbox" role="switch" id="sale" name="sale" value="true">
+                              <label class="form-check-label fw-bold" for="sale">
+                              <i class="bi bi-percent"></i> Enable Sale
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i> Add Product
+                        </button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+            <!-- Products List -->
+            <div class="card shadow-sm">
+               <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0">
+                     <i class="bi bi-list-ul me-2"></i>Product List
+                  </h5>
+                  <span class="badge bg-light text-primary fs-6"><%= products.length %> products</span>
+               </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                           <tr>
+                              <th><i class="bi bi-hash"></i> ID</th>
+                              <th><i class="bi bi-tag"></i> Name</th>
+                              <th class="d-none d-md-table-cell"><i class="bi bi-box"></i> Quantity</th>
+                              <th><i class="bi bi-currency-dollar"></i> Price</th>
+                              <th class="d-none d-sm-table-cell"><i class="bi bi-image"></i> Image</th>
+                              <th class="d-none d-lg-table-cell"><i class="bi bi-gift"></i> Bonus</th>
+                              <th class="d-none d-sm-table-cell"><i class="bi bi-percent"></i> Sale</th>
+                              <th><i class="bi bi-gear"></i> Actions</th>
+                           </tr>
+                        </thead>
+                        <tbody id="productTableBody">
+                           <% products.forEach(product => { %>
+                           <tr>
+                              <td class="fw-bold"><%= product.id %></td>
+                              <td><%= product.name %></td>
+                              <td class="d-none d-md-table-cell"><%= product.quantity %></td>
+                              <td>$<%= product.price %></td>
+                              <td class="d-none d-sm-table-cell">
+                                 <% if (product.image) { %>
+                                 <img src="<%= product.image %>" alt="Product Image" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;">
+                                 <% } else { %>
+                                 <span class="text-muted">No image</span>
+                                 <% } %>
+                              </td>
+                              <td class="d-none d-lg-table-cell">
+                                 <% if (product.bonus) { %>
+                                 <span class="badge bg-success"><%= product.bonus %></span>
+                                 <% } else { %>
+                                 <span class="text-muted">None</span>
+                                 <% } %>
+                              </td>
+                              <td class="d-none d-sm-table-cell">
+                                 <% if (product.sale) { %>
+                                 <span class="badge bg-warning text-dark">On Sale</span>
+                                 <% } else { %>
+                                 <span class="text-muted">No</span>
+                                 <% } %>
+                              </td>
+                              <td>
+                                 <div class="d-flex flex-wrap gap-1">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal<%= product.id %>">
+                                    <i class="bi bi-pencil-square"></i> <span class="d-none d-md-inline">Edit</span>
+                                    </button>
+                                    <form action="/admin/donate/delete/<%= product.id %>" method="POST" class="delete-form">
+                                       <button type="submit" class="btn btn-sm btn-danger">
+                                       <i class="bi bi-trash"></i> <span class="d-none d-md-inline">Delete</span>
+                                       </button>
+                                    </form>
+                                 </div>
+                              </td>
+                           </tr>
+                           <% }) %>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Edit Modals -->
+         <% products.forEach(product => { %>
+         <div class="modal fade" id="editModal<%= product.id %>" tabindex="-1" aria-labelledby="editModalLabel<%= product.id %>" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content">
+                  <div class="modal-header bg-primary text-white">
+                     <h5 class="modal-title" id="editModalLabel<%= product.id %>">
+                        <i class="bi bi-pencil-square me-2"></i>Edit Product
+                     </h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="row">
+                        <div class="col-md-8">
+                           <form class="edit-product-form" action="/admin/donate/update/<%= product.id %>" method="POST" enctype="multipart/form-data">
+                              <div class="mb-3">
+                                 <label for="name<%= product.id %>" class="form-label">Product Name</label>
+                                 <input type="text" id="name<%= product.id %>" name="name" class="form-control" value="<%= product.name %>" required>
+                              </div>
+                              <div class="mb-3">
+                                 <label for="quantity<%= product.id %>" class="form-label">Quantity</label>
+                                 <input type="number" id="quantity<%= product.id %>" name="quantity" class="form-control" value="<%= product.quantity %>" required>
+                              </div>
+                              <div class="mb-3">
+                                 <label for="price<%= product.id %>" class="form-label">Price</label>
+                                 <input type="number" id="price<%= product.id %>" name="price" class="form-control" step="0.01" value="<%= product.price %>" required>
+                              </div>
+                              <div class="mb-3">
+                                 <label for="bonus<%= product.id %>" class="form-label">Bonus (if any)</label>
+                                 <input type="text" id="bonus<%= product.id %>" name="bonus" class="form-control" value="<%= product.bonus || '' %>">
+                              </div>
+                              <div class="mb-3">
+                                 <label for="image<%= product.id %>" class="form-label">Product Image</label>
+                                 <input type="file" id="image<%= product.id %>" name="image" class="form-control" accept="image/*">
+                                 <div class="form-text">Leave empty to keep current image</div>
+                              </div>
+                              <div class="form-check form-switch mb-4">
+                                 <input class="form-check-input" type="checkbox" role="switch" id="sale<%= product.id %>" name="sale" value="true" <%= product.sale ? 'checked' : '' %>>
+                                 <label class="form-check-label fw-bold" for="sale<%= product.id %>">Enable Sale</label>
+                              </div>
+                              <div class="d-flex justify-content-end gap-2">
+                                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                 <button type="submit" class="btn btn-primary">
+                                 <i class="bi bi-save me-1"></i> Update
+                                 </button>
+                              </div>
+                           </form>
+                        </div>
+                        <div class="col-md-4 d-flex flex-column align-items-center justify-content-center">
+                           <h6 class="mb-3">Current Image</h6>
+                           <% if (product.image) { %>
+                           <img src="<%= product.image %>" alt="Current Product Image" class="img-thumbnail">
+                           <% } else { %>
+                           <div class="text-muted">No image</div>
+                           <% } %>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <% }) %>
+      </main>
+      <%- include('partials/adminFooter') %>
+      <%- include('partials/donateInfoModal') %>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/js/admin-donate.js"></script>
+   </body>
+</html>

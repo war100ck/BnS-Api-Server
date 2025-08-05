@@ -8,7 +8,7 @@ import { WH_config } from '../config/dbConfig.js'; // Импортируйте �
 const router = express.Router();
 
 // Обработчик GET запроса для проверки доступности имени пользователя и email
-router.get('/', async (req, res) => {
+router.get('/', async(req, res) => {
     const accountName = req.query.account_name;
     const email = req.query.email;
 
@@ -26,11 +26,21 @@ router.get('/', async (req, res) => {
 
         const accountNameCheck = accountName ? await pool.request()
             .input('accountName', sql.NVarChar, accountName)
-            .query('SELECT COUNT(*) AS count FROM dbo.Users WHERE UserName = @accountName') : { recordset: [{ count: 0 }] };
+            .query('SELECT COUNT(*) AS count FROM dbo.Users WHERE UserName = @accountName') : {
+            recordset: [{
+                    count: 0
+                }
+            ]
+        };
 
         const emailCheck = email ? await pool.request()
             .input('email', sql.NVarChar, email)
-            .query('SELECT COUNT(*) AS count FROM dbo.Users WHERE LoginName = @email') : { recordset: [{ count: 0 }] };
+            .query('SELECT COUNT(*) AS count FROM dbo.Users WHERE LoginName = @email') : {
+            recordset: [{
+                    count: 0
+                }
+            ]
+        };
 
         // Set colors based on check results
         const accountNameColor = accountNameCheck.recordset[0].count > 0 ? chalk.red : chalk.green;
@@ -45,7 +55,10 @@ router.get('/', async (req, res) => {
         const isAccountNameTaken = accountNameCheck.recordset[0].count > 0;
         const isEmailTaken = emailCheck.recordset[0].count > 0;
 
-        res.json({ accountNameTaken: isAccountNameTaken, emailTaken: isEmailTaken });
+        res.json({
+            accountNameTaken: isAccountNameTaken,
+            emailTaken: isEmailTaken
+        });
     } catch (err) {
         if (process.env.LOG_TO_CONSOLE === 'true') {
             console.error(chalk.red('GET /check-availability: Error executing query:', err));

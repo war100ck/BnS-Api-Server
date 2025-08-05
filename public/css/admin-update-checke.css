@@ -1,0 +1,5 @@
+ .backup-alert{ border-left:4px solid #ffc107;  background-color:rgba(255,193,7,0.1)}
+ .blink{ animation:blink-animation 1.5s steps(2,start) infinite}
+ @keyframes blink-animation{ to{visibility:hidden}
+ }
+ .log-entry{ margin-bottom:4px;  padding:2px 0;  border-bottom:1px solid #eee}

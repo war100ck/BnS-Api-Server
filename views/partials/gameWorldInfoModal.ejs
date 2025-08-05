@@ -1,0 +1,122 @@
+<!-- partials/gameWorldInfoModal.ejs -->
+<div class="modal fade" id="gameWorldInfoModal" tabindex="-1" aria-labelledby="gameWorldInfoModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title fw-bold" id="gameWorldInfoModalLabel">
+               <i class="fas fa-info-circle me-2"></i>
+               Game World Management Guide
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="alert alert-primary mb-4">
+               <h4 class="alert-heading d-flex align-items-center">
+                  <i class="fas fa-info-circle me-2"></i>
+                  About Game World Management
+               </h4>
+               <hr>
+               <p class="mb-0">This dashboard allows you to manage all game worlds and clusters in the system. Each world has configurable parameters and status controls.</p>
+            </div>
+            <div class="card border-primary mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-columns me-2"></i> World Card Explanation
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="card border-success h-100">
+                           <div class="card-header bg-success bg-opacity-10 text-success">
+                              <i class="fas fa-globe me-2"></i> Basic Information
+                           </div>
+                           <div class="card-body">
+                              <ul class="mb-0">
+                                 <li><strong>World Name:</strong> Display name shown to players</li>
+                                 <li><strong>World ID:</strong> Unique world identifier</li>
+                                 <li><strong>Cluster ID:</strong> Parent cluster identifier</li>
+                                 <li><strong>World Type:</strong> Type of game world (PvE, PvP, etc.)</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card border-info h-100">
+                           <div class="card-header bg-info bg-opacity-10 text-info">
+                              <i class="fas fa-chart-bar me-2"></i> Statistics & Status
+                           </div>
+                           <div class="card-body">
+                              <ul class="mb-0">
+                                 <li><strong>Crowdedness:</strong> Current population level (0-10)</li>
+                                 <li><strong>Status:</strong> Current activity state (Active/Inactive)</li>
+                                 <li><strong>Recommendation:</strong> Whether world is recommended</li>
+                                 <li><strong>Play Type:</strong> Type of gameplay supported</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="card border-warning mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-tools me-2"></i> Available Settings
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card h-100">
+                           <div class="card-header bg-warning bg-opacity-10 text-warning">
+                              <i class="fas fa-sliders-h me-2"></i> Basic Settings
+                           </div>
+                           <div class="card-body">
+                              <p>Configure world name, type, play type, and crowdedness level. These affect how players see and interact with the world.</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card h-100">
+                           <div class="card-header bg-danger bg-opacity-10 text-danger">
+                              <i class="fas fa-toggle-on me-2"></i> Toggle Settings
+                           </div>
+                           <div class="card-body">
+                              <p>Control world availability, entry restrictions, character creation limits, and recommendation status.</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class="card h-100">
+                           <div class="card-header bg-success bg-opacity-10 text-success">
+                              <i class="fas fa-server me-2"></i> Cluster Settings
+                           </div>
+                           <div class="card-body">
+                              <p>Configure network settings, player limits, and connection parameters for the entire cluster.</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="alert alert-warning">
+               <h5 class="alert-heading d-flex align-items-center">
+                  <i class="fas fa-exclamation-triangle me-2"></i>
+                  Important Notes
+               </h5>
+               <hr>
+               <ul class="mb-0">
+                  <li>Changes to world settings take effect immediately</li>
+                  <li>Cluster network changes may require server restart</li>
+                  <li>Setting crowdedness too high may cause login queues</li>
+                  <li>Disabling "Enterable" will prevent all player access</li>
+                  <li>New worlds should be marked as "Brand New" for visibility</li>
+                  <li>Before changing parameters, you must know what you are doing!</li>
+               </ul>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+            <i class="fas fa-check-circle me-1"></i> Understood
+            </button>
+         </div>
+      </div>
+   </div>
+</div>

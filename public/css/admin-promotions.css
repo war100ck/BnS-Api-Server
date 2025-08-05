@@ -1,0 +1,21 @@
+ @media (max-width:767.98px){ .table-responsive{ border:0}
+ .table-responsive .table{ margin-bottom:0}
+ .table-responsive .table tbody tr td{ padding:1rem;  border-bottom:1px solid #dee2e6}
+ .table-responsive .table tbody tr:last-child td{ border-bottom:0}
+ }
+ .status-badge{ min-width:80px;  display:inline-block;  text-align:center}
+ .info-btn{ background-color:#6c757d;  color:white}
+ .info-btn:hover{ background-color:#5a6268;  color:white}
+ .section-header{ border-left:4px solid #0d6efd;  padding-left:15px;  margin-bottom:20px}
+ .card{ border-radius:10px;  box-shadow:0 4px 6px rgba(0,0,0,0.1)}
+ .badge-detail{ font-weight:normal;  padding:5px 8px;  margin-right:5px}
+ .stat-card{ transition:transform 0.2s}
+ .stat-card:hover{ transform:translateY(-3px)}
+ .table-header{ background-color:#f8f9fa;  font-weight:600}
+ .table-icon{ width:24px;  text-align:center;  color:#6c757d}
+ .promo-limits{ background-color:#f8f9fa;  border-radius:5px;  padding:5px 10px}
+ .disabled-btn{ cursor:not-allowed;  opacity:0.65}
+ .auto-renew-btn{ min-width:90px}
+ .settings-btn{ background-color:#6c757d;  color:white}
+ .settings-btn:hover{ background-color:#5a6268;  color:white}
+ .service-status{ font-family:monospace;  font-size:0.9em}

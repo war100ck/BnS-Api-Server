@@ -1,18 +1,45 @@
+// Базовые модули Node.js
+import path from 'path';
+import fs from 'fs';
+import os from 'os';
+import { fileURLToPath } from 'url';
+
+// Сторонние зависимости
 import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
 import sql from 'mssql';
 import cors from 'cors';
-import path from 'path';
 import chalk from 'chalk';
-import os from 'os';
-import { fileURLToPath } from 'url';
+import helmet from 'helmet';
+import compression from 'compression';
+
+// Конфигурации
 import { config } from './config/config.js';
-import { convertFaction, convertSex, convertRace, convertMoney, convertJob, cutStr } from './utils/dataTransformations.js';
+import { 
+  configPlatformAcctDb, 
+  configGradeMembersDb, 
+  configBlGame, 
+  configVirtualCurrencyDb, 
+  configLobbyDb, 
+  WH_config 
+} from './config/dbConfig.js';
+
+// Утилиты и хелперы
+import { 
+  convertFaction, 
+  convertSex, 
+  convertRace, 
+  convertMoney, 
+  convertJob, 
+  cutStr 
+} from './utils/dataTransformations.js';
 import { getOwnerAccId } from './utils/characterUtils.js';
 import { logRegistrationData } from './utils/logUtils.js';
 import './utils/logger.js';
-import { configPlatformAcctDb, configBlGame, configVirtualCurrencyDb, configLobbyDb, WH_config } from './config/dbConfig.js';
+import { displayServerInfo, getLocalIp } from './utils/serverInfo.js';
+
+// Роуты
 import adminRoutes from './routes/adminRoutes.js';
 import editCharacterRoutes from './routes/editCharacterRoutes.js';
 import updateRoutes from './routes/updateRoutes.js';
@@ -22,174 +49,173 @@ import addDepositRoutes from './routes/addDepositRoutes.js';
 import gameWorldRoutes from './routes/gameWorldRoutes.js';
 import systemStatsRoutes from './routes/systemStatsRoutes.js';
 import checkAvailabilityRoutes from './routes/checkAvailability.js';
-import signinRoutes from './routes/signin.js';
+import signinRoutes from './routes/signinRoutes.js';
+import pageRoutes from './routes/pageRoutes.js';
+import addBanRoutes from './routes/addBanRoutes.js';
+import GradeMembersRoutes from "./routes/GradeMembersRoutes.js";
+import kickUserRouter from './routes/kickUserRouter.js';
+import WarehouseItemRoutes from './routes/WarehouseItemRoutes.js';
+import monitoringRoutes from './routes/monitoringRoutes.js';
+import gameStatsRoute from './routes/gameStatsRoute.js';
+import donateRoutes from './routes/donateRoutes.js';
+import { router as updateCheckerRouter } from './routes/updateCheckerRoutes.js';
+import promotionsRouterStamp from './routes/routePromotionStamp.js';
+import adminApiConfigRoutes from './routes/adminApiConfigRoutes.js';
+import serverRestartRoute from './routes/serverRestartRoute.js';
+import adminNewsRoutes from './routes/adminNewsRoutes.js';
+import processManagerRoutes from './routes/processManagerRoutes.js';
+import fileExplorerRoutes from './routes/fileExplorerRoutes.js';
+import roleManagementRoutes from './routes/roleManagementRoute.js';
 
+// Специальные модули
+import discordBot from './utils/discordBot.js';
+
+// Инициализация приложения
 dotenv.config();
-
 const app = express();
 const port = config.port;
 const host = config.host;
-
-// Установка заголовков для всех ответов
-app.use((req, res, next) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Cache-Control', 'no-store'); // Устанавливаем заголовок Cache-Control
-  next();
-});
-
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use(session({
-  secret: process.env.SESSION_SECRET, // Используем переменную окружения для секрета
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: process.env.SESSION_COOKIE_SECURE === 'true' } // Используем переменную окружения для флага secure
-}));
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Настройки middleware
+app.use(compression());
+app.use(helmet.noSniff());
+
+// Заголовки безопасности
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  if (!req.path.match(/\.(css|js|png|jpg|jpeg|gif|ico|webp|svg|woff2?)$/)) {
+    res.setHeader('Cache-Control', 'no-store');
+  }
+  next();
+});
+
+// CORS настройки
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Парсинг тела запроса
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Настройки сессии
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: process.env.SESSION_COOKIE_SECURE === 'true' }
+}));
+
+// Настройка статических файлов
+const staticCacheOptions = {
+  maxAge: '30d',
+  immutable: true,
+  setHeaders: (res, path) => {
+    if (path.match(/\.(html|ejs)$/)) {
+      res.setHeader('Cache-Control', 'no-store');
+    }
+  }
+};
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware для удаления завершающего слэша для определённых маршрутов
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), staticCacheOptions));
+app.use(express.static(path.join(__dirname, 'public'), staticCacheOptions));
+app.use('/images', express.static(path.join(__dirname, 'images'), staticCacheOptions));
+app.use('/fonts', express.static(path.join(__dirname, 'public', 'fonts'), {
+  maxAge: '365d',
+  immutable: true
+}));
+
+// Обновление клиента
+app.use('/bns-patch', express.static(path.join(__dirname, 'bns-patch')));
+
+// Удаление завершающего слэша
 app.use((req, res, next) => {
-    // Проверяем, если путь длиннее одного символа и заканчивается на "/"
-    if (req.path.length > 1 && req.path.endsWith('/')) {
-        // Убираем завершающий слэш и перенаправляем на правильный путь
-        const newPath = req.path.slice(0, -1) + req.url.slice(req.path.length);
-        return res.redirect(301, newPath);
-    }
-    next();
+  if (req.path.length > 1 && req.path.endsWith('/')) {
+    const newPath = req.path.slice(0, -1) + req.url.slice(req.path.length);
+    return res.redirect(301, newPath);
+  }
+  next();
 });
 
 // Подключение маршрутов
-app.use('/', adminRoutes);
-app.use('/', editCharacterRoutes);
-app.use('/', updateRoutes);
-app.use('/', profileRoutes);
-app.use('/', signupRoutes);
-app.use('/', addDepositRoutes);
-app.use('/', gameWorldRoutes);
-app.use('/', systemStatsRoutes);
+const routesWithRootPrefix = [
+  adminRoutes,
+  editCharacterRoutes,
+  updateRoutes,
+  profileRoutes,
+  signupRoutes,
+  addDepositRoutes,
+  gameWorldRoutes,
+  systemStatsRoutes,
+  pageRoutes,
+  addBanRoutes,
+  GradeMembersRoutes,
+  WarehouseItemRoutes,
+  monitoringRoutes,
+  gameStatsRoute,
+  donateRoutes,
+  updateCheckerRouter,
+  promotionsRouterStamp,
+];
+
+routesWithRootPrefix.forEach(route => app.use('/', route));
+
 app.use('/check-availability', checkAvailabilityRoutes);
 app.use('/signin', signinRoutes);
+app.use('/in-game-web', express.static(path.join(__dirname, './views/in-game-web')));
+app.use(kickUserRouter);
+app.use('/', adminApiConfigRoutes);
+app.use(serverRestartRoute);
+app.use('/', adminNewsRoutes);
+app.use('/', processManagerRoutes);
+app.use('/', fileExplorerRoutes);
+app.use('/', roleManagementRoutes);
 
-// Проверка переменной окружения для логирования в консоль
-const logToConsole = process.env.LOG_TO_CONSOLE === 'true';
+// Middleware для добавления UserName
+app.use((req, res, next) => {
+  const UserName = req.query.userName || req.session.UserName;
+  res.locals.UserName = UserName;
+  next();
+});
 
-// Инициализация пула соединений для каждой базы данных
-let poolPlatformAcctDb;
-let poolBlGame;
-let poolVirtualCurrencyDb;
-let poolWH;
-let poolLobbyDb; // Переменная для LobbyDB
-
-async function initializePools() {
-    try {
-        poolPlatformAcctDb = await sql.connect(configPlatformAcctDb);
-        console.log(chalk.green('Connection to PlatformAcctDb established successfully.'));
-
-        poolBlGame = await sql.connect(configBlGame);
-        console.log(chalk.green('Connection to BlGame established successfully.'));
-
-        poolVirtualCurrencyDb = await sql.connect(configVirtualCurrencyDb);
-        console.log(chalk.green('Connection to VirtualCurrencyDb established successfully.'));
-
-        poolWH = await sql.connect(WH_config);
-        console.log(chalk.green('Connection to WH established successfully.'));
-
-        poolLobbyDb = await sql.connect(configLobbyDb); // Инициализация пула для LobbyDB
-        console.log(chalk.green('Connection to LobbyDb established successfully.'));
-
-        // poolGame = await sql.connect(Game_config); // Инициализация пула для базы данных Game
-        // console.log(chalk.green('Connection to Game established successfully.'));
-    } catch (err) {
-        console.error(chalk.red('Error during connection pool initialization:', err));
-        throw err; // Пробрасываем ошибку для обработки на более высоком уровне
-    }
-}
-
-// Вызов функции инициализации
-// initializePools()
-//     .then(() => {
-//         console.log('All connection pools have been successfully initialized');
-//         // Здесь можно добавить дополнительную логику, например, проверку доступности баз данных
-//     })
-//     .catch(err => {
-//         console.error('Error during connection pool initialization:', err);
-//         process.exit(1); // Прекращаем работу приложения, если инициализация пула не удалась
-//     });
-
+// Основные маршруты
 app.get('/api/current-time', (req, res) => {
-    const currentTime = new Date();
-    res.json({ currentTime: currentTime.toISOString() }); // Отправляем время в формате ISO
+  res.json({ currentTime: new Date().toISOString() });
 });
 
 app.get('/', (req, res) => {
-    const user = req.session.user || null; // Предполагаем, что информация о пользователе хранится в сессии
-    res.render('index', { user }); // Передаем объект user в шаблон
+  res.render('index', { user: req.session.user || null });
 });
 
-// Обработчик для всех несуществующих маршрутов (404)
+app.get('/admin/add-vip', (req, res) => {
+  res.render('addVip', {
+    pathname: req.originalUrl,
+    userId: req.query.userId
+  });
+});
+
+// Обработчик 404
 app.use((req, res) => {
-  res.status(404).render('404'); // Рендерим страницу 404
+  res.status(404).render('404');
 });
 
-function getLocalIp() {
-    const interfaces = os.networkInterfaces();
-    for (const interfaceKey in interfaces) {
-        for (const interfaceInfo of interfaces[interfaceKey]) {
-            if (interfaceInfo.family === 'IPv4' && !interfaceInfo.internal) {
-                return interfaceInfo.address;
-            }
-        }
-    }
-    return '127.0.0.1'; // Возвращаем localhost, если IP не найден
-}
-
-// Получаем локальный IP
-const localIp = getLocalIp();
-
-// Получаем ширину консоли
-const consoleWidth = process.stdout.columns || 80;
-
-// Функция для центрирования текста
-function centerText(text, maxWidth) {
-    const padding = Math.max(0, Math.floor((consoleWidth - maxWidth) / 2));
-    return ' '.repeat(padding) + text;
-}
-
-// Находим максимальную длину строк
-const lines = [
-    "███████████████████████████████████████████████████████",
-	"██                                                   ██",
-    "██        B&S API SERVER STARTING NOW                ██",
-    "██        SERVER IS RUNNING ON PORT: 3000            ██",
-    "██        LOCAL IP ADDRESS: 192.168.0.107            ██",
-    "██        ACCESS IT VIA: http://0.0.0.0:3000         ██",
-	"██                                                   ██",
-    "███████████████████████████████████████████████████████"
-];
-const maxLineLength = Math.max(...lines.map(line => line.length));
-
-// Выводим строки по центру
-lines.forEach(line => {
-    console.warn(chalk.bold(centerText(line, maxLineLength)));
+// Глобальный обработчик ошибок (500 и любые другие)
+app.use((err, req, res, next) => {
+  console.error('[Express error handler]', err);
+  res.status(err.status || 500);
+  res.render('error', { error: err });
 });
 
-// Пустая строка между секциями
-console.log(); // или console.log('');
 
 // Запуск сервера
 app.listen(port, host, () => {
-    console.log(chalk.bgGreen(`B&S Api Server is running on ${host}:${port} (Local IP: ${chalk.blue(`${localIp}:${port}`)})`));
+  displayServerInfo(port, host); // Теперь функция принимает параметры
+  console.log(chalk.bgGreen(`B&S Api Server is running on ${host}:${port} (Local IP: ${chalk.blue(`${getLocalIp()}:${port}`)}`));
 });

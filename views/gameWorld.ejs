@@ -5,234 +5,309 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Editing Game World Data</title>
       <link rel="icon" href="../images/favicon-admin.png" type="image/png">
-      <link rel="stylesheet" href="../css/bootstrap.min.css">
-      <link rel="stylesheet" href="../css/edit-character.css">
-      <script src="../js/jquery-3.6.0.min.js"></script>
-	  <link rel="stylesheet" href="../css/admin.css">
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
    </head>
-   <body>
-   <%- include('partials/nav') %>
-      <div id="toast-container" style="position: fixed; top: 1rem; right: 1rem; z-index: 1050;"></div>
-      <div class="container">
-         <% if (gameWorldData.length === 0) { %>
-         <div class="alert alert-info" role="alert">
-            No data available to display.
-         </div>
-         <% } else { %>
-         <% gameWorldData.forEach((item, index) => { %>
-         <h2 class="mb-4">Editing Game World Data: <span class="worldname"><%= item.WorldName %></span> Server</h2>
-         <div class="accordion mb-4" id="accordionGameWorld<%= index %>">
-            <div class="accordion-item">
-               <h2 class="accordion-header" id="heading<%= index %>">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="false" aria-controls="collapse<%= index %>">
-                  Game World ID: <%= item.WorldID %>
-                  </button>
-               </h2>
-               <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>" data-bs-parent="#accordionGameWorld<%= index %>">
-                  <div class="accordion-body">
-                     <form id="updateGameWorldForm" method="POST">
-                        <input type="hidden" name="WorldID" value="<%= item.WorldID %>">
-                        <div class="row">
-                           <% const fields = [
-                              { label: 'World Cluster ID', field: 'WorldClusterID', value: item.WorldClusterID, type: 'number' },
-                              { label: 'World Name', field: 'WorldName', value: item.WorldName, type: 'text' },
-                              { label: 'World Type', field: 'WorldType', value: item.WorldType, type: 'number' },
-                              { label: 'Play Type', field: 'PlayType', value: item.PlayType, type: 'number' },
-                              { label: 'Crowdedness', field: 'Crowdedness', value: item.Crowdedness, type: 'number' }
-                              ]; %>
-                           <% fields.forEach((field) => { %>
-                           <div class="col-md-6 mb-3">
-                              <label for="<%= field.field %>-<%= item.WorldID %>"><%= field.label %>:</label>
-                              <div class="input-group">
-                                 <input type="<%= field.type %>" id="<%= field.field %>-<%= item.WorldID %>" name="<%= field.field %>" class="form-control" value="<%= field.value %>">
-                                 <button type="submit" class="btn btn-primary">Update</button>
-                              </div>
-                              <p class="description mt-2">
-                                 <% if (field.field === 'WorldClusterID') { %>
-                                 Identifier of the world cluster to which this world belongs. Used for grouping related worlds.
-                                 <% } else if (field.field === 'WorldName') { %>
-                                 The name of the game world. Can contain Unicode characters for supporting multiple languages. Supports various languages. Maximum length: 16 characters. This field can store strings up to 16 characters (including Unicode).
-                                 <% } else if (field.field === 'WorldType') { %>
-                                 Type of game world (e.g., PvE, PvP, Role-play, etc.). Values may represent different game modes or characteristics of the world.
-                                 <% } else if (field.field === 'PlayType') { %>
-                                 Type of gameplay supported in this world (e.g., solo play, team play, etc.).
-                                 <% } else if (field.field === 'Crowdedness') { %>
-                                 Level of world crowdedness, can be used to determine the number of players in the world (e.g., from 0 to 10, where 0 is empty, and 10 is overcrowded).
-                                 <% } %>
-                              </p>
-                           </div>
-                           <% }); %>
-                        </div>
-                        <div class="custom-card mt-4">
-                           <h5 class="mb-3">Checkbox Settings</h5>
-                           <div class="row">
-                              <% const checkboxFields = [
-                                 { label: 'Usable', field: 'Usable', value: item.Usable },
-                                 { label: 'Enterable', field: 'Enterable', value: item.Enterable },
-                                 { label: 'Character Creation Limit', field: 'CharacterCreationLimit', value: item.CharacterCreationLimit },
-                                 { label: 'Character Of New Account Creation Limit', field: 'CharacterOfNewAccountCreationLimit', value: item.CharacterOfNewAccountCreationLimit },
-                                 { label: 'Brand New', field: 'BrandNew', value: item.BrandNew },
-                                 { label: 'Recommendation', field: 'Recommendation', value: item.Recommendation }
-                                 ]; %>
-                              <% checkboxFields.forEach((field) => { %>
-                              <div class="col-md-6 mb-3">
-                                 <div class="custom-checkbox">
-                                    <input type="checkbox" id="<%= field.field %>-<%= item.WorldID %>" name="<%= field.field %>" value="1" <%= field.value ? 'checked' : '' %>>
-                                    <label for="<%= field.field %>-<%= item.WorldID %>"><%= field.label %></label>
+   <body class="bg-light d-flex flex-column min-vh-100">
+      <%- include('partials/nav') %>
+      <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100"></div>
+      <main class="flex-grow-1 pb-5">
+         <div class="container py-4">
+            <div id="content-container">
+               <% if (gameWorldData.length === 0) { %>
+               <div class="alert alert-info d-flex align-items-center" role="alert">
+                  <i class="bi bi-info-circle-fill text-primary me-2 fs-4"></i>
+                  <div>No data available to display.</div>
+               </div>
+               <% } else { %>
+               <% gameWorldData.forEach((item, index) => { %>
+               <!-- World Card -->
+               <div class="card border-0 shadow-lg mb-4">
+                  <!-- World Header -->
+                  <div class="card-header bg-primary bg-gradient text-white d-flex justify-content-between align-items-center">
+                     <div>
+                        <h2 class="h4 mb-0"><i class="bi bi-globe-americas me-2"></i>Game Server: <%= item.WorldName %></h2>
+                        <span class="badge bg-light text-primary"><i class="bi bi-hdd-network me-2"></i>Cluster ID: <%= item.WorldID %></span>
+                     </div>
+                     <div>
+                        <button class="btn btn-outline-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#worldSettings<%= index %>">
+                        <i class="bi bi-gear-fill me-1"></i>Manage
+                        </button>
+                        <button class="btn btn-outline-light btn-sm me-2" type="button" data-bs-toggle="modal" data-bs-target="#gameWorldInfoModal">
+                        <i class="fas fa-info-circle me-1"></i>Info
+                        </button>
+                     </div>
+                  </div>
+                  <!-- World Stats -->
+                  <div class="card-body">
+                     <div class="row g-3">
+                        <div class="col-md-4">
+                           <div class="card h-100 border-0 shadow-sm">
+                              <div class="card-body">
+                                 <div class="d-flex align-items-center mb-3">
+                                    <i class="bi bi-diagram-3 fs-3 text-primary me-3"></i>
+                                    <div>
+                                       <h5 class="mb-0">Cluster</h5>
+                                       <span class="text-muted small">ID <%= item.WorldClusterID %></span>
+                                    </div>
                                  </div>
-                                 <p class="description mt-2">
-                                    <% if (field.field === 'Usable') { %>
-                                    Indicates whether the world is available for play (1 - available, 0 - not available).
-                                    <% } else if (field.field === 'Enterable') { %>
-                                    Indicates whether players can enter this world (1 - enterable, 0 - not enterable).
-                                    <% } else if (field.field === 'CharacterCreationLimit') { %>
-                                    Indicates if there are character creation limits in this world (1 - limit exists, 0 - no limit).
-                                    <% } else if (field.field === 'CharacterOfNewAccountCreationLimit') { %>
-                                    Indicates if there are character creation limits for new accounts in this world (1 - limit exists, 0 - no limit).
-                                    <% } else if (field.field === 'BrandNew') { %>
-                                    Indicates if the world is new (1 - new, 0 - not new).
-                                    <% } else if (field.field === 'Recommendation') { %>
-                                    Indicates whether this world is recommended to players (1 - recommended, 0 - not recommended).
-                                    <% } %>
-                                 </p>
+                                 <hr>
+                                 <div class="d-flex align-items-center">
+                                    <i class="bi bi-people-fill fs-3 text-success me-3"></i>
+                                    <div>
+                                       <h5 class="mb-0">Crowdedness</h5>
+                                       <div class="progress mt-2" style="height: 8px;">
+                                          <div class="progress-bar bg-success" role="progressbar" 
+                                             style="width: <%= item.Crowdedness * 10 %>%" 
+                                             aria-valuenow="<%= item.Crowdedness %>" 
+                                             aria-valuemin="0" 
+                                             aria-valuemax="10"></div>
+                                       </div>
+                                       <span class="text-muted small"><%= item.Crowdedness %>/10</span>
+                                    </div>
+                                 </div>
                               </div>
-                              <% }); %>
                            </div>
-                           <button type="submit" class="btn btn-primary">Update All Checkbox Settings</button>
                         </div>
-                     </form>
+                        <div class="col-md-4">
+                           <div class="card h-100 border-0 shadow-sm">
+                              <div class="card-body">
+                                 <div class="d-flex align-items-center mb-3">
+                                    <i class="bi bi-tags-fill fs-3 text-info me-3"></i>
+                                    <div>
+                                       <h5 class="mb-0">World Type</h5>
+                                       <span class="text-muted small">Type <%= item.WorldType %></span>
+                                    </div>
+                                 </div>
+                                 <hr>
+                                 <div class="d-flex align-items-center">
+                                    <i class="bi bi-controller fs-3 text-warning me-3"></i>
+                                    <div>
+                                       <h5 class="mb-0">Play Type</h5>
+                                       <span class="text-muted small">Type <%= item.PlayType %></span>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="card h-100 border-0 shadow-sm">
+                              <div class="card-body">
+                                 <div class="d-flex align-items-center mb-3">
+                                    <i class="bi bi-power fs-3 <%= item.Usable ? 'text-success' : 'text-danger' %> me-3"></i>
+                                    <div>
+                                       <h5 class="mb-0">Status</h5>
+                                       <span class="text-muted small"><%= item.Usable ? 'Active' : 'Inactive' %></span>
+                                    </div>
+                                 </div>
+                                 <hr>
+                                 <div class="d-flex align-items-center">
+                                    <i class="bi bi-star-fill fs-3 <%= item.Recommendation ? 'text-warning' : 'text-secondary' %> me-3"></i>
+                                    <div>
+                                       <h5 class="mb-0">Recommendation</h5>
+                                       <span class="text-muted small"><%= item.Recommendation ? 'Recommended' : 'Not recommended' %></span>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- World Settings -->
+                  <div class="collapse" id="worldSettings<%= index %>">
+                     <div class="card-body border-top bg-white">
+                        <form class="update-game-world-form" method="POST" data-world-id="<%= item.WorldID %>">
+                           <input type="hidden" name="WorldID" value="<%= item.WorldID %>">
+                           <!-- Basic Settings -->
+                           <div class="card mb-4 border-0 shadow-sm">
+                              <div class="card-header bg-info bg-gradient text-white">
+                                 <h5 class="mb-0"><i class="bi bi-sliders me-2"></i>Basic Settings</h5>
+                              </div>
+                              <div class="card-body">
+                                 <div class="row g-3">
+                                    <% const fields = [
+                                       { label: 'World Cluster ID', field: 'WorldClusterID', value: item.WorldClusterID, type: 'number', icon: 'diagram-3', color: 'primary' },
+                                       { label: 'World Name', field: 'WorldName', value: item.WorldName, type: 'text', icon: 'globe', color: 'primary' },
+                                       { label: 'World Type', field: 'WorldType', value: item.WorldType, type: 'number', icon: 'tag-fill', color: 'primary' },
+                                       { label: 'Play Type', field: 'PlayType', value: item.PlayType, type: 'number', icon: 'joystick', color: 'primary' },
+                                       { label: 'Crowdedness', field: 'Crowdedness', value: item.Crowdedness, type: 'number', icon: 'people-fill', color: 'primary' }
+                                       ]; %>
+                                    <% fields.forEach((field) => { %>
+                                    <div class="col-md-6">
+                                       <label for="<%= field.field %>-<%= item.WorldID %>" class="form-label fw-bold">
+                                       <i class="bi bi-<%= field.icon %> text-<%= field.color %> me-1"></i><%= field.label %>
+                                       </label>
+                                       <div class="input-group mb-2">
+                                          <span class="input-group-text bg-<%= field.color %> bg-opacity-10 border-<%= field.color %>">
+                                          <i class="bi bi-<%= field.icon %> text-<%= field.color %>"></i>
+                                          </span>
+                                          <input type="<%= field.type %>" id="<%= field.field %>-<%= item.WorldID %>" 
+                                             name="<%= field.field %>" class="form-control border-<%= field.color %>" 
+                                             value="<%= field.value %>">
+                                          <button type="submit" class="btn btn-primary">
+                                          <i class="bi bi-check-lg"></i> Update
+                                          </button>
+                                       </div>
+                                       <p class="small text-muted mb-0">
+                                          <% if (field.field === 'WorldClusterID') { %>
+                                          Identifier of the world cluster to which this world belongs.
+                                          <% } else if (field.field === 'WorldName') { %>
+                                          The name of the game world. Max length: 16 characters.
+                                          <% } else if (field.field === 'WorldType') { %>
+                                          Type of game world (e.g., PvE, PvP, Role-play, etc.).
+                                          <% } else if (field.field === 'PlayType') { %>
+                                          Type of gameplay supported in this world.
+                                          <% } else if (field.field === 'Crowdedness') { %>
+                                          Level of world crowdedness (0-10).
+                                          <% } %>
+                                       </p>
+                                    </div>
+                                    <% }); %>
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- Toggle Settings -->
+                           <div class="card mb-4 border-0 shadow-sm">
+                              <div class="card-header bg-purple bg-gradient text-white" style="background-color: #6f42c1;">
+                                 <h5 class="mb-0"><i class="bi bi-toggle2-on me-2"></i>Toggle Settings</h5>
+                              </div>
+                              <div class="card-body">
+                                 <div class="row g-3">
+                                    <% const checkboxFields = [
+                                       { label: 'Usable', field: 'Usable', value: item.Usable, icon: 'power', color: 'primary' },
+                                       { label: 'Enterable', field: 'Enterable', value: item.Enterable, icon: 'door-open', color: 'primary' },
+                                       { label: 'Character Creation Limit', field: 'CharacterCreationLimit', value: item.CharacterCreationLimit, icon: 'person-plus', color: 'primary' },
+                                       { label: 'Character Of New Account Creation Limit', field: 'CharacterOfNewAccountCreationLimit', value: item.CharacterOfNewAccountCreationLimit, icon: 'person-add', color: 'primary' },
+                                       { label: 'Brand New', field: 'BrandNew', value: item.BrandNew, icon: 'star-fill', color: 'primary' },
+                                       { label: 'Recommendation', field: 'Recommendation', value: item.Recommendation, icon: 'hand-thumbs-up-fill', color: 'primary' }
+                                       ]; %>
+                                    <% checkboxFields.forEach((field) => { %>
+                                    <div class="col-md-6">
+                                       <div class="form-check form-switch ps-0">
+                                          <div class="d-flex align-items-center">
+                                             <i class="bi bi-<%= field.icon %> text-<%= field.color %> me-2 fs-5"></i>
+                                             <input class="form-check-input ms-0 me-2" type="checkbox" role="switch" 
+                                                id="<%= field.field %>-<%= item.WorldID %>" name="<%= field.field %>" 
+                                                value="1" <%= field.value ? 'checked' : '' %> style="width: 3em; height: 1.5em;">
+                                             <label class="form-check-label fw-bold" for="<%= field.field %>-<%= item.WorldID %>">
+                                             <%= field.label %>
+                                             </label>
+                                          </div>
+                                          <p class="small text-muted mb-0 ps-4">
+                                             <% if (field.field === 'Usable') { %>
+                                             World is available for play.
+                                             <% } else if (field.field === 'Enterable') { %>
+                                             Players can enter this world.
+                                             <% } else if (field.field === 'CharacterCreationLimit') { %>
+                                             Character creation limits exist.
+                                             <% } else if (field.field === 'CharacterOfNewAccountCreationLimit') { %>
+                                             Creation limits for new accounts.
+                                             <% } else if (field.field === 'BrandNew') { %>
+                                             World is marked as new.
+                                             <% } else if (field.field === 'Recommendation') { %>
+                                             World is recommended to players.
+                                             <% } %>
+                                          </p>
+                                       </div>
+                                    </div>
+                                    <% }); %>
+                                 </div>
+                                 <div class="d-flex justify-content-end mt-3">
+                                    <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-save-fill me-1"></i>Save All Settings
+                                    </button>
+                                 </div>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
                   </div>
                </div>
-            </div>
-         </div>
-         <div class="accordion mb-4" id="accordionGameWorldCluster<%= index %>">
-            <div class="accordion-item">
-               <h2 class="accordion-header" id="headingCluster<%= index %>">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCluster<%= index %>" aria-expanded="true" aria-controls="collapseCluster<%= index %>">
-                  Game World Cluster
-                  </button>
-               </h2>
-               <div id="collapseCluster<%= index %>" class="accordion-collapse" aria-labelledby="headingCluster<%= index %>" data-bs-parent="#accordionGameWorldCluster<%= index %>">
-                  <div class="accordion-body">
+               <!-- Cluster Settings -->
+               <div class="card border-0 shadow-lg mb-4">
+                  <div class="card-header bg-primary bg-gradient text-white">
+                     <h3 class="h5 mb-0"><i class="bi bi-server me-2"></i>Cluster Settings</h3>
+                  </div>
+                  <div class="card-body">
                      <% gameWorldClusterData.forEach((cluster) => { %>
-                     <form action="/update-game-world-cluster" method="POST" id="updateGameWorldClusterForm<%= cluster.WorldClusterID %>">
-                        <div class="row mb-3">
-                           <% const fields = [
-                              { label: 'World Cluster ID', field: 'WorldClusterID', value: cluster.WorldClusterID, type: 'number' },
-                              { label: 'Game Public IPv4 Address', field: 'GamePublicIPv4Address', value: cluster.GamePublicIPv4Address, type: 'text' },
-                              { label: 'Game Public Port', field: 'GamePublicPort', value: cluster.GamePublicPort, type: 'number' },
-                              { label: 'Max Player Count', field: 'MaxPlayerCount', value: cluster.MaxPlayerCount, type: 'number' },
-                              { label: 'Max Waiting Count', field: 'MaxWaitingCount', value: cluster.MaxWaitingCount, type: 'number' },
-                              { label: 'Game Internal IPv4 Address', field: 'GameInternalIPv4Address', value: cluster.GameInternalIPv4Address, type: 'text' },
-                              { label: 'Game Internal Port', field: 'GameInternalPort', value: cluster.GameInternalPort, type: 'number' }
-                              ]; %>
-                           <% fields.forEach((field) => { %>
-                           <div class="col-md-6 mb-3">
-                              <label for="<%= field.field %>-<%= cluster.WorldClusterID %>"><%= field.label %>:</label>
-                              <div class="input-group mb-2">
-                                 <input type="<%= field.type %>" id="<%= field.field %>-<%= cluster.WorldClusterID %>" name="<%= field.field %>" class="form-control" value="<%= field.value %>">
-                                 <button type="submit" class="btn btn-primary">Update</button>
-                              </div>
-                              <p class="description mt-2">
-                                 <% if (field.field === 'WorldClusterID') { %>
-                                 Identifier of the world cluster. Used for grouping related worlds.
-                                 <% } else if (field.field === 'GamePublicIPv4Address') { %>
-                                 Public IPv4 address for the game world, allowing players to connect from outside.
-                                 <% } else if (field.field === 'GamePublicPort') { %>
-                                 Public port for the game world, allowing players to connect.
-                                 <% } else if (field.field === 'MaxPlayerCount') { %>
-                                 Maximum number of players allowed in this game world.
-                                 <% } else if (field.field === 'MaxWaitingCount') { %>
-                                 Maximum number of players allowed to wait in this game world before being queued.
-                                 <% } else if (field.field === 'GameInternalIPv4Address') { %>
-                                 Internal IPv4 address for the game world used within the server network.
-                                 <% } else if (field.field === 'GameInternalPort') { %>
-                                 Internal port for the game world used within the server network.
-                                 <% } %>
-                              </p>
-                           </div>
-                           <% }); %>
-                           <input type="hidden" name="WorldClusterID" value="<%= cluster.WorldClusterID %>"> <!-- Скрытое поле для WorldClusterID -->
+                     <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-header bg-info bg-gradient text-dark">
+                           <h5 class="mb-0"><i class="bi bi-hdd-network me-2"></i>Cluster ID: <%= cluster.WorldClusterID %></h5>
                         </div>
-                     </form>
+                        <div class="card-body">
+                           <form class="update-cluster-form" method="POST" data-cluster-id="<%= cluster.WorldClusterID %>">
+                              <div class="row g-3">
+                                 <% const clusterFields = [
+                                    { label: 'Game Public IPv4 Address', field: 'GamePublicIPv4Address', value: cluster.GamePublicIPv4Address, type: 'text', icon: 'globe2', color: 'primary' },
+                                    { label: 'Game Public Port', field: 'GamePublicPort', value: cluster.GamePublicPort, type: 'number', icon: 'plug', color: 'primary' },
+                                    { label: 'Max Player Count', field: 'MaxPlayerCount', value: cluster.MaxPlayerCount, type: 'number', icon: 'people-fill', color: 'primary' },
+                                    { label: 'Max Waiting Count', field: 'MaxWaitingCount', value: cluster.MaxWaitingCount, type: 'number', icon: 'clock-history', color: 'primary' },
+                                    { label: 'Game Internal IPv4 Address', field: 'GameInternalIPv4Address', value: cluster.GameInternalIPv4Address, type: 'text', icon: 'lan', color: 'primary' },
+                                    { label: 'Game Internal Port', field: 'GameInternalPort', value: cluster.GameInternalPort, type: 'number', icon: 'ethernet', color: 'primary' }
+                                    ]; %>
+                                 <% clusterFields.forEach((field) => { %>
+                                 <div class="col-md-6">
+                                    <label for="<%= field.field %>-<%= cluster.WorldClusterID %>" class="form-label fw-bold">
+                                    <i class="bi bi-<%= field.icon %> text-<%= field.color %> me-1"></i><%= field.label %>
+                                    </label>
+                                    <div class="input-group mb-2">
+                                       <span class="input-group-text bg-<%= field.color %> bg-opacity-10 border-<%= field.color %>">
+                                       <i class="bi bi-<%= field.icon %> text-<%= field.color %>"></i>
+                                       </span>
+                                       <input type="<%= field.type %>" id="<%= field.field %>-<%= cluster.WorldClusterID %>" 
+                                          name="<%= field.field %>" class="form-control border-<%= field.color %>" 
+                                          value="<%= field.value %>">
+                                       <button type="submit" class="btn btn-primary">
+                                       <i class="bi bi-check-lg"></i> Update
+                                       </button>
+                                    </div>
+                                    <p class="small text-muted mb-0">
+                                       <% if (field.field === 'GamePublicIPv4Address') { %>
+                                       Public IPv4 address for player connections.
+                                       <% } else if (field.field === 'GamePublicPort') { %>
+                                       Public port for player connections.
+                                       <% } else if (field.field === 'MaxPlayerCount') { %>
+                                       Maximum players allowed in this world.
+                                       <% } else if (field.field === 'MaxWaitingCount') { %>
+                                       Maximum players allowed to wait in queue.
+                                       <% } else if (field.field === 'GameInternalIPv4Address') { %>
+                                       Internal IPv4 address for server network.
+                                       <% } else if (field.field === 'GameInternalPort') { %>
+                                       Internal port for server network.
+                                       <% } %>
+                                    </p>
+                                 </div>
+                                 <% }); %>
+                                 <input type="hidden" name="WorldClusterID" value="<%= cluster.WorldClusterID %>">
+                                 <div class="col-12 mt-3">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                    <i class="bi bi-save-fill me-1"></i>Save All Cluster Settings
+                                    </button>
+                                 </div>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
                      <% }); %>
                   </div>
                </div>
+               <% }); %>
+               <% } %>
             </div>
          </div>
-         <% }); %>
-         <% } %>
-      </div>
-      <script src="../js/bootstrap.bundle.min.js"></script>
+      </main>
+      <%- include('partials/adminFooter') %>
+      <%- include('partials/gameWorldInfoModal') %>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/js/admin-game-world.js"></script>
       <script>
-         function showToast(message, type = 'success') {
-             const toastHtml = `
-                 <div class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                     <div class="d-flex">
-                         <div class="toast-body">
-                             ${message}
-                         </div>
-                         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                     </div>
-                 </div>
-             `;
-             $('#toast-container').append(toastHtml);
-             const toastElement = $('#toast-container .toast').last()[0];
-             const bsToast = new bootstrap.Toast(toastElement);
-             bsToast.show();
-             setTimeout(() => {
-                 $(toastElement).remove();
-             }, 3000);
-         }
-         
-         $(document).ready(function() {
-             <% if (message) { %>
-                 showToast('<%= message %>');
-                 const url = new URL(window.location);
-                 url.searchParams.delete('message');
-                 window.history.replaceState({}, document.title, url);
-             <% } %>
+         // Initialize message from server if exists
+         <% if (message) { %>
+         document.addEventListener('DOMContentLoaded', function() {
+             showToast('<%= message %>');
          });
-         
-         $(document).ready(function() {
-             $('#updateGameWorldForm').on('submit', function(e) {
-                 e.preventDefault();
-                 const formData = $(this).serialize();
-                 
-                 $.ajax({
-                     type: 'POST',
-                     url: '/update-game-world',
-                     data: formData,
-                     success: function(response) {
-                         showToast(response.message);
-                     },
-                     error: function(xhr, status, error) {
-                         showToast('An error occurred while updating.', 'danger');
-                     }
-                 });
-             });
-         });
-         $(document).ready(function() {
-         <% gameWorldClusterData.forEach((cluster) => { %>
-         $('#updateGameWorldClusterForm<%= cluster.WorldClusterID %>').on('submit', function(e) {
-             e.preventDefault();
-             const formData = $(this).serialize();
-             
-             $.ajax({
-                 type: 'POST',
-                 url: '/update-game-world-cluster',
-                 data: formData,
-                 success: function(response) {
-                     showToast(response.message);
-                 },
-                 error: function(xhr, status, error) {
-                     showToast('An error occurred while updating.', 'danger');
-                 }
-             });
-         });
-         <% }); %>
-         });
-         
+         <% } %>
       </script>
    </body>
 </html>

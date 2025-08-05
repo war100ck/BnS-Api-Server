@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Promotions Management</title>
+      <link rel="icon" href="../images/favicon-admin.png" type="image/png">
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+      <link rel="stylesheet" href="/css/admin-promotions.css">
+   </head>
+   <body class="bg-light d-flex flex-column min-vh-100">
+      <%- include('partials/nav') %>
+      <main class="flex-grow-1 pb-5">
+         <div class="container py-4">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4">
+               <div class="d-flex align-items-center mb-3 mb-md-0">
+                  <div class="bg-primary bg-opacity-10 p-3 rounded-3 me-3">
+                     <i class="fas fa-calendar-check fa-lg text-primary"></i>
+                  </div>
+                  <div>
+                     <h2 class="h4 mb-0">Daily Dash Management</h2>
+                     <p class="text-muted mb-0">Configure and monitor daily login rewards</p>
+                  </div>
+               </div>
+               <div class="d-flex flex-wrap gap-2 align-items-center">
+                  <button class="btn btn-outline-primary btn-sm" id="refreshBtn">
+                  <i class="fas fa-sync-alt me-1"></i>Refresh
+                  </button>
+                  <button class="btn btn-sm settings-btn" id="settingsBtn">
+                  <i class="fas fa-cog me-1"></i>Settings
+                  </button>
+                  <button class="btn btn-sm info-btn" id="infoBtn" data-bs-toggle="modal" data-bs-target="#promoInfoModal">
+                  <i class="fas fa-info-circle me-1"></i>Info
+                  </button>
+               </div>
+            </div>
+            <div class="row mb-4">
+               <div class="col-md-6 mb-3 mb-md-0">
+                  <div class="card h-100 stat-card">
+                     <div class="card-header bg-white">
+                        <h4 class="section-header">
+                           <i class="fas fa-chart-line text-primary me-2"></i>Promotion Statistics
+                        </h4>
+                     </div>
+                     <div class="card-body">
+                        <div class="row">
+                           <div class="col-6 mb-3">
+                              <div class="bg-light p-3 rounded text-center h-100">
+                                 <div class="text-primary mb-1">
+                                    <i class="fas fa-play-circle fa-2x"></i>
+                                 </div>
+                                 <h5 class="mb-0"><%= activePromotions %></h5>
+                                 <small class="text-muted">Active</small>
+                              </div>
+                           </div>
+                           <div class="col-6 mb-3">
+                              <div class="bg-light p-3 rounded text-center h-100">
+                                 <div class="text-secondary mb-1">
+                                    <i class="fas fa-pause-circle fa-2x"></i>
+                                 </div>
+                                 <h5 class="mb-0"><%= totalPromotions - activePromotions %></h5>
+                                 <small class="text-muted">Inactive</small>
+                              </div>
+                           </div>
+                           <div class="col-6">
+                              <div class="bg-light p-3 rounded text-center h-100">
+                                 <div class="text-success mb-1">
+                                    <i class="fas fa-calendar-plus fa-2x"></i>
+                                 </div>
+                                 <h5 class="mb-0"><%= totalPromotions %></h5>
+                                 <small class="text-muted">Total</small>
+                              </div>
+                           </div>
+                           <div class="col-6">
+                              <div class="bg-light p-3 rounded text-center h-100">
+                                 <div class="text-info mb-1">
+                                    <i class="fas fa-database fa-2x"></i>
+                                 </div>
+                                 <h5 class="mb-0">PromotionDB</h5>
+                                 <small class="text-muted">Database</small>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="card h-100 stat-card">
+                     <div class="card-header bg-white">
+                        <h4 class="section-header">
+                           <i class="fas fa-info-circle text-primary me-2"></i>System Overview
+                        </h4>
+                     </div>
+                     <div class="card-body">
+                        <div class="d-flex flex-column h-100">
+                           <div class="d-flex justify-content-between py-2 border-bottom">
+                              <span class="text-muted">
+                              <i class="fas fa-clock me-2"></i>Last Updated
+                              </span>
+                              <span id="lastUpdatedTime"><%= new Date().toLocaleString() %></span>
+                           </div>
+                           <div class="d-flex justify-content-between py-2 border-bottom">
+                              <span class="text-muted">
+                              <i class="fas fa-server me-2"></i>Service Status
+                              </span>
+                              <span class="badge bg-success">
+                              Operational
+                              <span class="service-status">(<%= currentVersion %>)</span>
+                              </span>
+                           </div>
+                           <div class="d-flex justify-content-between py-2 border-bottom">
+                              <span class="text-muted">
+                              <i class="fas fa-redo me-2"></i>Auto-Renew Check
+                              </span>
+                              <span id="checkIntervalStatus" class="badge bg-primary"><%= checkIntervalHours %> hours</span>
+                           </div>
+                           <div class="d-flex justify-content-between py-2">
+                              <span class="text-muted">
+                              <i class="fas fa-user-shield me-2"></i>Admin Access
+                              </span>
+                              <span class="badge bg-primary">Enabled</span>
+                           </div>
+                           <div class="d-flex justify-content-between py-2 border-bottom">
+                              <span class="text-muted">
+                              <i class="fas fa-sync-alt me-2"></i>Service Restart Status
+                              </span>
+                              <span id="restartTimerStatus" class="badge bg-success">
+                              Service Active
+                              </span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="card border-0 shadow-sm">
+               <div class="card-header bg-white border-0 py-3">
+                  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                     <h3 class="h5 mb-2 mb-md-0">
+                        <i class="fas fa-list-ol text-primary me-2"></i>Current Promotions List
+                     </h3>
+                     <div class="d-flex align-items-center">
+                        <span class="badge bg-light text-dark me-2">
+                        <i class="fas fa-filter me-1"></i>All
+                        </span>
+                     </div>
+                  </div>
+               </div>
+               <div class="card-body p-0">
+                  <div class="table-responsive">
+                     <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                           <tr>
+                              <th class="py-3 table-header">
+                                 <i class="fas fa-hashtag me-2"></i>ID
+                              </th>
+                              <th class="py-3 table-header">
+                                 <i class="fas fa-tag me-2"></i>Promotion Name
+                              </th>
+                              <th class="py-3 table-header d-none d-lg-table-cell">
+                                 <i class="fas fa-align-left me-2"></i>Description
+                              </th>
+                              <th class="py-3 table-header">
+                                 <i class="fas fa-calendar-alt me-2"></i>Date Range
+                              </th>
+                              <th class="py-3 table-header">
+                                 <i class="fas fa-ticket-alt me-2"></i>Participation Limits
+                              </th>
+                              <th class="py-3 table-header">
+                                 <i class="fas fa-power-off me-2"></i>Status
+                              </th>
+                              <th class="py-3 table-header text-end">
+                                 <i class="fas fa-cogs me-2"></i>Actions
+                              </th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <% const currentDate = new Date(); %>
+                           <% promotions.forEach(promo => { %>
+                           <% 
+                              const isActive = currentDate >= new Date(promo.EffectiveFrom) && 
+                                  currentDate <= new Date(promo.EffectiveTo) && 
+                                  !promo.IsSuspended;
+                              const statusClass = isActive ? 'bg-success' : 'bg-secondary';
+                              const statusIcon = isActive ? 'fa-play' : 'fa-pause';
+                              const statusText = isActive ? 'Active' : 'Inactive';
+                              const endDate = new Date(promo.EffectiveTo);
+                              const hasAutoRenew = promo.AutoRenew === true || promo.AutoRenew === 1;
+                              %>
+                           <tr class="position-relative" data-end-date="<%= endDate.getTime() %>">
+                              <!-- Mobile view - stacked -->
+                              <%- include('partials/promoMobileRow', {promo, statusClass, statusIcon, statusText, endDate, isActive, hasAutoRenew}) %>
+                              <!-- Desktop view -->
+                              <td class="fw-semibold d-none d-md-table-cell">
+                                 <i class="fas fa-hashtag table-icon"></i>
+                                 <%= promo.PromotionId %>
+                              </td>
+                              <td class="fw-medium d-none d-md-table-cell promo-name">
+                                 <i class="fas fa-tag table-icon"></i>
+                                 <%= promo.PromotionName %>
+                              </td>
+                              <td class="text-truncate d-none d-lg-table-cell" style="max-width: 200px;" title="<%= promo.PromotionDescription %>">
+                                 <i class="fas fa-align-left table-icon"></i>
+                                 <%= promo.PromotionDescription %>
+                              </td>
+                              <td class="d-none d-md-table-cell">
+                                 <div class="d-flex flex-column">
+                                    <small>
+                                    <i class="fas fa-calendar-plus table-icon"></i>
+                                    <%= new Date(promo.EffectiveFrom).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'}) %>
+                                    </small>
+                                    <small>
+                                    <i class="fas fa-calendar-minus table-icon"></i>
+                                    <%= endDate.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'}) %>
+                                    </small>
+                                 </div>
+                              </td>
+                              <td class="d-none d-md-table-cell">
+                                 <div class="promo-limits">
+                                    <div class="d-flex justify-content-between">
+                                       <span><i class="fas fa-ticket-alt table-icon"></i>Total:</span>
+                                       <span class="fw-bold"><%= promo.PlayableCount %></span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                       <span><i class="fas fa-gift table-icon"></i>Free:</span>
+                                       <span class="fw-bold"><%= promo.MaximumFreePlayableCount %></span>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td class="d-none d-md-table-cell">
+                                 <span class="badge <%= statusClass %> status-badge rounded-pill">
+                                 <i class="fas <%= statusIcon %> me-1"></i><%= statusText %>
+                                 </span>
+                              </td>
+                              <td class="d-none d-md-table-cell">
+                                 <div class="d-flex justify-content-end gap-2">
+                                    <form action="/admin/promotions/update-effectivedate" method="POST" class="extend-promo-form">
+                                       <input type="hidden" name="PromotionId" value="<%= promo.PromotionId %>">
+                                       <button type="submit" class="btn btn-sm btn-outline-warning">
+                                       <i class="fas fa-calendar-plus me-1"></i>Extend
+                                       </button>
+                                    </form>
+                                    <% if (isActive) { %>
+                                    <button class="btn btn-sm btn-outline-danger stop-event-btn" data-promo-id="<%= promo.PromotionId %>">
+                                    <i class="fas fa-stop-circle me-1"></i>Stop Event
+                                    </button>
+                                    <% } else { %>
+                                    <button class="btn btn-sm btn-outline-secondary disabled-btn" disabled>
+                                    <i class="fas fa-stop-circle me-1"></i>Not Active
+                                    </button>
+                                    <% } %>
+                                    <button class="btn btn-sm <%= hasAutoRenew ? 'btn-success' : 'btn-outline-success' %> auto-renew-btn <%= isActive ? '' : 'disabled-btn' %>" 
+                                       data-promo-id="<%= promo.PromotionId %>"
+                                       data-auto-renew="<%= hasAutoRenew %>"
+                                       <%= isActive ? '' : 'disabled' %>>
+                                    <i class="fas fa-redo me-1"></i><%= hasAutoRenew ? 'Auto ON' : 'Auto OFF' %>
+                                    </button>
+                                 </div>
+                              </td>
+                           </tr>
+                           <% }); %>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </main>
+      <%- include('partials/adminFooter') %>
+      <%- include('partials/promoInfoModal') %>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+      <script src="/js/admin-promotions.js"></script>
+   </body>
+</html>

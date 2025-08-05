@@ -1,0 +1,368 @@
+<!-- partials/processInfoModal.ejs -->
+<div class="modal fade" id="processInfoModal" tabindex="-1" aria-labelledby="processInfoModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+         <div class="modal-header bg-dark text-white">
+            <h5 class="modal-title fw-bold" id="processInfoModalLabel">
+               <i class="fas fa-server me-2"></i>
+               Blade & Soul Server Processes Master Guide
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="alert alert-dark mb-4">
+               <h4 class="alert-heading d-flex align-items-center">
+                  <i class="fas fa-info-circle me-2"></i>
+                  Complete Server Processes Management
+               </h4>
+               <hr>
+               <p class="mb-0">This panel provides full control over all Blade & Soul server daemons. Manage existing processes or add custom ones following the guidelines below.</p>
+            </div>
+            <div class="alert alert-danger mb-4 d-flex" style="border-left: 5px solid #dc3545;">
+               <div class="flex-shrink-0 me-3 d-flex align-items-start">
+                  <i class="fas fa-exclamation-triangle text-danger fs-3"></i>
+               </div>
+               <div>
+                  <h4 class="alert-heading d-flex align-items-center mb-2">
+                     Warning!
+                  </h4>
+                  <hr>
+                  <p class="mb-0">
+                     Always wait for the loading, starting, or stopping of processes to fully complete before refreshing the page. Please do not refresh the page during these operations, as doing so may cause interruption of the process or improper execution.
+                  </p>
+               </div>
+            </div>
+            <!-- Full Processes Table -->
+            <div class="card border-dark mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-list-ol me-2"></i> All Server Processes
+               </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                           <tr>
+                              <th>#</th>
+                              <th>Process Name</th>
+                              <th>Description</th>
+                              <th>Start Delay</th>
+                              <th>Critical</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td>1</td>
+                              <td>RankingDaemon</td>
+                              <td>Manages player rankings and PvP leaderboards</td>
+                              <td>15 sec</td>
+                              <td><i class="fas fa-check text-success"></i></td>
+                           </tr>
+                           <tr>
+                              <td>2</td>
+                              <td>AccountInventoryDaemon</td>
+                              <td>Handles account-wide storage and items</td>
+                              <td>10 sec</td>
+                              <td><i class="fas fa-check text-success"></i></td>
+                           </tr>
+                           <tr>
+                              <td>3</td>
+                              <td>CacheDaemon</td>
+                              <td>Provides caching services for game data</td>
+                              <td>8 sec</td>
+                              <td><i class="fas fa-exclamation-triangle text-danger"></i></td>
+                           </tr>
+                           <tr>
+                              <td>4</td>
+                              <td>CacheGate</td>
+                              <td>Gateway for cache services</td>
+                              <td>8 sec</td>
+                              <td><i class="fas fa-exclamation-triangle text-danger"></i></td>
+                           </tr>
+                           <tr>
+                              <td>5</td>
+                              <td>PostOfficeDaemon</td>
+                              <td>Manages in-game mail system</td>
+                              <td>8 sec</td>
+                              <td><i class="fas fa-check text-success"></i></td>
+                           </tr>
+                           <tr>
+                              <td>6</td>
+                              <td>LobbyDaemon</td>
+                              <td>Main lobby service for character selection</td>
+                              <td>15 sec</td>
+                              <td><i class="fas fa-exclamation-triangle text-danger"></i></td>
+                           </tr>
+                           <tr>
+                              <td>7</td>
+                              <td>CraftDaemon</td>
+                              <td>Handles crafting system operations</td>
+                              <td>10 sec</td>
+                              <td><i class="fas fa-check text-success"></i></td>
+                           </tr>
+                           <tr>
+                              <td>8</td>
+                              <td>MarketReaderDaemon</td>
+                              <td>Marketplace data reader service</td>
+                              <td>8 sec</td>
+                              <td><i class="fas fa-check text-success"></i></td>
+                           </tr>
+                           <tr>
+                              <td>9</td>
+                              <td>MarketReaderAgent</td>
+                              <td>Marketplace reader agent</td>
+                              <td>8 sec</td>
+                              <td><i class="fas fa-minus text-secondary"></i></td>
+                           </tr>
+                           <tr>
+                              <td>10</td>
+                              <td>MarketDealerDaemon</td>
+                              <td>Marketplace transaction processor</td>
+                              <td>8 sec</td>
+                              <td><i class="fas fa-check text-success"></i></td>
+                           </tr>
+                           <tr>
+                              <td>11</td>
+                              <td>MarketDealerAgent</td>
+                              <td>Marketplace dealer agent</td>
+                              <td>8 sec</td>
+                              <td><i class="fas fa-minus text-secondary"></i></td>
+                           </tr>
+                           <tr>
+                              <td>12</td>
+                              <td>ArenaLobby</td>
+                              <td>PvP arena matchmaking service</td>
+                              <td>8 sec</td>
+                              <td><i class="fas fa-check text-success"></i></td>
+                           </tr>
+                           <tr>
+                              <td>13</td>
+                              <td>AchievementDaemon</td>
+                              <td>Manages player achievements</td>
+                              <td>25 sec</td>
+                              <td><i class="fas fa-check text-success"></i></td>
+                           </tr>
+                           <tr>
+                              <td>14</td>
+                              <td>DuelBotDaemon</td>
+                              <td>Handles duel/PvP bot functionality</td>
+                              <td>25 sec</td>
+                              <td><i class="fas fa-minus text-secondary"></i></td>
+                           </tr>
+                           <tr>
+                              <td>15</td>
+                              <td>GameDaemon</td>
+                              <td>Main world processor (REQUIRED)</td>
+                              <td>180 sec</td>
+                              <td><i class="fas fa-exclamation-triangle text-danger"></i></td>
+                           </tr>
+                           <tr>
+                              <td>16</td>
+                              <td>GameDaemon_Dungeon</td>
+                              <td>Dungeon instances processor</td>
+                              <td>180 sec</td>
+                              <td><i class="fas fa-exclamation-triangle text-danger"></i></td>
+                           </tr>
+                           <tr>
+                              <td>16.5</td>
+                              <td>GameDaemon_Arena</td>
+                              <td>Arena instances processor</td>
+                              <td>180 sec</td>
+                              <td><i class="fas fa-exclamation-triangle text-danger"></i></td>
+                           </tr>
+                           <tr>
+                              <td>17</td>
+                              <td>InfoGateDaemon</td>
+                              <td>Information gateway service</td>
+                              <td>10 sec</td>
+                              <td><i class="fas fa-exclamation-triangle text-danger"></i></td>
+                           </tr>
+                           <tr>
+                              <td>18</td>
+                              <td>LobbyGate</td>
+                              <td>Lobby gateway service</td>
+                              <td>8 sec</td>
+                              <td><i class="fas fa-exclamation-triangle text-danger"></i></td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="card-footer bg-light">
+                  <small class="text-muted">
+                  <i class="fas fa-exclamation-circle me-1"></i>
+                  <em>Note: Critical processes must remain running at all times</em>
+                  </small>
+               </div>
+            </div>
+            <div class="alert alert-info mt-3">
+               <h5><i class="fas fa-info-circle me-2"></i> Process Startup Sequence</h5>
+               <ol class="mb-0">
+                  <li>Core services first (Cache, Lobby, InfoGate)</li>
+                  <li>Support services (PostOffice, Inventory, Market)</li>
+                  <li>Game systems (Craft, Achievement, Arena)</li>
+                  <li>Main world processors LAST (GameDaemon instances)</li>
+               </ol>
+            </div>
+            <!-- Process Groups Cards -->
+            <div class="card border-dark mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-layer-group me-2"></i> Process Categories
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-4 mb-3">
+                        <div class="card border-primary h-100">
+                           <div class="card-header bg-primary bg-opacity-10 text-primary">
+                              <i class="fas fa-network-wired me-2"></i> Network
+                           </div>
+                           <div class="card-body">
+                              <ul>
+                                 <li>CacheGate</li>
+                                 <li>InfoGateDaemon</li>
+                                 <li>LobbyGate</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 mb-3">
+                        <div class="card border-success h-100">
+                           <div class="card-header bg-success bg-opacity-10 text-success">
+                              <i class="fas fa-gamepad me-2"></i> Game
+                           </div>
+                           <div class="card-body">
+                              <ul>
+                                 <li>GameDaemon</li>
+                                 <li>DungeonDaemon</li>
+                                 <li>ArenaDaemon</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 mb-3">
+                        <div class="card border-info h-100">
+                           <div class="card-header bg-info bg-opacity-10 text-info">
+                              <i class="fas fa-store me-2"></i> Economy
+                           </div>
+                           <div class="card-body">
+                              <ul>
+                                 <li>MarketReader</li>
+                                 <li>MarketDealer</li>
+                                 <li>CraftDaemon</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Actions Section -->
+            <div class="card border-warning mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-tools me-2"></i> Management Actions
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-3 mb-3">
+                        <div class="card h-100">
+                           <div class="card-header bg-success bg-opacity-10 text-success">
+                              <i class="fas fa-play me-2"></i> Start
+                           </div>
+                           <div class="card-body">
+                              <p>Launch process with configured delay</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-3 mb-3">
+                        <div class="card h-100">
+                           <div class="card-header bg-danger bg-opacity-10 text-danger">
+                              <i class="fas fa-stop me-2"></i> Stop
+                           </div>
+                           <div class="card-body">
+                              <p>Terminate process immediately</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-3 mb-3">
+                        <div class="card h-100">
+                           <div class="card-header bg-info bg-opacity-10 text-info">
+                              <i class="fas fa-redo me-2"></i> Restart
+                           </div>
+                           <div class="card-body">
+                              <p>Stop and start process sequence</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-3 mb-3">
+                        <div class="card h-100">
+                           <div class="card-header bg-purple bg-opacity-10 text-purple">
+                              <i class="fas fa-plus-circle me-2"></i> Restart
+                           </div>
+                           <div class="card-body">
+                              <p>Extend with new processes</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Custom Processes Guide -->
+            <div class="card border-primary mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-code me-2"></i> Adding Custom Processes
+               </div>
+               <div class="card-body">
+                  <h5><i class="fas fa-file-code me-2"></i>Start.bat Template:</h5>
+                  <pre class="bg-dark text-white p-3 rounded mb-3">
+@echo --------Start XX.ProcessName--------
+start C:\path\to\process.exe
+@ping 127.0.0.1 -n [delay_seconds] >nul
+@echo --------ProcessName OK--------</pre>
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="alert alert-success">
+                           <h6><i class="fas fa-check-circle me-2"></i>Best Practices:</h6>
+                           <ul class="mb-0">
+                              <li>Maintain sequential numbering</li>
+                              <li>Set proper delays (8-180 sec)</li>
+                              <li>Add descriptive echo messages</li>
+                              <li>Place dependent processes last</li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="alert alert-danger">
+                           <h6><i class="fas fa-exclamation-triangle me-2"></i>Warnings:</h6>
+                           <ul class="mb-0">
+                              <li>Don't modify running processes</li>
+                              <li>Avoid duplicate numbers</li>
+                              <li>Test new processes separately</li>
+                              <li>Backup before changes</li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Important Notes -->
+            <div class="alert alert-danger">
+               <h5 class="alert-heading d-flex align-items-center">
+                  <i class="fas fa-skull-crossbones me-2"></i>
+                  Critical Server Rules
+               </h5>
+               <hr>
+               <ol class="mb-0">
+                  <li>GameDaemon must start LAST (after all dependencies)</li>
+                  <li>Never stop core processes during peak loads</li>
+                  <li>Monitor resources when adding custom processes</li>
+                  <li>Full restart required after bat-file modifications</li>
+               </ol>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+            <i class="fas fa-check-circle me-1"></i> Understood
+            </button>
+         </div>
+      </div>
+   </div>
+</div>

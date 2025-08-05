@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Donate Shop <%= UserName %></title>
+      <link rel="icon" href="images/favicon.png" type="image/png">
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/css/navbar.css">
+      <link rel="stylesheet" href="/css/donateshop.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+      <link href="/node_modules/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+   </head>
+   <body>
+      <%- include('partials/navbar') %>
+      <div class="container my-5">
+         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 move-up">
+            <% products.forEach(product => { %>
+            <div class="col">
+               <div class="card">
+                  <% if (product.sale) { %>
+                  <div class="badge-label">Sale</div>
+                  <% } %>
+                  <img src="<%= product.image %>" class="card-img-top img-fluid" alt="Product Image" style="padding: 30px; object-fit: contain;">
+                  <div class="card-header p-0">
+                     <h6 class="card-title fw-semibold text-center">
+                        <a href="#" class="text-decoration-none text-white h4"><%= product.name %></a>
+                     </h6>
+                     <% if (product.bonus) { %>
+                     <div class="green-bar">+<%= product.bonus %></div>
+                     <% } else { %>
+                     <div class="green-bar" style="visibility: hidden;">Placeholder</div>
+                     <% } %>
+                  </div>
+                  <div class="card-body text-center p-3">
+                     <h5 class="card-text"> $ <%= product.price %></h5>
+                     <!-- <div class="mb-2 text-warning"> -->
+                     <!-- <i class="fa-solid fa-star"></i> -->
+                     <!-- <i class="fa-solid fa-star"></i> -->
+                     <!-- <i class="fa-solid fa-star"></i> -->
+                     <!-- <i class="fa-solid fa-star"></i> -->
+                     <!-- </div> -->
+                     <!--<p class="text-muted"><%= product.reviews %> reviews</p>-->
+                     <button class="btn btn-warning w-100 donateButton"
+                        data-id="<%= product.id %>" 		   
+                        data-amount="<%= product.quantity %>" 
+                        data-bonus="<%= product.bonus %>"
+                        data-name="<%= product.name %>"
+                        data-price="<%= product.price %>">
+                        <i class="fas fa-donate me-2"></i> Donate
+                     </button>
+                  </div>
+               </div>
+            </div>
+            <% }); %>
+         </div>
+      </div>
+      <!-- Footer -->
+      <footer class="custom-footer text-light text-center py-3">
+         <p class="mb-0">&copy; 2024 Blade & Soul: Private Server</p>
+         <p class="mb-0">All rights reserved.</p>
+      </footer>
+      <!-- Include Modals -->
+      <%- include('partials/signupModal') %>
+      <%- include('partials/signinModal') %>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+      <script src="js/navbar.min.js"></script>
+      <script src="js/donateShop.js"></script>
+   </body>
+</html>

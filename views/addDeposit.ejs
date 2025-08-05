@@ -3,149 +3,160 @@
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Add Deposit</title>
+      <title>Add Deposit for <%= username %></title>
       <link rel="icon" href="../images/favicon-admin.png" type="image/png">
-      <link rel="stylesheet" href="../css/bootstrap.min.css">
-      <link rel="stylesheet" href="../css/deposit.css">
-      <link rel="stylesheet" href="../css/admin.css">
-      <script src="../js/jquery-3.6.0.min.js"></script>
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+      <link rel="stylesheet" href="/css/admin-deposits.css">
    </head>
-   <body>
+   <body class="bg-light d-flex flex-column min-vh-100">
       <%- include('partials/nav') %>
-      <div class="container">
-         <!-- Кнопка возврата в админпанель -->
-         <h1 class="mb-4">
-            Add Deposit for user 
-            <a href="/admin/edit-character?userName=<%= username %>" style="text-decoration: none;" class="username">
-            <%= username %>
-            </a>
-         </h1>
-         <h4>UserId: <%= userId %>!</h4>
-         <!-- Карточка с таблицей информации о депозите -->
-         <div class="card mb-4">
-            <div class="card-header deposit-header">
-               <h5><i class="fas fa-wallet icon"></i> Deposit Information</h5>
-            </div>
-            <div class="card-body">
-               <table class="table">
-                  <thead>
-                     <tr>
-                        <th>Total Amount</th>
-                        <th>Total Balance</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <%= totalAmount %> <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px;"> Hangmoon Coins
-                        </td>
-                        <td>
-                           <%= totalBalance %> <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px;"> Hangmoon Coins
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-         </div>
-         <h4 class="mb-4"><span class="addeposit">Add Deposit</span></h4>
-         <!-- Карточка с формой для добавления депозита -->
-         <div class="card">
-            <form id="addDepositForm">
-               <input type="hidden" id="game_account_id" name="game_account_id" value="<%= userId %>">
-               <% const depositFields = [
-                  { label: 'Amount of Hangmoon Coins', field: 'amount', type: 'number', min: 0, max: 9007199254740991, description: 'Enter the amount you want to add. Min: 0, max: 9007199254740991' }
-                  ]; %>
-               <div class="form-group">
-                  <label for="amount"><%= depositFields[0].label %></label>
-                  <input type="<%= depositFields[0].type %>" class="form-control" id="<%= depositFields[0].field %>" name="<%= depositFields[0].field %>" min="<%= depositFields[0].min %>" max="<%= depositFields[0].max %>" required>
-                  <p class="description mt-2"><%= depositFields[0].description %></p>
+      <main class="flex-grow-1 pb-5">
+         <div class="container py-4">
+            <!-- Заголовок и информация о пользователе -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+               <div class="account-management-block mb-3 mb-md-0 p-3 rounded-3 shadow-sm" style="background-color: #f8f9fa; border-left: 4px solid #198754;">
+                  <h2 class="mb-3 d-flex align-items-center">
+                     <i class="fas fa-coins fs-4 text-success me-2"></i>Add Deposit
+                  </h2>
+                  <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                     <span class="badge bg-secondary py-2 px-3 d-flex align-items-center">
+                     <i class="fas fa-id-card me-2"></i>
+                     <span class="fw-medium">User ID: <%= userId %></span>
+                     </span>
+                     <span class="badge bg-success py-2 px-3 d-flex align-items-center">
+                     <i class="fas fa-user me-2"></i>
+                     <a href="/profile?userName=<%= username %>" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none fw-medium"><%= username %></a>
+                     </span>
+                  </div>
                </div>
-               <div class="update-button-container">
-                  <button type="submit" class="btn btn-primary">Add Deposit</button>
+               <!-- dropdown меню -->
+               <div class="d-flex justify-content-center justify-content-md-end w-100 w-md-auto mt-3 mt-md-0">
+                  <div class="dropdown me-2">
+                     <button class="btn btn-sm btn-outline-success dropdown-toggle py-1 px-2" type="button" id="userActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                     <i class="fas fa-user-cog fa-sm me-1"></i> Actions
+                     </button>
+                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userActionsDropdown">
+                        <li>
+                           <h6 class="dropdown-header">User Actions</h6>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="edit-character?userId=<%= userId %>">
+                           <i class="fas fa-user-edit fa-fw me-2 text-primary"></i>Edit Character
+                           </a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-item?userId=<%= userId %>">
+                           <i class="fas fa-paper-plane fa-fw me-2 text-info"></i>Sending Items
+                           </a>
+                        </li>
+                        <li>
+                           <hr class="dropdown-divider my-1">
+                        </li>
+                        <li>
+                           <h6 class="dropdown-header">Administration</h6>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-vip?userId=<%= userId %>">
+                           <i class="fas fa-crown fa-fw me-2 text-warning"></i>VIP Management
+                           </a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-ban?userId=<%= userId %>">
+                           <i class="fas fa-gavel fa-fw me-2 text-danger"></i>Ban Management
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+                  <button class="btn btn-sm btn-outline-success py-1 px-2" data-bs-toggle="modal" data-bs-target="#depositInfoModal">
+                  <i class="fas fa-info-circle fa-sm me-1"></i> Info
+                  </button>
                </div>
-            </form>
+            </div>
+            <!-- Новый блок с карточками Deposit Information -->
+            <div class="row mb-4 g-3">
+               <div class="col-md-6">
+                  <div class="card stats-card bg-white border-0 shadow-sm">
+                     <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                           <div>
+                              <h6 class="text-muted mb-2">Total Amount</h6>
+                              <div class="stats-value text-warning d-flex align-items-center">
+                                 <%= totalAmount %>
+                                 <img src="/images/money/NCoin.webp" alt="Hangmoon Coins" class="money-icon ms-2" style="width: 20px; height: 20px;">
+                              </div>
+                           </div>
+                           <div class="bg-warning bg-opacity-10 p-3 rounded">
+                              <i class="fas fa-coins text-warning"></i>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="card stats-card bg-white border-0 shadow-sm">
+                     <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                           <div>
+                              <h6 class="text-muted mb-2">Total Balance</h6>
+                              <div class="stats-value text-success d-flex align-items-center">
+                                 <%= totalBalance %>
+                                 <img src="/images/money/NCoin.webp" alt="Hangmoon Coins" class="money-icon ms-2" style="width: 20px; height: 20px;">
+                              </div>
+                           </div>
+                           <div class="bg-success bg-opacity-10 p-3 rounded">
+                              <i class="fas fa-piggy-bank text-success"></i>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Форма добавления депозита -->
+            <div class="card shadow-sm">
+               <div class="card-header bg-white">
+                  <h5 class="mb-0"><i class="fas fa-plus-circle text-success me-2"></i>Add New Deposit</h5>
+               </div>
+               <div class="card-body">
+                  <form id="addDepositForm">
+                     <input type="hidden" id="game_account_id" name="game_account_id" value="<%= userId %>">
+                     <div class="row g-3 align-items-center">
+                        <div class="col-md-9">
+                           <label for="amount" class="form-label fw-medium mb-1">
+                           <i class="fas fa-coins text-warning me-1"></i>Amount of Hangmoon Coins
+                           </label>
+                           <div class="input-group">
+                              <input type="number" class="form-control" id="amount" name="amount" min="0" max="9007199254740991" required>
+                              <span class="input-group-text bg-white">
+                              <img src="/images/money/NCoin.webp" alt="Hangmoon Coins" class="money-icon">
+                              </span>
+                           </div>
+                           <div class="form-text text-muted mt-1">
+                              Enter the amount you want to add. Min: 0, max: 9007199254740991
+                           </div>
+                        </div>
+                        <div class="col-md-3">
+                           <div class="d-flex h-100 align-items-end">
+                              <button type="submit" class="btn btn-success w-100">
+                              <i class="fas fa-plus me-1"></i>Add Deposit
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+            <!-- Блок для вывода результатов (будет заполняться динамически) -->
+            <div id="result" class="mt-4"></div>
          </div>
-         <div id="result"></div>
+         <!-- Контейнер для toast-уведомлений -->
          <div id="toastContainer" class="toast-container"></div>
-      </div>
-      <script src="../js/bootstrap.bundle.min.js"></script>
-      <script src="../js/axios.min.js"></script>
-      <script>
-         document.getElementById('addDepositForm').addEventListener('submit', async function(e) {
-             e.preventDefault();
-         
-             const formData = new FormData(this);
-             const data = {};
-             formData.forEach((value, key) => {
-                 data[key] = value;
-             });
-         
-             try {
-                 const response = await axios.post('/add-deposit/process', data);
-                 
-                 if (response.data.totalAmount && response.data.totalBalance) {
-                     updateTotals(response.data.totalAmount, response.data.totalBalance);
-                     document.getElementById('result').innerHTML = response.data.resultPageContent;
-                 } else {
-                     console.error("Failed to get totalAmount or totalBalance from the response.");
-                 }
-         
-                 showToast('success', data.amount);
-                 
-             } catch (error) {
-                 showToast('error', 'An error occurred while adding the deposit.');
-             }
-         });
-         
-         // Проверка значения при изменении поля
-         document.getElementById('amount').addEventListener('input', function() {
-             const maxAmount = 9007199254740991;
-             const value = parseFloat(this.value);
-             if (value > maxAmount) {
-                 alert(`Maximum allowed value: ${maxAmount}.`);
-                 this.value = maxAmount; // Устанавливаем максимальное значение
-             }
-         });
-         
-         function showToast(type, amount) {
-         const toastContainer = document.getElementById('toastContainer');
-         const toast = document.createElement('div');
-         
-         // Добавляем красный фон для ошибок
-         const bgColor = type === 'success' ? 'bg-success' : 'bg-danger';
-         toast.className = `toast align-items-center text-white ${bgColor} border-0`; // Установка фона в зависимости от типа
-         
-         toast.role = 'alert';
-         toast.ariaLive = 'assertive';
-         toast.ariaAtomic = 'true';
-         
-         let displayMessage = '';
-         if (type === 'success') {
-         displayMessage = `Deposit successfully added: ${amount} Hangmoon Coins!`;
-         } else {
-         displayMessage = 'An error occurred while adding the deposit.'; // Сообщение для ошибки
-         }
-         
-         toast.innerHTML = `
-         <div class="d-flex">
-            <div class="toast-body">
-                ${displayMessage}
-            </div>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-         </div>
-         `;
-         toastContainer.appendChild(toast);
-         const bsToast = new bootstrap.Toast(toast);
-         bsToast.show();
-         }
-         
-         
-         function updateTotals(totalAmount, totalBalance) {
-             const totalAmountCell = document.querySelector('tbody tr td:nth-child(1)');
-             const totalBalanceCell = document.querySelector('tbody tr td:nth-child(2)');
-             totalAmountCell.innerHTML = `${totalAmount} <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px;"> Hangmoon Coins`;
-             totalBalanceCell.innerHTML = `${totalBalance} <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px;"> Hangmoon Coins`;
-         }
-      </script>
+      </main>
+      <%- include('partials/adminFooter') %>
+      <%- include('partials/depositInfoModal') %>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/node_modules/axios/dist/axios.min.js"></script>
+      <script src="/js/admin-deposits.js"></script>
    </body>
 </html>

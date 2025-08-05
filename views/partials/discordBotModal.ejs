@@ -1,0 +1,98 @@
+<!-- partials/discordBotModal.ejs -->
+<div class="modal fade" id="discordBotModal" tabindex="-1" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content border-0 shadow">
+         <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">
+               <i class="bi bi-robot me-2"></i>Discord Bot Configuration
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <form id="discordBotForm">
+               <div class="mb-4">
+                  <h6 class="fw-bold mb-3 text-muted"><i class="bi bi-key me-1"></i> Authentication</h6>
+                  <div class="mb-3">
+                     <label for="botToken" class="form-label">Bot Token</label>
+                     <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-key-fill"></i></span>
+                        <input type="password" class="form-control" id="botToken" placeholder="Discord bot token">
+                        <button class="btn btn-outline-secondary" type="button" id="toggleTokenVisibility">
+                        <i class="bi bi-eye"></i>
+                        </button>
+                     </div>
+                     <small class="text-muted">
+                     Get this from <a href="https://discord.com/developers/applications" target="_blank" rel="noopener noreferrer">Discord Developer Portal</a>
+                     </small>
+                  </div>
+               </div>
+               <div class="mb-4">
+                  <h6 class="fw-bold mb-3 text-muted"><i class="bi bi-slack me-1"></i> Channel Settings</h6>
+                  <div class="mb-3">
+                     <label for="statusChannel" class="form-label">Status Channel ID</label>
+                     <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                        <input type="text" class="form-control" id="statusChannel" placeholder="Channel ID for status updates">
+                     </div>
+                     <small class="text-muted">Right-click channel and "Copy ID" (Developer Mode must be on)</small>
+                  </div>
+               </div>
+               <div class="mb-4">
+                  <h6 class="fw-bold mb-3 text-muted"><i class="bi bi-gear me-1"></i> Bot Behavior</h6>
+                  <div class="row g-3">
+                     <div class="col-md-6">
+                        <div class="form-check form-switch">
+                           <input class="form-check-input" type="checkbox" id="autoUpdates" role="switch" <%= process.env.BOT_ENABLED === 'false' ? 'disabled' : '' %>>
+                           <label class="form-check-label" for="autoUpdates">
+                           <i class="bi bi-clock-history me-1"></i> Automatic Updates
+                           </label>
+                        </div>
+                        <small class="text-muted d-block ps-4 mt-1">Send online count periodically</small>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="form-check form-switch">
+                           <input class="form-check-input" type="checkbox" id="botEnabled" role="switch" <%= process.env.BOT_ENABLED === 'false' ? 'disabled' : '' %>>
+                           <label class="form-check-label" for="botEnabled">
+                           <i class="bi bi-power me-1"></i> Bot Status
+                           </label>
+                        </div>
+                        <small class="text-muted d-block ps-4 mt-1">Enable/disable the bot</small>
+                        <% if (process.env.BOT_ENABLED === 'false') { %>
+                        <div class="alert alert-warning mt-2 small d-flex align-items-center" role="alert">
+                           <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                           <div>
+                              <strong>Bot is disabled</strong> in environment settings (<code>BOT_ENABLED=false</code> in <code>.env</code>).
+                           </div>
+                        </div>
+                        <% } %>
+                     </div>
+                     <div class="col-md-12">
+                        <div class="mb-3">
+                           <label for="updateInterval" class="form-label">Update Interval (minutes)</label>
+                           <input type="number" class="form-control" id="updateInterval" min="1" max="120" value="5" <%= process.env.BOT_ENABLED === 'false' ? 'disabled' : '' %>>
+                           <small class="text-muted">How often to send updates (1-120 minutes)</small>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                  <div id="botStatus">
+                     <span class="badge <%= process.env.BOT_ENABLED === 'false' ? 'bg-danger' : 'bg-secondary' %>">
+                     <i class="bi <%= process.env.BOT_ENABLED === 'false' ? 'bi-lock-fill' : 'bi-hourglass-split' %> me-1"></i>
+                     Status: <%= process.env.BOT_ENABLED === 'false' ? 'Disabled in ENV' : 'Loading...' %>
+                     </span>
+                  </div>
+                  <div>
+                     <button type="button" class="btn btn-outline-info me-2" id="testBotBtn" <%= process.env.BOT_ENABLED === 'false' ? 'disabled' : '' %>>
+                     <i class="bi bi-lightning-charge me-1"></i> Test Connection
+                     </button>
+                     <button type="submit" class="btn btn-primary" <%= process.env.BOT_ENABLED === 'false' ? 'disabled' : '' %>>
+                     <i class="bi bi-save me-1"></i> Save Settings
+                     </button>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>

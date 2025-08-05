@@ -3,332 +3,314 @@
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Edit Character</title>
+      <title>Edit Character <%= UserName %></title>
       <link rel="icon" href="../images/favicon-admin.png" type="image/png">
-      <link rel="stylesheet" href="../css/bootstrap.min.css">
-      <link rel="stylesheet" href="../css/edit-character.css">
-      <script src="../js/jquery-3.6.0.min.js"></script>
-      <link rel="stylesheet" href="../css/admin.css">
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+      <link rel="stylesheet" href="/css/admin-edit-character.css">
    </head>
-   <body>
+   <body class="bg-light d-flex flex-column min-vh-100">
       <%- include('partials/nav') %>
       <div id="toast-container" style="position: fixed; top: 1rem; right: 1rem; z-index: 1050;"></div>
-      <!-- Тост уведомления будут добавляться сюда -->
-      </div>
-      <div class="container">
-         <!-- Кнопка возврата в админпанель -->
-         <h1 class="mb-4">
-            Account and Character Management for 
-            <a href="/profile?userName=<%= UserName %>" style="text-decoration: none;">
-            <span class="username"><%= UserName %></span>
-            </a>
-         </h1>
-         <h5 class="mb-4">Created: <%= Created %></h5>
-         <!-- Deposits Section -->		 
-         <div class="card mb-4">
-            <div class="card-header deposit-header">
-               <h5><i class="fas fa-wallet icon"></i> Deposit Information</h5>
+      <main class="flex-grow-1 pb-5">
+         <div class="container py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-md-row">
+   <div class="account-management-block mb-4 mb-md-0 p-3 rounded-3 shadow-sm" style="background-color: #f8f9fa; border-left: 4px solid #0d6efd;">
+      <div class="d-flex flex-column flex-lg-row gap-3">
+         <!-- Левая часть - Account Management -->
+         <div class="flex-grow-1">
+            <h2 class="mb-3 d-flex align-items-center">
+               <i class="fas fa-user-cog fs-4 text-primary me-2"></i>Account Management
+            </h2>
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+               <span class="badge bg-secondary py-2 px-3 d-flex align-items-center">
+               <i class="fas fa-id-card me-2"></i>
+               <span class="fw-medium">User ID: <%= UserId %></span>
+               </span>
+               <span class="badge bg-success py-2 px-3 d-flex align-items-center">
+               <i class="fas fa-user me-2"></i>
+               <a href="/profile?userName=<%= UserName %>" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none fw-medium"><%= UserName %></a>
+               </span>
             </div>
-            <div class="card-body">
-               <table class="table">
-                  <thead>
-                     <tr>
-                        <th scope="col">Total Amount</th>
-                        <th scope="col">Total Balance</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <%= totalAmount %>  <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px; margin-right: 5px;"> Hangmoon Coins
-                        </td>
-                        <td><%= totalBalance %>  <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px; margin-right: 5px;"> Hangmoon Coins</td>
-                     </tr>
-                  </tbody>
-               </table>
+            <span class="badge bg-info py-2 px-3 d-flex align-items-center">
+            <i class="far fa-calendar-alt me-2"></i>
+            <small class="fw-medium">Created: <%= Created %></small>
+            </span>
+         </div>
+         <!-- Правая часть - Last Activity -->
+         <div class="flex-grow-1 ps-lg-3 border-start-lg">
+            <h6 class="mb-3 d-flex align-items-center">
+               <i class="fas fa-clock fs-5 text-secondary me-2"></i>Last Activity
+            </h6>
+            <div class="d-flex flex-column">
+               <div class="d-flex align-items-center mb-1">
+                  <i class="fas fa-sign-in-alt text-success me-2"></i>
+                  <span class="fw-medium text-nowrap text-sm-wrap">Last Login:</span>
+                  <span class="ms-2 text-nowrap"><%= lastLoginTime || 'Never' %></span>
+               </div>
+               <div class="d-flex align-items-center mb-1">
+                  <i class="fas fa-sign-out-alt text-danger me-2"></i>
+                  <span class="fw-medium text-nowrap text-sm-wrap">Last Logout:</span>
+                  <span class="ms-2 text-nowrap"><%= lastLogoutTime || 'Never' %></span>
+               </div>
+               <!-- <div class="d-flex align-items-center"> -->
+                  <!-- <i class="fas fa-network-wired text-primary me-2"></i> -->
+                  <!-- <span class="fw-medium text-nowrap text-sm-wrap">Last IP:</span> -->
+                  <!-- <span class="ms-2 text-nowrap"><%= lastAccessIP || 'Unknown' %></span> -->
+               <!-- </div> -->
             </div>
          </div>
-         <!-- GameAccountExp с двумя колонками -->
-         <div class="accordion-body">
-            <form action="/admin/update-game-account-exp" method="POST" class="update-game-account-exp-form" onsubmit="event.preventDefault(); showToast('Game account experience updated successfully!'); this.submit();">
-               <% if (gameAccountExp.length === 0) { %>
-               <div class="alert alert-info" role="alert">
-                  Record in GameAccountExp not found. Or characters not created yet.
+      </div>
+   </div>
+   <!-- dropdown меню - теперь центрируется на мобильных -->
+   <div class="d-flex justify-content-center w-100 justify-content-md-end mt-3 mt-md-0">
+      <div class="dropdown">
+         <button class="btn btn-sm btn-outline-primary dropdown-toggle py-1 px-2" type="button" id="userActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+         <i class="fas fa-user-cog fa-sm me-1"></i> Actions
+         </button>
+         <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userActionsDropdown">
+            <li>
+               <h6 class="dropdown-header">User Actions</h6>
+            </li>
+            <li>
+               <a class="dropdown-item py-2" href="add-deposit?userId=<%= UserId %>">
+               <i class="fas fa-coins fa-fw me-2 text-success"></i>Add Deposit
+               </a>
+            </li>
+            <li>
+               <a class="dropdown-item py-2" href="add-item?userId=<%= UserId %>">
+               <i class="fas fa-paper-plane fa-fw me-2 text-info"></i>Sending Items
+               </a>
+            </li>
+            <li>
+               <hr class="dropdown-divider my-1">
+            </li>
+            <li>
+               <h6 class="dropdown-header">Administration</h6>
+            </li>
+            <li>
+               <a class="dropdown-item py-2" href="add-vip?userId=<%= UserId %>">
+               <i class="fas fa-crown fa-fw me-2 text-warning"></i>VIP Management
+               </a>
+            </li>
+            <li>
+               <a class="dropdown-item py-2" href="add-ban?userId=<%= UserId %>">
+               <i class="fas fa-gavel fa-fw me-2 text-danger"></i>Ban Management
+               </a>
+            </li>
+         </ul>
+      </div>
+      <button class="btn btn-sm btn-outline-primary ms-2 py-1 px-2" data-bs-toggle="modal" data-bs-target="#characterInfoModal">
+      <i class="fas fa-info-circle fa-sm me-1"></i> Info
+      </button>
+   </div>
+</div>
+            <!-- Deposit Card -->
+            <div class="card mb-4">
+               <div class="card-header bg-primary d-flex text-white align-items-center">
+                  <i class="fas fa-wallet icon  text-white me-2"></i>
+                  <h5 class="mb-0">Deposit Information</h5>
                </div>
-               <% } else { %>
-               <% gameAccountExp.forEach(exp => { %>
-               <input type="hidden" name="gameAccountId" value="<%= exp.GameAccountID %>">
-               <input type="hidden" name="userName" value="<%= UserName %>">
-               <% const expFields = [
-                  { label: 'Account Level', field: 'accountExp', value: exp.AccountExp, type: 'number', min: 0, max: 195852760 },
-                  { label: 'Account Exp Quota Per Day', field: 'accountExpQuotaPerDay', value: exp.AccountExpQuotaPerDay, type: 'number', min: 0, max: 2147483647 }
-                  ]; %>
-               <div class="accordion mb-4">
-                  <div class="accordion-item">
-                     <h2 class="accordion-header" id="heading<%= exp.GameAccountID %>">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= exp.GameAccountID %>" aria-expanded="true" aria-controls="collapse<%= exp.GameAccountID %>">
-                        Game Account ID: <%= exp.GameAccountID %> | UserName: <%= UserName %>
-                        </button>
-                     </h2>
-                     <div id="collapse<%= exp.GameAccountID %>" class="accordion-collapse collapse show" aria-labelledby="heading<%= exp.GameAccountID %>">
-                        <div class="accordion-body">
-                           <div class="row">
-                              <% expFields.forEach(field => { %>
-                              <div class="col-md-6 mb-4">
-                                 <div class="form-group">
-                                    <label for="<%= field.field %>-<%= exp.GameAccountID %>" class="form-label"><%= field.label %>:</label>
-                                    <input type="<%= field.type %>" id="<%= field.field %>-<%= exp.GameAccountID %>" name="<%= field.field %>" class="form-control" value="<%= field.value %>" <% if (field.min !== undefined) { %> min="<%= field.min %>" <% } %> <% if (field.max !== undefined) { %> max="<%= field.max %>" <% } %>>
-                                    <p class="description mt-2">
-                                       <% if (field.field === 'accountExp') { %>
-                                       Bonuses and levels are shared among all your characters. Right now, there are 100 levels in the game. The value must be between 0 and 195852760.
-                                       <% } else if (field.field === 'accountExpQuotaPerDay') { %>
-                                       The maximum amount of experience points that can be accumulated per day. The value must be between 0 and 2147483647.
-                                       <% } %>
-                                    </p>
-                                 </div>
-                              </div>
-                              <% }) %>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                           <i class="fas fa-coins text-warning me-2"></i>
+                           <div>
+                              <h6 class="mb-0">Total Amount</h6>
+                              <p class="mb-0"><%= totalAmount %> <img src="/images/money/NCoin.webp" alt="B&SCoin" class="money-icon"> Hangmoon Coins</p>
                            </div>
-                           <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                      </div>
-                  </div>
-               </div>
-               <% }) %>
-               <% } %>
-            </form>
-         </div>
-         <!-- Раздел Character Details -->
-         <div class="accordion mb-4" id="accordionExample">
-            <% creatures.forEach((creature, index) => { %>
-            <div class="accordion-item">
-               <h2 class="accordion-header" id="heading<%= index %>">
-                  <button class="accordion-button <%= (creature.deletion === true || creature.deletion === 'true') ? 'collapsed' : '' %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="<%= (creature.deletion === true || creature.deletion === 'true') ? 'false' : 'true' %>" aria-controls="collapse<%= index %>">
-                  Character ID: <%= creature.pcid %> - <span class="stylized-name"><%= creature.name %></span>
-                  <% if (creature.deletion === true || creature.deletion === 'true') { %>
-                  <% if (creature.deletion_time) { %>
-                  <% 
-                     const deletionDate = new Date(creature.deletion_time);
-                     const formattedDate = deletionDate.toLocaleString(); 
-                     %>
-                  <span class="deleted-status">&nbsp; &nbsp;DELETION! <%= formattedDate %></span>
-                  <% } else { %>
-                  <span class="deleted-status">&nbsp; &nbsp;DELETION!</span>
-                  <% } %>
-                  <% } %>
-                  </button>
-               </h2>
-               <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>" data-bs-parent="#accordionExample">
-                  <div class="accordion-body">
-                     <div class="form-container">
-                        <% const fields = [
-                           { label: 'Game Account ID', field: 'game_account_id', type: 'text' },
-                           { label: 'World ID', field: 'world_id', type: 'text' },
-                           { label: 'Race', field: 'race', type: 'text' },
-                           { label: 'Sex', field: 'sex', type: 'text' },
-                           { label: 'Job', field: 'job', type: 'text' },
-                           { label: 'Name', field: 'name', type: 'text' },
-                           { label: 'Yaw', field: 'yaw', type: 'text' },
-                           { label: 'Level', field: 'level', type: 'number', min: 0, max: 2147483647, step: 1 },
-                           { label: 'EXP', field: 'exp', type: 'number', min: 0, max: 2147483647, step: 1 },
-                           { label: 'Mastery Level', field: 'mastery_level', type: 'number', min: 0, max: 2147483647, step: 1 },
-                           { label: 'Mastery EXP', field: 'mastery_exp', type: 'number', min: 0, max: 2147483647, step: 1 },
-                           { label: 'HP', field: 'hp', type: 'number', min: 0, max: 2147483647, step: 1 },
-                           { label: 'Money', field: 'money', type: 'number', min: 0, max: 2147483647, step: 1 },
-                           { label: 'Money Diff', field: 'money_diff', type: 'number', min: -2147483648, max: 2147483647, step: 1 },
-                           { label: 'Faction', field: 'faction', type: 'text' },
-                           { label: 'Faction2', field: 'faction2', type: 'text' },
-                           { label: 'Faction Reputation', field: 'faction_reputation', type: 'number', min: -2147483648, max: 2147483647, step: 1 },
-                           { label: 'Inventory Size', field: 'inventory_size', type: 'number', min: 8, max: 96, step: 1 },
-                           { label: 'Depository Size', field: 'depository_size', type: 'number', min: 8, max: 80, step: 1 },
-                           { label: 'Wardrobe Size', field: 'wardrobe_size', type: 'number', min: 8, max: 80, step: 1 },
-                           { label: 'Premium Depository Size', field: 'premium_depository_size', type: 'number', min: 8, max: 80, step: 1 },
-                           { label: 'Acquired Skill Build Up Point', field: 'acquired_skill_build_up_point', type: 'number', min: 0, max: 32767, step: 1 },
-                           { label: 'Account EXP to Add', field: 'account_exp_to_add', type: 'number', min: 0, max: 2147483647, step: 1 },
-                           { label: 'Account EXP Added', field: 'account_exp_added', type: 'number', min: 0, max: 2147483647, step: 1 },
-                           { label: 'Account EXP Added Time', field: 'account_exp_added_time', type: 'text' },
-                           { label: 'Account EXP by PC', field: 'account_exp_by_pc', type: 'number', min: 0, max: 2147483647, step: 1 },
-                           { label: 'Activated Badge Page', field: 'activated_badge_page', type: 'text' },
-                           { label: 'PVP Mode', field: 'pvp_mode', type: 'text' },
-                           { label: 'Guild Invitation Refusal', field: 'guild_invitation_refusal', type: 'text' },
-                           { label: 'Slate Page', field: 'slate_page', type: 'text' },
-                           { label: 'Guild Point', field: 'guild_point', type: 'number', min: 0, max: 2147483647, step: 1 }
-                           ]; %>
-                        <% fields.forEach(field => { %>
-                        <div class="form-group">
-                           <label for="<%= field.field %>-<%= creature.pcid %>"><%= field.label %>:</label>
-                           <form action="/update-character" method="POST" class="form-inline">
-                              <input type="hidden" name="pcid" value="<%= creature.pcid %>">
-                              <input type="hidden" name="field" value="<%= field.field %>">
-                              <input type="hidden" name="userName" value="<%= UserName %>">
-                              <% if (field.type === 'select') { %>
-                              <select class="form-control" id="<%= field.field %>-<%= creature.pcid %>" name="value">
-                                 <!-- Options should be dynamically generated based on field.field -->
-                              </select>
-                              <% } else { %>
-                              <input type="<%= field.type %>" class="form-control" id="<%= field.field %>-<%= creature.pcid %>" name="value" value="<%= creature[field.field] %>" min="<%= field.min %>" max="<%= field.max %>" step="<%= field.step %>">
-                              <% } %>
-                              <div class="update-button-container">
-                                 <button type="submit" class="btn btn-primary">Update</button>
-                              </div>
-                           </form>
-                           <p class="description">
-                              <% if (field.field === 'game_account_id') { %>
-                              The ID of the game account associated with the character.
-                              <% } else if (field.field === 'world_id') { %>
-                              The ID of the world the character is in.
-                              <% } else if (field.field === 'race') { %>
-                              The race of the character.
-                              <% } else if (field.field === 'sex') { %>
-                              The sex of the character.
-                              <% } else if (field.field === 'job') { %>
-                              The job or class of the character.
-                              <% } else if (field.field === 'name') { %>
-                              The name of the character.
-                              <% } else if (field.field === 'yaw') { %>
-                              The yaw angle of the character.
-                              <% } else if (field.field === 'level') { %>
-                              The level of the character. The value must be between 1 and 60.
-                              <% } else if (field.field === 'exp') { %>
-                              The experience points of the character. The value must be between 0 and 2147483647.
-                              <% } else if (field.field === 'mastery_level') { %>
-                              The mastery level of the character. The value must be between 0 and 25
-                              <% } else if (field.field === 'mastery_exp') { %>
-                              The mastery experience points of the character. The value must be between 0 and 2147483647.
-                              <% } else if (field.field === 'hp') { %>
-                              The health points of the character. The value must be between 0 and 2147483647.
-                              <% } else if (field.field === 'money') { %>
-                              The amount of money the character has. The value must be between 0 and 2147483647.
-                              <% } else if (field.field === 'money_diff') { %>
-                              The difference in money for the character. The value must be between -2147483648 and 2147483647.
-                              <% } else if (field.field === 'faction') { %>
-                              The faction of the character. 1- Crimson Legion. 2- Cerulean Order
-                              <% } else if (field.field === 'faction2') { %>
-                              The secondary faction of the character.
-                              <% } else if (field.field === 'faction_reputation') { %>
-                              The reputation with factions. The value must be between -2147483648 and 2147483647.
-                              <% } else if (field.field === 'inventory_size') { %>
-                              The size of the character's inventory. The value must be between 8 and 96. Offline only.
-                              <% } else if (field.field === 'depository_size') { %>
-                              The size of the character's depository. The value must be between 8 and 80. Offline only.
-                              <% } else if (field.field === 'wardrobe_size') { %>
-                              The size of the character's wardrobe. The value must be between 8 and 80. Offline only.
-                              <% } else if (field.field === 'premium_depository_size') { %>
-                              The size of the character's premium depository. The value must be between 8 and 80. Offline only.
-                              <% } else if (field.field === 'acquired_skill_build_up_point') { %>
-                              The number of acquired skill build-up points. The value must be between 0 and 32767.
-                              <% } else if (field.field === 'account_exp_to_add') { %>
-                              The account experience points to be added. The value must be between 0 and 2147483647.
-                              <% } else if (field.field === 'account_exp_added') { %>
-                              The account experience points that have been added. The value must be between 0 and 2147483647.
-                              <% } else if (field.field === 'account_exp_added_time') { %>
-                              The time when account experience points were added.
-                              <% } else if (field.field === 'account_exp_by_pc') { %>
-                              The account experience points added by the PC. The value must be between 0 and 2147483647.
-                              <% } else if (field.field === 'activated_badge_page') { %>
-                              The activated badge page.
-                              <% } else if (field.field === 'pvp_mode') { %>
-                              The PVP mode of the character.
-                              <% } else if (field.field === 'guild_invitation_refusal') { %>
-                              The guild invitation refusal status.
-                              <% } else if (field.field === 'slate_page') { %>
-                              The slate page of the character.
-                              <% } else if (field.field === 'guild_point') { %>
-                              The guild points of the character. The value must be between 0 and 2147483647.
-                              <% } %>
-                           </p>
+                     <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                           <i class="fas fa-piggy-bank text-primary me-2"></i>
+                           <div>
+                              <h6 class="mb-0">Total Balance</h6>
+                              <p class="mb-0"><%= totalBalance %> <img src="/images/money/NCoin.webp" alt="B&SCoin" class="money-icon"> Hangmoon Coins</p>
+                           </div>
                         </div>
-                        <% }); %>
                      </div>
                   </div>
                </div>
             </div>
-            <% }); %>
-         </div>
-      </div>
-      <script>
-         $(document).ready(function() {
-             // Общая функция для отправки формы с помощью AJAX
-             function handleFormSubmission(form, url, successMessage) {
-                 event.preventDefault(); // Предотвратить стандартное поведение формы
-         
-                 var formData = form.serialize(); // Сериализовать данные формы
-         
-                 $.ajax({
-                     type: 'POST',
-                     url: url, // URL для отправки запроса
-                     data: formData,
-                     success: function(response) {
-                         showToast(successMessage);
-                         // Здесь можно добавить обработку ответа для обновления содержимого страницы, если необходимо
-                     },
-                     error: function(xhr, status, error) {
-                         showToast('An error occurred: ' + error, 'danger');
-                     }
-                 });
-             }
-         
-             // AJAX form submission for Game Account Exp
-             $('.update-game-account-exp-form').submit(function(event) {
-                 handleFormSubmission($(this), '/admin/update-game-account-exp', 'Game Account Exp updated successfully!');
-             });
-         
-             // AJAX form submission for character details
-             $('.update-character-form').submit(function(event) {
-                 handleFormSubmission($(this), '/update-character', 'Character details updated successfully!');
-             });
-         
-             // AJAX form submission for character details (with inline form)
-             $('.form-inline').submit(function(event) {
-                 var form = $(this);
-                 event.preventDefault(); // Остановить стандартное поведение формы
-         
-                 var formData = form.serialize(); // Сериализовать данные формы
-         
-                 $.ajax({
-                     type: 'POST',
-                     url: '/update-character', // URL для отправки запроса
-                     data: formData,
-                     success: function(response) {
-                         // Обновить данные на странице с полученными значениями
-                         var updatedField = response.updatedField; // поле, которое обновилось
-                         var updatedValue = response.updatedValue; // новое значение
-         
-                         // Обновить соответствующее поле в интерфейсе
-                         $('#' + updatedField + '-' + response.pcid).val(updatedValue);
-                         showToast('Character updated successfully!');
-                     },
-                     error: function() {
-                         showToast('Error updating character. Please try again.');
-                     }
-                 });
-             });
-         });
-         
-         function showToast(message, type = 'success') {
-             const toastHtml = `
-                 <div class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                     <div class="d-flex">
-                         <div class="toast-body">
-                             ${message}
-                         </div>
-                         <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            <!-- Characters Accordion -->
+            <h4 class="mb-3"><i class="fas fa-users icon"></i>Characters (<%= creatures.length %>)</h4>
+            <div class="accordion mb-4" id="charactersAccordion">
+               <% creatures.forEach((creature, index) => { %>
+               <div class="accordion-item">
+                  <h2 class="accordion-header" id="heading<%= index %>">
+                     <button class="accordion-button <%= (creature.deletion) ? 'collapsed' : '' %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>">
+                        <div class="d-flex align-items-center w-100">
+                           <i class="fas fa-user me-2 <%= creature.deletion ? 'text-danger' : 'text-primary' %>"></i>
+                           <div class="flex-grow-1">
+                              <span class="me-2">#<%= creature.pcid %></span>
+                              <span class="stylized-name"><%= creature.name %></span>
+                              <% if (creature.deletion) { %>
+                              <span class="badge bg-danger ms-2">
+                              <% if (creature.deletion_time) { %>
+                              DELETED (<%= new Date(creature.deletion_time).toLocaleString() %>)
+                              <% } else { %>
+                              DELETED
+                              <% } %>
+                              </span>
+                              <% } %>
+                           </div>
+                           <div>
+                              <span class="badge bg-secondary me-1">Lv.<%= creature.level %></span>
+                              <span class="badge bg-info">
+                              <span class="badge bg-info"><%= creature.job %></span>
+                              <%= creature.displayData.job %>
+                              </span>
+                           </div>
+                        </div>
+                     </button>
+                  </h2>
+                  <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>" data-bs-parent="#charactersAccordion">
+                     <div class="accordion-body">
+                        <div class="form-container">
+                           <% const fields = [
+                              { label: 'PC ID', field: 'pcid', type: 'text', icon: 'fas fa-id-card' },
+                              { label: 'Game Account ID', field: 'game_account_id', type: 'text', icon: 'fas fa-gamepad', readonly: true },
+                              { label: 'World ID', field: 'world_id', type: 'text', icon: 'fas fa-globe' },
+                              { label: 'Race', field: 'race', type: 'text', icon: 'fas fa-dragon' },
+                              { label: 'Sex', field: 'sex', type: 'text', icon: 'fas fa-venus-mars' },
+                              { label: 'Job', field: 'job', type: 'text', icon: 'fas fa-briefcase' },
+                              { label: 'Name', field: 'name', type: 'text', icon: 'fas fa-signature' },
+                              { label: 'Yaw', field: 'yaw', type: 'text', icon: 'fas fa-compass' },
+                              { label: 'Level', field: 'level', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-level-up-alt' },
+                              { label: 'EXP', field: 'exp', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-star' },
+                              { label: 'Mastery Level', field: 'mastery_level', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-award' },
+                              { label: 'Mastery EXP', field: 'mastery_exp', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-medal' },
+                              { label: 'HP', field: 'hp', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-heart' },
+                              { label: 'Money', field: 'money', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-coins' },
+                              { label: 'Money Diff', field: 'money_diff', type: 'number', min: -2147483648, max: 2147483647, step: 1, icon: 'fas fa-exchange-alt' },
+                              { label: 'Faction', field: 'faction', type: 'text', icon: 'fas fa-flag' },
+                              { label: 'Faction2', field: 'faction2', type: 'text', icon: 'fas fa-flag' },
+                              { label: 'Faction Reputation', field: 'faction_reputation', type: 'number', min: -2147483648, max: 2147483647, step: 1, icon: 'fas fa-handshake' },
+                              { label: 'Inventory Size', field: 'inventory_size', type: 'number', min: 8, max: 96, step: 1, icon: 'fas fa-box-open' },
+                              { label: 'Depository Size', field: 'depository_size', type: 'number', min: 8, max: 80, step: 1, icon: 'fas fa-archive' },
+                              { label: 'Wardrobe Size', field: 'wardrobe_size', type: 'number', min: 8, max: 80, step: 1, icon: 'fas fa-tshirt' },
+                              { label: 'Premium Depository Size', field: 'premium_depository_size', type: 'number', min: 8, max: 80, step: 1, icon: 'fas fa-archive' },
+                              { label: 'Acquired Skill Build Up Point', field: 'acquired_skill_build_up_point', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-magic' },
+                              { label: 'Account EXP to Add', field: 'account_exp_to_add', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-plus-circle' },
+                              { label: 'Account EXP Added', field: 'account_exp_added', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-check-circle' },
+                              { label: 'Account EXP Added Time', field: 'account_exp_added_time', type: 'text', icon: 'fas fa-clock' },
+                              { label: 'Account EXP by PC', field: 'account_exp_by_pc', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-laptop' },
+                              { label: 'Activated Badge Page', field: 'activated_badge_page', type: 'text', icon: 'fas fa-id-badge' },
+                              { label: 'PVP Mode', field: 'pvp_mode', type: 'text', icon: 'fas fa-shield-alt' },
+                              { label: 'Guild Invitation Refusal', field: 'guild_invitation_refusal', type: 'text', icon: 'fas fa-user-times' },
+                              { label: 'Slate Page', field: 'slate_page', type: 'text', icon: 'fas fa-scroll' },
+                              { label: 'Guild Point', field: 'guild_point', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-users' }
+                              ]; %>
+                           <% fields.forEach(field => { %>
+                           <div class="form-group">
+                              <label for="<%= field.field %>-<%= creature.pcid %>" class="form-label">
+                              <i class="<%= field.icon %> me-1"></i><%= field.label %>
+                              </label>
+                              <form action="/update-character" method="POST" class="form-inline">
+                                 <input type="hidden" name="pcid" value="<%= creature.pcid %>">
+                                 <input type="hidden" name="field" value="<%= field.field %>">
+                                 <input type="hidden" name="userName" value="<%= UserName %>">
+                                 <div class="input-group mb-2">
+                                    <input 
+                                       type="<%= field.type %>" 
+                                       class="form-control" 
+                                       id="<%= field.field %>-<%= creature.pcid %>" 
+                                       name="value" 
+                                       value="<%= creature[field.field] %>" 
+                                       <%= field.min ? `min="${field.min}"` : '' %> 
+                                       <%= field.max ? `max="${field.max}"` : '' %> 
+                                       <%= field.step ? `step="${field.step}"` : '' %>
+                                       <%= field.field === 'pcid' || field.field === 'game_account_id' || field.readonly ? 'readonly' : '' %>
+                                       >
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-save"></i>
+                                    </button>
+                                 </div>
+                              </form>
+                              <p class="description">
+                                 <% if (field.field === 'pcid') { %>
+                                 The ID of the PC associated with the character.
+                                 <% } else if (field.field === 'game_account_id') { %>
+                                 The ID of the game account associated with the character.
+                                 <% } else if (field.field === 'world_id') { %>
+                                 The ID of the world the character is in.
+                                 <% } else if (field.field === 'race') { %>
+                                 The race of the character.
+                                 <% } else if (field.field === 'sex') { %>
+                                 The sex of the character.
+                                 <% } else if (field.field === 'job') { %>
+                                 The job or class of the character.
+                                 <% } else if (field.field === 'name') { %>
+                                 The name of the character.
+                                 <% } else if (field.field === 'yaw') { %>
+                                 The yaw angle of the character.
+                                 <% } else if (field.field === 'level') { %>
+                                 The level of the character. The value must be between 1 and 60.
+                                 <% } else if (field.field === 'exp') { %>
+                                 The experience points of the character. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'mastery_level') { %>
+                                 The mastery level of the character. The value must be between 0 and 25
+                                 <% } else if (field.field === 'mastery_exp') { %>
+                                 The mastery experience points of the character. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'hp') { %>
+                                 The health points of the character. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'money') { %>
+                                 The amount of money the character has. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'money_diff') { %>
+                                 The difference in money for the character. The value must be between -2147483648 and 2147483647.
+                                 <% } else if (field.field === 'faction') { %>
+                                 The faction of the character. 1- Crimson Legion. 2- Cerulean Order
+                                 <% } else if (field.field === 'faction2') { %>
+                                 The secondary faction of the character.
+                                 <% } else if (field.field === 'faction_reputation') { %>
+                                 The reputation with factions. The value must be between -2147483648 and 2147483647.
+                                 <% } else if (field.field === 'inventory_size') { %>
+                                 The size of the character's inventory. The value must be between 8 and 96. Offline only.
+                                 <% } else if (field.field === 'depository_size') { %>
+                                 The size of the character's depository. The value must be between 8 and 80. Offline only.
+                                 <% } else if (field.field === 'wardrobe_size') { %>
+                                 The size of the character's wardrobe. The value must be between 8 and 80. Offline only.
+                                 <% } else if (field.field === 'premium_depository_size') { %>
+                                 The size of the character's premium depository. The value must be between 8 and 80. Offline only.
+                                 <% } else if (field.field === 'acquired_skill_build_up_point') { %>
+                                 The number of acquired skill build-up points. The value must be between 0 and 32767.
+                                 <% } else if (field.field === 'account_exp_to_add') { %>
+                                 The account experience points to be added. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'account_exp_added') { %>
+                                 The account experience points that have been added. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'account_exp_added_time') { %>
+                                 The time when account experience points were added.
+                                 <% } else if (field.field === 'account_exp_by_pc') { %>
+                                 The account experience points added by the PC. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'activated_badge_page') { %>
+                                 The activated badge page.
+                                 <% } else if (field.field === 'pvp_mode') { %>
+                                 The PVP mode of the character.
+                                 <% } else if (field.field === 'guild_invitation_refusal') { %>
+                                 The guild invitation refusal status.
+                                 <% } else if (field.field === 'slate_page') { %>
+                                 The slate page of the character.
+                                 <% } else if (field.field === 'guild_point') { %>
+                                 The guild points of the character. The value must be between 0 and 2147483647.
+                                 <% } %>
+                              </p>
+                           </div>
+                           <% }); %>
+                        </div>
                      </div>
-                 </div>
-             `;
-             $('#toast-container').append(toastHtml);
-             
-             // Показать уведомление
-             const toastElement = $('#toast-container .toast').last()[0];
-             const bsToast = new bootstrap.Toast(toastElement);
-             bsToast.show();
-         
-             // Удаление уведомления через 3 секунды
-             setTimeout(() => {
-                 $(toastElement).remove();
-             }, 3000);
-         }
-      </script>
-      <script src="../js/bootstrap.bundle.min.js"></script>
+                  </div>
+               </div>
+               <% }); %>
+            </div>
+         </div>
+      </main>
+      <%- include('partials/adminFooter') %>
+      <%- include('partials/characterInfoModal') %>
+      <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/js/admin-edit-character.js"></script>
    </body>
 </html>

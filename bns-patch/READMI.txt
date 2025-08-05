@@ -1,0 +1,36 @@
+📁 bns-patch/ — Game Client Update Directory
+
+⚠️ Note: This component is not yet implemented in the current project.
+It will be published separately on GitHub.
+
+Purpose:
+This directory is intended for storing files required to update the game client. It contains patches, scripts, installation components, and auxiliary resources necessary for automatic or manual updates of the game's client-side components.
+
+Contents may include:
+- Version metadata file: bns-patch\db\server.db.xxx.cab
+- Patch packages: bns-patch\patch\4-1.cab, 5-1.cab, etc.
+- Game client version file: bns-patch\Version.ini in the following format:
+
+  [Version]
+  ProductVersion=1.0.72.180 v 0
+
+  [Download]
+  Retry=3
+  Wait=1000
+  Version=0
+  DL root=patch
+
+  [CheckHash]
+  count=0
+  hash=cf97afafb557fd44c79c52c36c15ca03
+  signature=fd28bdb784c95bb3047633778b160ba34f97105ecbb8934ac622a8c9551ab6a290c83e397b5eb4593d8911f8b38292e802add240ed08593ae7b84c2a6baaa529
+  file0=bin\Client.exe
+  value0=00000000000000000000000000000000
+
+- .exe, .bat, .zip or other update packages
+- Configuration files
+- JSON or XML version metadata
+- Supporting scripts and utilities
+
+Important:
+Ensure that the structure and contents of this directory meet the requirements of the update system to avoid errors during patch installation.

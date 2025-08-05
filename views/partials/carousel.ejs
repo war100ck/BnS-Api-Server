@@ -1,0 +1,42 @@
+<!-- partials/carousel.ejs -->
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+   <div class="carousel-indicators">
+      <% for (let i = 0; i < 11; i++) { %>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= i %>" class="<%= i === 0 ? 'active' : '' %>" aria-current="<%= i === 0 ? 'true' : 'false' %>" aria-label="Slide <%= i + 1 %>"></button>
+      <% } %>
+   </div>
+   <div class="carousel-inner">
+      <% const slides = [ 
+         "index.webp", "index_2.webp", "index_3.webp", 
+         "index_4.webp", "index_5.webp", "index_6.webp", 
+         "index_7.webp", "index_8.webp", "index_9.webp", 
+         "index_10.webp", "index_11.webp" 
+         ]; %>
+      <% slides.forEach((slide, index) => { %>
+      <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+         <img class="d-block w-100" src="images/slide/<%= slide %>" alt="Slide <%= index + 1 %>" 
+            loading="<%= index === 0 ? 'eager' : 'lazy' %>" 
+            fetchpriority="<%= index === 0 ? 'high' : 'auto' %>">
+      </div>
+      <% }); %>
+   </div>
+   <!-- Hero Content Overlay -->
+   <div class="hero-overlay">
+      <!-- Desktop Version -->
+      <div class="hero-content d-none d-md-block text-center">
+         <h1 class="hero-title">
+            Welcome to 
+            <img src="images/logo/logo-bns.webp" alt="Blade & Soul" class="logo-img hero-logo-img" width="340" height="155">
+            private server
+         </h1>
+         <p class="hero-subtitle">Immerse yourself in the world of Blade & Soul</p>
+         <button id="join-us-button" class="sprite-button" data-bs-toggle="modal" data-bs-target="#signupModal">Join Us Now</button>
+      </div>
+      <!-- Mobile Version -->
+      <div class="hero-content-mobile d-block d-md-none text-center">
+         <h1 class="hero-title">Welcome to our <br> private server</h1>
+         <p class="hero-subtitle">Immerse yourself in the world of Blade & Soul</p>
+         <button id="join-us-button-mobile" class="sprite-button" data-bs-toggle="modal" data-bs-target="#signupModal">Join Us Now</button>
+      </div>
+   </div>
+</div>

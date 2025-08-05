@@ -3,9 +3,9 @@
 // Функция для преобразования пола в текст и изображение пола
 export function convertSex(sex) {
   switch (sex) {
-    case 1: return { name: 'Male', imageUrl: '/images/sex/male.png' };
-    case 2: return { name: 'Female', imageUrl: '/images/sex/female.png' };
-    default: return { name: 'Unknown', imageUrl: '/images/sex/unknown.png' };
+    case 1: return { name: 'Male', iconClass: 'fas fa-mars', imageUrl: '/images/sex/male.png' };
+    case 2: return { name: 'Female', iconClass: 'fas fa-venus',imageUrl: '/images/sex/female.png' };
+    default: return { name: 'Unknown', iconClass: 'fas fa-genderless',imageUrl: '/images/sex/unknown.png' };
   }
 }
 
@@ -29,12 +29,17 @@ export function convertRace(race) {
   }
 }
 
-// Функция для конвертации денег в золото, серебро и медь
+// Функция для конвертации денег в золото, серебро и медь + добавление изображений
 export function convertMoney(money) {
-  const gold = Math.floor(money / 10000); // 10000 единиц = 1 золото
-  const silver = Math.floor((money % 10000) / 100); // 100 единиц = 1 серебро
-  const copper = money % 100; // 1 единица = 1 медь
-  return { gold, silver, copper };
+  const gold = Math.floor(money / 10000);
+  const silver = Math.floor((money % 10000) / 100);
+  const copper = money % 100;
+
+  return {
+    gold: { value: gold, imageUrl: '/images/money/gold.png' },
+    silver: { value: silver, imageUrl: '/images/money/silver.png' },
+    copper: { value: copper, imageUrl: '/images/money/copper.png' },
+  };
 }
 
 // Функция для извлечения подстроки из строки

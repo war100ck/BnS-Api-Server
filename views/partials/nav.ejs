@@ -1,48 +1,138 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+<!-- partials/nav.ejs -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
    <div class="container-fluid">
-      <a class="navbar-brand" href="/admin">
-      <img src="/images/favicon-admin.png" alt="Admin Panel" width="30" height="30" class="d-inline-block align-text-top">
-      Admin Panel
+      <a class="navbar-brand d-flex align-items-center" href="/admin">
+      <img src="/images/favicon-admin.png" alt="Admin Panel" width="30" height="30" class="me-2">
+      <span class="fw-bold">Admin Panel</span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-         <ul class="navbar-nav ms-auto">
-            <li class="nav-item <%= pathname === '/admin' ? 'active' : '' %>">
-               <a class="nav-link" href="/admin">Dashboard</a>
+         <ul class="navbar-nav me-auto">
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle <%= pathname === '/admin' || pathname.includes('/admin/role-management') ? 'active' : '' %>" href="#" id="dashboardDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+               </a>
+               <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dashboardDropdown">
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin' ? 'active' : '' %>" href="/admin">
+                     <i class="fas fa-home me-2"></i> Main Dashboard
+                     </a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/role-management/manage' ? 'active' : '' %>" href="/admin/role-management/manage">
+                     <i class="fas fa-user-shield me-2"></i> Role Management
+                     </a>
+                  </li>
+               </ul>
             </li>
-            <li class="nav-item <%= pathname === '/admin/gameworld' ? 'active' : '' %>">
-               <a class="nav-link" href="/admin/gameworld">Game World Data</a>
+            <!-- Stats Dropdown -->
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle <%= pathname.includes('/admin/system-stats') || pathname.includes('/admin/game-stats') || pathname.includes('/admin/monitoring') ? 'active' : '' %>" href="#" id="statsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <i class="fas fa-chart-line me-1"></i> Stats
+               </a>
+               <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="statsDropdown">
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/system-stats' ? 'active' : '' %>" href="/admin/system-stats">
+                     <i class="fas fa-server me-2"></i> System Stats
+                     </a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/game-stats' ? 'active' : '' %>" href="/admin/game-stats">
+                     <i class="fas fa-gamepad me-2"></i> Game Stats
+                     </a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/monitoring' ? 'active' : '' %>" href="/admin/monitoring">
+                     <i class="fas fa-heartbeat me-2"></i> Monitoring
+                     </a>
+                  </li>
+               </ul>
             </li>
-            <li class="nav-item <%= pathname === '/admin/system-stats' ? 'active' : '' %>">
-               <a class="nav-link" href="/admin/system-stats">System Stats</a>
+            <!-- Settings Dropdown -->
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle <%= pathname.includes('/admin/gameworld') || pathname.includes('/admin/update') ? 'active' : '' %>" href="#" id="settingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <i class="fas fa-cog me-1"></i> Settings
+               </a>
+               <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="settingsDropdown">
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/gameworld' ? 'active' : '' %>" href="/admin/gameworld">
+                     <i class="fas fa-globe me-2"></i> Game World
+                     </a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/apiconfig' ? 'active' : '' %>" href="/admin/apiconfig">
+                     <i class="fa-solid fa-gears me-2"></i> API Configuration
+                     </a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/processes' ? 'active' : '' %>" href="/admin/processes">
+                     <i class="fa-solid fa-server me-2"></i> Server Processes
+                     </a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/update' ? 'active' : '' %>" href="/admin/update">
+                     <i class="fas fa-sync-alt me-2"></i> Update API
+                     </a>
+                  </li>
+               </ul>
             </li>
-            <!-- Показываем поле поиска только на странице /admin -->
-            <% if (pathname === '/admin') { %>
+            <!-- Services Dropdown -->
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle <%= pathname.includes('/admin/donate') || pathname.includes('/admin/promotions') ? 'active' : '' %>" href="#" id="othersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <i class="fas fa-concierge-bell me-1"></i> Services
+               </a>
+               <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="othersDropdown">
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/donate' ? 'active' : '' %>" href="/admin/donate">
+                     <i class="fas fa-shopping-cart me-2"></i> Donate Shop
+                     </a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/promotions' ? 'active' : '' %>" href="/admin/promotions">
+                     <i class="fas fa-bullhorn me-2"></i> Promotions
+                     </a>
+                  </li>
+               </ul>
+            </li>
+            <!-- Web Dropdown (NEW SECTION) -->
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle <%= pathname.includes('/admin/edit-news') ? 'active' : '' %>" href="#" id="webDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <i class="fas fa-globe me-1"></i> Web
+               </a>
+               <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="webDropdown">
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/edit-news' ? 'active' : '' %>" href="/admin/edit-news">
+                     <i class="fas fa-newspaper me-2"></i> News Editor
+                     </a>
+                  </li>
+               </ul>
+            </li>
+         </ul>
+         <ul class="navbar-nav">
             <li class="nav-item">
-               <input type="text" id="search-input" class="form-control me-2" placeholder="Search by users..." style="width: 250px;">
-            </li>
-            <% } %>
-            <!-- Показываем поле выбора только на странице /admin -->
-            <% if (pathname === '/admin') { %>
-            <li class="nav-item">
-               <select id="users-per-page" class="form-select w-auto d-inline-block" style="width: auto;">
-                  <option value="5">5</option>
-                  <option value="10" selected>10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-               </select>
-            </li>
-            <% } %>
-            <!-- Новая ссылка "Visit Website" -->
-            <li class="nav-item">
-               <a class="nav-link text-info" href="/" target="_blank">Visit Website</a>
+               <a class="nav-link text-info" href="/" target="_blank">
+               <i class="fas fa-external-link-alt me-1"></i> Visit Site
+               </a>
             </li>
             <li class="nav-item">
-               <a class="nav-link text-danger" href="/admin/logout">Logout</a>
+               <a class="nav-link text-danger" href="/admin/logout">
+               <i class="fas fa-sign-out-alt me-1"></i> Logout
+               </a>
             </li>
          </ul>
       </div>
    </div>
 </nav>
+<div class="navbar-spacer"></div>
+<style>
+   .navbar-spacer{ height:56px}
+   .navbar{ padding:0.5rem 1rem;  border-bottom:1px solid rgba(255,255,255,0.1)}
+   .navbar-brand{ font-size:1.1rem}
+   .nav-link{ padding:0.5rem 0.8rem;  font-size:0.9rem;  border-radius:0.25rem;  margin:0 0.1rem}
+   .nav-link:hover, .nav-link.active{ background-color:rgba(255,255,255,0.1)}
+   .dropdown-menu{ border:1px solid rgba(255,255,255,0.1);  box-shadow:0 0.5rem 1rem rgba(0,0,0,0.15)}
+   .dropdown-item{ padding:0.5rem 1rem;  font-size:0.85rem}
+   .dropdown-item:hover, .dropdown-item.active{ background-color:rgba(255,255,255,0.1)}
+</style>

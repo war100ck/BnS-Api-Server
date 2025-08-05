@@ -1,0 +1,45 @@
+body,html{  height:100%;   margin:0;   font-family:Arial,sans-serif}
+body{  background-attachment:fixed;   background-color:#1d242c;   background-image:url('../images/backgrounds/home-style-bg.webp');  background-position:center center;  background-repeat:no-repeat;  background-size:cover;  padding-top:8%}
+body::-webkit-scrollbar{ display:none}
+html{ scrollbar-width:none}
+.badge-label{ position:absolute;  top:10px;  left:10px;  background-color:#FFA500;  color:white;  font-size:0.8rem;  font-weight:bold;  padding:5px 10px;  box-shadow:0 2px 5px rgba(0,0,0,0.2)}
+.green-bar{ background-color:#28a745;  color:white;  text-align:center;  padding:5px 0;  font-weight:bold} 
+.move-up{ position:relative;  top:-95px}
+.custom-navbar .container-fluid{ padding-left:23px !important;  padding-right:55px !important}
+.swal-custom-popup{ border-radius:12px;  border:1px solid #4a5568;  box-shadow:0 4px 20px rgba(0,0,0,0.25)}
+.swal-custom-title{ font-size:1.1rem;  font-weight:600;  color:#e2e8f0;  display:flex;  align-items:center;  gap:8px;  margin-bottom:10px}
+.swal-custom-content{ font-size:0.95rem;  color:#cbd5e0;  line-height:1.5}
+.product-title{ font-weight:600;  color:#81e6d9;  margin:10px 0;  text-align:center;  font-size:1.05rem}
+.detail-row{ display:flex;  justify-content:space-between;  margin:8px 0;  align-items:center}
+.detail-label{ color:#a0aec0}
+.detail-value{ font-weight:500;  color:#e2e8f0}
+.velirs-value{ color:#68d391;  font-weight:600}
+.velirs-label{ color:#a0aec0;  font-size:0.85em}
+.divider{ height:1px;  background:#4a5568;  margin:10px 0}
+.bonus .detail-value{ color:#f6e05e}
+.total .detail-value{ color:#68d391;  font-size:1.1em}
+.balance .detail-value{ color:#68d391;  font-size:1.05em}
+.success-icon{ text-align:center;  color:#68d391;  margin:5px 0 10px}
+.transaction-id{ margin-top:15px;  font-size:0.75rem;  color:#718096;  text-align:center}
+.detail-row.total-received{ margin-top:10px;  padding-top:10px}
+.detail-row.total-received .detail-label{ font-weight:bold;  color:#81e6d9}
+.detail-row.total-received .detail-value{ color:#68d391;  font-size:1.2em;  font-weight:bold}
+.divider{ height:1px;  background:#4a5568;  margin:10px 0}
+.swal2-animate-success-icon .swal2-success-circular-line{ animation:none !important}
+.confetti-container{ position:fixed;  top:0;  left:0;  width:100%;  height:100%;  z-index:9998;  pointer-events:none;  overflow:hidden;  transition:opacity 0.5s ease-out}
+.confetti-piece{ position:absolute;  width:50%;  height:50%;  overflow:hidden}
+.confetti-img{ position:absolute;  width:200%;  height:200%;  object-fit:cover;  image-rendering:high-quality}
+.swal2-container{ z-index:9999 !important}
+.swal-custom-popup{ border-radius:12px !important;  border:1px solid #4a5568 !important;  box-shadow:0 4px 20px rgba(0,0,0,0.25) !important}
+.container{ display:flex;  flex:1;  flex-direction:column;  gap:20px;  padding:20px}
+.card{ background-color:#2a3038;  border-radius:12px;  box-shadow:0 4px 8px rgba(0,0,0,.7);  transition:box-shadow .3s;  margin-bottom:20px}
+.card:hover{ box-shadow:0 8px 16px rgba(0,0,0,.9)}
+.card-title{ padding:1rem 1.5rem;  font-size:1.25rem;  font-weight:600;  color:#fff;  background:#343b44;  border-bottom:1px solid #3d4752}
+.card-header{ background-color:#343b44;  border-bottom:2px solid #fc6b01;  color:#fff;  font-weight:700;  padding:1rem 1.5rem}
+.card-body{ padding:1.5rem;  color:#fff}
+.swal2-shown{ overflow:auto !important;  padding-right:0 !important}
+.swal2-container{ padding-left:0 !important;  padding-right:0 !important}
+footer{ background:rgba(0,0,0,.7);  bottom:0;  box-shadow:0 -2px 8px rgba(0,0,0,.5);  color:#fff;  left:0;  padding:20px 0;  position:fixed;  text-align:center;  width:100%;  z-index:1000}
+@media (max-width:600px){ .container{ padding:10px}
+}
+@media (max-width:600px){ .container{ padding:10px}

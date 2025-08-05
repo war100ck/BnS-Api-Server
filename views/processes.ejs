@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Process Manager</title>
+      <link rel="icon" href="../images/favicon-admin.png" type="image/png">
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+      <link rel="stylesheet" href="/css/admin-processes.css">
+   </head>
+   <body class="d-flex flex-column min-vh-100">
+      <%- include('partials/nav') %>
+      <main class="flex-grow-1 pb-5">
+	  <div class="container mt-4 <%= selectedProcesses.length > 0 ? 'has-selected' : '' %>">
+         <div class="container mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+               <h2 class="mb-0"><i class="bi bi-gear"></i> Server Process Manager</h2>
+               <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#processInfoModal">
+               <i class="fas fa-info-circle me-1"></i> Info
+               </button>
+            </div>
+            <!-- File Selection -->
+            <div class="card mb-4">
+               <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                  <h5 class="mb-0"><i class="bi bi-file-earmark-code"></i> Select Start.bat</h5>
+                  <button id="toggleExplorerBtn" class="btn btn-sm btn-light">
+                  <i class="bi bi-folder2-open"></i>
+                  </button>
+               </div>
+               <div class="card-body">
+                  <div class="selected-file" id="selectedFileInfo" style="display: none;">
+                     <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                           <i class="bi bi-file-earmark-code-fill text-success"></i>
+                           <span id="selectedFileName"></span>
+                        </div>
+                        <button id="changeFileBtn" class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-arrow-repeat"></i> Change
+                        </button>
+                     </div>
+                  </div>
+                  <!-- File Explorer -->
+                  <div id="fileExplorer" class="border rounded p-2 bg-light">
+                     <div class="d-flex justify-content-between mb-2 bg-secondary p-2 rounded">
+                        <button id="goUpBtn" class="btn btn-sm btn-light">
+                        <i class="bi bi-arrow-up"></i> Up
+                        </button>
+                        <span id="currentDir" class="text-white">D:\StartServer</span>
+                        <button id="closeExplorerBtn" class="btn btn-sm btn-light">
+                        <i class="bi bi-x-lg"></i> Close
+                        </button>
+                     </div>
+                     <div id="fileList" class="list-group"></div>
+                  </div>
+                  <div class="mt-3">
+                     <button id="loadBtn" class="btn btn-success w-100" disabled>
+                     <i class="bi bi-play-circle"></i> Load Processes
+                     </button>
+                  </div>
+               </div>
+            </div>
+            <!-- Controls -->
+            <div class="row mb-3">
+               <div class="col-12">
+                  <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                     <button id="refreshBtn" class="btn btn-primary" disabled>
+                     <span id="refreshSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                     <i class="bi bi-arrow-clockwise"></i> Refresh
+                     </button>
+                     <button id="startAllBtn" class="btn btn-success" disabled>
+                     <span id="startAllSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                     <i class="bi bi-play-fill"></i> Start All
+                     </button>
+                     <button id="stopAllBtn" class="btn btn-danger" disabled>
+                     <span id="stopAllSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                     <i class="bi bi-stop-fill"></i> Stop All
+                     </button>
+                     <button id="startSelectedBtn" class="btn btn-outline-success" disabled>
+                     <span id="startSelectedSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                     <i class="bi bi-play-fill"></i> Start Selected
+                     </button>
+                     <button id="stopSelectedBtn" class="btn btn-outline-danger" disabled>
+                     <span id="stopSelectedSpinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                     <i class="bi bi-stop-fill"></i> Stop Selected
+                     </button>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <div class="d-flex flex-wrap align-items-center justify-content-between">
+                     <div class="form-check form-check-inline mb-1">
+                        <input class="form-check-input" type="checkbox" id="selectAllCheckbox">
+                        <label class="form-check-label text-muted" for="selectAllCheckbox">Select All</label>
+                     </div>
+                     <div class="text-end">
+                        <div class="text-muted small">Last updated: <span id="lastUpdated">-</span></div>
+                        <div class="text-muted small">Total delay: <span id="totalDelay">-</span> | Status: <span id="statusCount">-</span></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Process List -->
+            <div id="processesContainer" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+               <div class="col-12">
+                  <div class="alert alert-info">
+                     <i class="bi bi-info-circle"></i> Select a Start.bat file to display processes
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Loading Overlay -->
+         <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+            <div class="text-center text-white">
+               <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                  <span class="visually-hidden">Loading...</span>
+               </div>
+               <h3 class="mt-3" id="loadingText">Loading processes...</h3>
+               <div id="loadingProgress" class="loading-progress mt-2"></div>
+            </div>
+         </div>
+      </main>
+      <%- include('partials/adminFooter') %>
+      <%- include('partials/processInfoModal') %>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/js/admin-processes.js"></script>
+   </body>
+</html>

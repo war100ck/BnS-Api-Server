@@ -1,0 +1,10 @@
+.badge-admin { background-color: #dc3545; }
+.badge-user { background-color: #28a745; }
+.role-badge { font-size: 0.8rem; padding: 0.35em 0.65em; }
+.btn-action { width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+.stats-card { border-radius: 0.5rem; }
+.stats-value { font-size: 1.5rem; font-weight: 600; }
+.username-cell { max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.table-responsive { overflow-x: auto; }
+#toast-container { margin-top: 3rem; }
+.modal:not(.show) { display: none !important; opacity: 0; }

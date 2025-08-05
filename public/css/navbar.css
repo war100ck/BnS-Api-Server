@@ -1,120 +1,33 @@
-@font-face {
-  font-family: 'LakeshoreRegular';
-  src: url('../fonts/Lakeshore-Regular.ttf') format('truetype');
+.custom-navbar{ position:fixed;  top:0;  left:0;  right:0;  z-index:1030;  width:100%;  background:linear-gradient(90deg, rgba(25,35,50,0.25) 0%, rgba(15,20,30,0.95) 50%, rgba(10,15,25,0.95) 100%) !important;  backdrop-filter:blur(8px);  border-bottom:1px solid rgba(252,107,1,0.3);  box-shadow:0 2px 15px rgba(0,0,0,0.5);  padding:0.5rem 2rem;  font-family:'Roboto',sans-serif;  min-height:50px}
+@media (max-width:992px){ body{ padding-top:50px}
 }
-
-.custom-navbar {
-  background: rgba(0, 0, 0, 0.7);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  padding: 1rem 2rem;
+.custom-navbar::before{ content:'';  position:absolute;  top:0;  left:0;  right:0;  height:2px;  background:linear-gradient(90deg, rgba(252,107,1,0.8) 0%, rgba(255,140,0,0.5) 50%, transparent 100%);  z-index:-1}
+.navbar-logo-img{ width:100px !important;  height:auto;  transition:all 0.3s ease}
+.navbar-logo-img:hover{ opacity:0.9;  transform:scale(1.02)}
+.navbar-nav{ gap:0.6rem}
+.navbar-nav .nav-link{ font-size:1rem;  color:#e0e0e0 !important;  position:relative;  padding:0.4rem 0.8rem;  font-weight:500;  letter-spacing:0.5px;  border-radius:4px;  transition:all 0.3s ease}
+.navbar-nav .nav-link:hover{ color:#ff8c00 !important;  background:rgba(255,255,255,0.05);  transform:translateY(-1px);  text-shadow:0 0 8px rgba(255,140,0,0.3)}
+.navbar-nav .nav-link::before{ content:'';  position:absolute;  top:50%;  left:50%;  width:0;  height:0;  background:rgba(255,140,0,0.2);  border-radius:50%;  transform:translate(-50%,-50%);  transition:all 0.4s ease;  z-index:-1}
+.navbar-nav .nav-link:hover::before{ width:100%;  height:100%;  opacity:0}
+.dropdown-menu{ background:rgba(20,25,35,0.98) !important;  border:1px solid rgba(252,107,1,0.2) !important;  border-radius:6px !important;  box-shadow:0 5px 15px rgba(0,0,0,0.3) !important;  padding:0.4rem 0 !important;  backdrop-filter:blur(5px);  margin-top:0.4rem !important}
+.dropdown-item{ color:#d0d0d0 !important;  font-size:0.95rem !important;  padding:0.5rem 1.3rem !important;  transition:all 0.2s ease}
+.dropdown-item:hover{ color:#ff8c00 !important;  background:rgba(252,107,1,0.1) !important;  padding-left:1.5rem !important}
+.navbar-toggler{ border:none !important;  padding:0.4rem !important}
+.navbar-toggler-icon{  background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;  width:1.1em !important;  height:1.1em !important}
+.username{ font-weight:500;  color:#ff8c00 !important;  background:rgba(255,140,0,0.1);  border-radius:4px;  padding:0.2rem 0.6rem !important;  transition:all 0.3s ease;  display:inline-flex;  align-items:center;  font-size:0.95rem}
+.username:hover{ background:rgba(255,140,0,0.2);  text-shadow:0 0 8px rgba(255,140,0,0.3)}
+.signup-text{ color:#ff8c00 !important;  font-weight:500;  background:rgba(255,140,0,0.1);  border-radius:4px;  padding:0.2rem 0.6rem !important;  transition:all 0.3s ease;  display:inline-flex;  align-items:center;  font-size:0.95rem}
+.signup-text:hover{ background:rgba(255,140,0,0.2);  color:#ffa64d !important}
+.navbar-avatar{ width:28px;  height:28px;  border-radius:50%;  border:2px solid rgba(252,107,1,0.5);  object-fit:cover;  transition:all 0.3s ease}
+.navbar-avatar:hover{ border-color:#fc6b01;  transform:scale(1.1);  box-shadow:0 0 10px rgba(252,107,1,0.3)}
+.nav-link.active{ color:#ff8c00 !important;  background:rgba(255,140,0,0.15);  text-shadow:0 0 8px rgba(255,140,0,0.3)}
+@media (max-width:992px){ .custom-navbar{ background:linear-gradient(90deg, rgba(25,35,50,0.98) 0%, rgba(15,20,30,0.98) 100%) !important;  padding:0.4rem 1rem;  min-height:45px} 
+.custom-navbar::before{ height:2px;  background:linear-gradient(90deg, rgba(252,107,1,0.9) 0%, rgba(255,140,0,0.6) 100%)}
+.navbar-nav{ padding:0.8rem 0;  gap:0.2rem}
+.navbar-nav .nav-link{ padding:0.5rem;  font-size:0.95rem}
+.dropdown-menu{ background:rgba(20,25,35,0.98) !important;  margin:0.2rem 0;  border:1px solid rgba(252,107,1,0.15) !important}
+.navbar-logo-img{ width:90px !important}
+.navbar-avatar{ width:24px;  height:24px}
 }
-
-.navbar-brand, .signup-text, .section-title, .modal-title, .btn-primary {
-  font-family: 'LakeshoreRegular', cursive;
-}
-
-/* Стили для логотипа в навигационной панели */
-.navbar-logo-img {
-  width: 130px !important;
-  height: auto;
-}
-
-.logo-img {
-  vertical-align: middle;
-}
-
-/* Общие стили для навигационных ссылок */
-.navbar-nav .nav-link {
-  font-family: 'LakeshoreRegular', sans-serif;
-  font-size: 1.5rem;
-  color: #fff;
-  position: relative;
-  padding-bottom: 5px;
-  transition: color 0.3s ease;
-}
-
-/* Подчеркивание, которое появляется при наведении */
-.navbar-nav .nav-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 2px;
-  background-color: #fff;
-  transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-/* Эффект подчеркивания и изменение цвета при наведении */
-.navbar-nav .nav-link:hover {
-  color: #ff8c00;
-}
-
-.navbar-nav .nav-link:hover::after {
-  width: 100%;
-  background-color: #ff8c00;
-}
-
-/* Убираем эффект подчеркивания и ховеры для никнейма и SignIn/SignUp */
-#username, .signup-text {
-  color: #fff;
-  padding-bottom: 0;
-  position: relative;
-}
-
-/* Полное отключение псевдоэлемента ::after для никнейма и SignIn/SignUp */
-#username::after, .signup-text::after {
-  content: none !important; /* Полностью убираем псевдоэлемент */
-}
-
-/* Изменение цвета текста при наведении на никнейм и SignIn/SignUp */
-#username:hover, .signup-text:hover {
-  color: #ff8c00;
-}
-
-/* Стили для выпадающего меню в темных тонах и с прозрачностью */
-.navbar .dropdown-menu {
-  background: rgba(0, 0, 0, 0.7);
-  border: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  font-family: 'LakeshoreRegular', sans-serif;
-  padding: 0.5rem 0;
-  width: auto;
-  min-width: 100px !important;
-  max-width: 200px !important;
-}
-
-/* Стили для элементов выпадающего меню */
-.navbar .dropdown-menu .dropdown-item {
-  color: #fff;
-  font-size: 1.3rem;
-  padding: 0.7rem 1rem;
-  background: transparent;
-  border: none;
-  white-space: nowrap;
-  position: relative;
-  text-decoration: none;
-  transition: color 0.3s ease, background-color 0.3s ease;
-}
-
-/* Подчеркивание для элементов выпадающего меню */
-.navbar .dropdown-menu .dropdown-item::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 2px;
-  background-color: #fff;
-  transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-/* Эффект при наведении для выпадающего меню */
-.navbar .dropdown-menu .dropdown-item:hover {
-  color: #ff8c00;
-}
-
-.navbar .dropdown-menu .dropdown-item:hover::after {
-  width: 100%;
-  background-color: #ff8c00;
-}
+.custom-navbar .container, 
+.custom-navbar .container-fluid{ padding-left:15px;  padding-right:15px}

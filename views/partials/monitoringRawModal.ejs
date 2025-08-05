@@ -1,0 +1,21 @@
+<!-- partials/monitoringRawModal.ejs -->
+<div class="modal fade" id="logModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-terminal me-2"></i>Raw API Response
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <pre class="m-0 p-3 bg-dark text-white" style="max-height: 70vh; overflow: auto;"><code><%= JSON.stringify(jsonData, null, 2) %></code></pre>
+                </div>
+                <div class="modal-footer bg-dark text-white">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg me-1 text-white"></i>Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,32 +1,117 @@
-// routes/adminRoutes.js
 import express from 'express';
 import sql from 'mssql';
 import chalk from 'chalk';
 import { configPlatformAcctDb, configBlGame } from '../config/dbConfig.js';
 import { isAdmin } from '../middleware/adminMiddleware.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const router = express.Router();
 
-// Обработчик маршрута для отображения страницы входа администратора
+// Настройки логирования из .env
+const LOG_TO_CONSOLE = process.env.LOG_TO_CONSOLE === 'true'; // Основные логи (ошибки, авторизация, важные события)
+const DEBUG_LOGS = process.env.DEBUG_LOGS === 'true'; // Отладочные логи (запросы к БД, подробная информация)
+
+// Функция для форматирования статуса администратора
+const formatAdminStatus = (status) => {
+    return status
+     ? chalk.bgGreen.white.bold(' ADMIN ')
+     : chalk.bgBlue.white.bold(' USER ');
+};
+
+// Настройки цветов для логов
+const log = {
+    // Основные логи (включаются при LOG_TO_CONSOLE=true)
+    error: (message) => LOG_TO_CONSOLE && console.log(chalk.red(`[ERROR] ${message}`)),
+    warning: (message) => LOG_TO_CONSOLE && console.log(chalk.yellow(`[WARNING] ${message}`)),
+    auth: (username, success, admin = false) => {
+        if (!LOG_TO_CONSOLE)
+            return;
+        const status = success
+             ? chalk.bgGreen.white.bold(' SUCCESS ')
+             : chalk.bgRed.white.bold(' FAILED ');
+        const role = admin
+             ? chalk.magenta('ADMIN')
+             : chalk.blue('USER');
+        console.log(`${chalk.yellow(`[AUTH]`)} ${status} ${role} ${chalk.cyan(username)}`);
+    },
+    adminAction: (message, user = null) => {
+        if (!LOG_TO_CONSOLE)
+            return;
+        const userInfo = user
+             ? `${formatAdminStatus(user.admin)} ${chalk.magenta(user.username)} (ID: ${chalk.cyan(user.id)})`
+             : '';
+        console.log(chalk.magenta(`[ADMIN] ${message} ${userInfo}`));
+    },
+
+    // Отладочные логи (включаются при DEBUG_LOGS=true)
+    info: (message) => DEBUG_LOGS && console.log(chalk.blue(`[INFO] ${message}`)),
+    success: (message) => DEBUG_LOGS && console.log(chalk.green(`[SUCCESS] ${message}`)),
+    db: (message) => DEBUG_LOGS && console.log(chalk.cyan(`[DB] ${message}`)),
+    debug: (message) => DEBUG_LOGS && console.log(chalk.gray(`[DEBUG] ${message}`))
+};
+
+// Функция для работы с БД
+async function executeQuery(config, query, inputs = {}) {
+    let pool = null;
+    try {
+        pool = await sql.connect(config);
+        const request = pool.request();
+
+        Object.entries(inputs).forEach(([name, value]) => {
+            request.input(name, value);
+        });
+
+        log.db(`Executing query: ${chalk.yellow(query.substring(0, 50))}...`);
+        const result = await request.query(query);
+        log.db(`Query completed successfully`);
+        return result;
+    } catch (err) {
+        log.error(`Database error: ${chalk.red(err.message)}\nQuery: ${chalk.yellow(query)}`);
+        throw err;
+    } finally {
+        if (pool) {
+            try {
+                await pool.close();
+                log.debug(`Connection pool closed`);
+            } catch (err) {
+                log.error(`Connection close error: ${chalk.red(err.message)}`);
+            }
+        }
+    }
+}
+
+// Страница входа
 router.get('/admin/login', (req, res) => {
-    const errorMessage = req.query.error || null;
-    res.render('adminLogin', { errorMessage });
+    log.debug(`Rendering login page`);
+    res.render('adminLogin', {
+        errorMessage: req.query.error || null,
+        pathname: req.originalUrl
+    });
 });
 
-// Обработчик маршрута для обработки входа администратора
-router.post('/admin/login', async (req, res) => {
+// Обработка входа
+router.post('/admin/login', async(req, res) => {
     const { username, password } = req.body;
-    let pool = null;
+    log.debug(`Login attempt for username: ${chalk.cyan(username)}`);
 
     try {
-        pool = await sql.connect(configPlatformAcctDb);
-        const userResult = await pool.request()
-            .input('username', sql.NVarChar, username)
-            .query('SELECT UserId, UserName, WebsitePassword, admin FROM Users WHERE UserName = @username');
-        const user = userResult.recordset[0];
+        const result = await executeQuery(
+                configPlatformAcctDb,
+                'SELECT UserId, UserName, WebsitePassword, admin FROM dbo.Users WHERE UserName = @username', {
+                username
+            });
+
+        const user = result.recordset[0];
 
         if (!user || user.WebsitePassword !== password) {
-            return res.render('adminLogin', { errorMessage: 'Invalid login or password' });
+            log.auth(username, false);
+            log.warning(`Invalid credentials for username: ${chalk.cyan(username)}`);
+            return res.render('adminLogin', {
+                errorMessage: 'Invalid username or password',
+                pathname: req.originalUrl
+            });
         }
 
         req.session.user = {
@@ -36,146 +121,174 @@ router.post('/admin/login', async (req, res) => {
         };
 
         if (user.admin) {
-            if (process.env.LOG_TO_CONSOLE === 'true') {
-                console.log(chalk.green(`POST /admin/login: Admin `) + 
-            chalk.red.bold(username) + 
-            chalk.green(' logged in successfully.'));
-            }
-            if (!req.session.adminLoggedIn) {
-                console.log(chalk.green(`GET /admin: Rendering admin page for the first time, displaying users.`));
-                req.session.adminLoggedIn = true;  // Устанавливаем флаг, что админ уже вошел
-            }
-            res.redirect('/admin');
-        } else {
-            if (process.env.LOG_TO_CONSOLE === 'true') {
-                console.log(chalk.yellow(`POST /admin/login: User ${username} tried to log in as admin.`));
-            }
-            res.render('adminLogin', { errorMessage: 'This panel is for administrators only!' });
+            log.auth(username, true, true);
+            log.adminAction(`User logged in to admin panel`, req.session.user);
+            return res.redirect('/admin');
         }
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server error');
-    } finally {
-        if (pool) {
-            await pool.close();
-        }
-    }
-});
 
-// Защита маршрута /admin
-router.get('/admin', isAdmin, async (req, res) => {
-    let platformPool = null;
-    let gamePool = null;
-
-    try {
-        platformPool = await sql.connect(configPlatformAcctDb);
-        const usersResult = await platformPool.request().query('SELECT UserId, UserName, admin FROM Users ORDER BY UserId');
-        
-        // Убираем логирование рендера страницы, не выводим логи
-        // if (process.env.LOG_TO_CONSOLE === 'true' && req.session.adminLoggedIn) {
-        //     console.log(chalk.green(`GET /admin: Rendering admin page, displaying ${totalUsers} users.`));
-        // }
-
-        await platformPool.close();
-        platformPool = null;
-
-        gamePool = await sql.connect(configBlGame);
-        const creatureCountResult = await gamePool.request().query('SELECT COUNT(name) AS CreatureCount FROM CreatureProperty');
-        const deletedCreatureCountResult = await gamePool.request().query('SELECT COUNT(name) AS DeletedCreatureCount FROM CreatureProperty WHERE deletion = 1');
-        
-        res.render('admin', {
-            users: usersResult.recordset,
-            creatureCount: creatureCountResult.recordset[0].CreatureCount,
-            deletedCreatureCount: deletedCreatureCountResult.recordset[0].DeletedCreatureCount,
-            totalUsers: usersResult.recordset.length, // Убираем пагинацию
+        log.auth(username, true, false);
+        log.warning(`Regular user attempted admin access: ${chalk.cyan(user.UserName)}`);
+        res.render('adminLogin', {
+            errorMessage: 'Administrator access only',
             pathname: req.originalUrl
         });
     } catch (err) {
-        console.error('Error:', err.message);
-        res.status(500).send('Server error');
-    } finally {
-        if (platformPool) await platformPool.close();
-        if (gamePool) await gamePool.close();
+        log.error(`Login process failed: ${chalk.red(err.message)}`);
+        res.status(500).render('adminLogin', {
+            errorMessage: 'Server error during authentication',
+            pathname: req.originalUrl
+        });
     }
 });
 
-// Обработчик маршрута для обновления статуса администратора
-router.post('/admin/update-admin-status', async (req, res) => {
+// Главная страница админки
+router.get('/admin', isAdmin, async(req, res) => {
+    log.debug(`Admin dashboard accessed by: ${formatAdminStatus(true)} ${chalk.magenta(req.session.user.username)}`);
+
+    try {
+        // Получаем пользователей
+        const usersResult = await executeQuery(
+                configPlatformAcctDb,
+                'SELECT UserId, UserName, admin FROM dbo.Users ORDER BY UserId');
+
+        // Статистика по существам (если доступна БД)
+        let creatureStats = {
+            count: 0,
+            deleted: 0
+        };
+        try {
+            const [creatureResult, deletedResult] = await Promise.all([
+                        executeQuery(configBlGame, 'SELECT COUNT(*) AS count FROM CreatureProperty'),
+                        executeQuery(configBlGame, 'SELECT COUNT(*) AS count FROM CreatureProperty WHERE deletion = 1')
+                    ]);
+
+            creatureStats = {
+                count: creatureResult.recordset[0]?.count || 0,
+                deleted: deletedResult.recordset[0]?.count || 0
+            };
+            log.db(`Creature stats loaded: ${chalk.green(creatureStats.count)} total, ${chalk.red(creatureStats.deleted)} deleted`);
+        } catch (dbError) {
+            log.warning(`Game DB unavailable: ${chalk.yellow(dbError.message)}`);
+        }
+
+        log.success(`Admin dashboard rendered for: ${formatAdminStatus(true)} ${chalk.magenta(req.session.user.username)}`);
+        res.render('admin', {
+            users: usersResult.recordset,
+            creatureCount: creatureStats.count,
+            deletedCreatureCount: creatureStats.deleted,
+            totalUsers: usersResult.recordset.length,
+            pathname: req.originalUrl,
+            user: req.session.user
+        });
+    } catch (err) {
+        log.error(`Failed to load admin dashboard: ${chalk.red(err.message)}`);
+        res.status(500).render('error', {
+            message: 'Failed to load admin dashboard',
+            error: err,
+            pathname: req.originalUrl
+        });
+    }
+});
+
+// Обновление статуса администратора
+router.post('/admin/update-admin-status', isAdmin, async(req, res) => {
     const { userId, admin } = req.body;
-    const isAdmin = admin === '1' ? 1 : 0;
-    let pool = null;
+    const isAdminStatus = admin === '1';
+    const currentUser = req.session.user;
+
+    log.adminAction(`Attempting to change admin status for user ID ${chalk.cyan(userId)} to ${isAdminStatus ? chalk.green('ADMIN') : chalk.blue('USER')}`, currentUser);
 
     try {
-        // Получаем никнейм пользователя для отображения в логе
-        pool = await sql.connect(configPlatformAcctDb);
-        const userResult = await pool.request()
-            .input('userId', sql.UniqueIdentifier, userId)
-            .query('SELECT UserName FROM Users WHERE UserId = @userId');
-        
-        const userName = userResult.recordset[0]?.UserName || 'Unknown User';
-        const roleNameConsole = isAdmin ? chalk.red('Admin') : chalk.green('User'); // для консоли с цветом
-        const roleNameResponse = isAdmin ? 'Admin' : 'User'; // для ответа без цвета
+        const userResult = await executeQuery(
+                configPlatformAcctDb,
+                'SELECT UserName FROM dbo.Users WHERE UserId = @userId', {
+                userId
+            });
 
-        // Логирование с никнеймом пользователя
-        if (process.env.LOG_TO_CONSOLE === 'true') {
-            console.log(chalk.blue(`POST /admin/update-admin-status: `) + 
-                        `Updating role for user ${chalk.bold.cyan(userName)} ` + 
-                        `(ID: ${chalk.yellow(userId)}) to ${roleNameConsole}`);
+        if (!userResult.recordset.length) {
+            log.warning(`User not found: ID ${chalk.red(userId)}`);
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
         }
 
-        // Обновляем статус
-        await pool.request()
-            .input('userId', sql.UniqueIdentifier, userId)
-            .input('isAdmin', sql.SmallInt, isAdmin)
-            .query('UPDATE Users SET admin = @isAdmin WHERE UserId = @userId');
+        const targetUsername = userResult.recordset[0].UserName;
 
-        // Логирование успешного обновления
-        if (process.env.LOG_TO_CONSOLE === 'true') {
-            console.log(chalk.green(`POST /admin/update-admin-status: `) + 
-                        `Role for user ${chalk.bold.cyan(userName)} ` + 
-                        `(ID: ${chalk.yellow(userId)}) successfully updated to ${roleNameConsole}.`);
-        }
+        await executeQuery(
+            configPlatformAcctDb,
+            'UPDATE dbo.Users SET admin = @isAdmin WHERE UserId = @userId', {
+            userId,
+            isAdmin: isAdminStatus ? 1 : 0
+        });
 
-        // Отправка ответа на клиент без цветовых кодов
-        res.status(200).json({ message: `Role for user ${userName} successfully updated to ${roleNameResponse}.` });
+        log.adminAction(`Changed admin status for ${formatAdminStatus(isAdminStatus)} ${chalk.cyan(targetUsername)} (ID: ${chalk.yellow(userId)})`, currentUser);
+
+        res.json({
+            success: true,
+            message: 'Admin status updated successfully',
+            user: {
+                id: userId,
+                username: targetUsername,
+                admin: isAdminStatus
+            },
+            changedBy: currentUser.username,
+            timestamp: new Date().toISOString()
+        });
     } catch (err) {
-        // Логирование ошибки
-        if (process.env.LOG_TO_CONSOLE === 'true') {
-            console.log(chalk.red(`Error updating user role for user ${chalk.bold(userId)}: ${err.message}`));
-        }
-        res.status(500).json({ message: 'Server error' });
-    } finally {
-        if (pool) await pool.close();
+        log.error(`Failed to update admin status: ${chalk.red(err.message)}`);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to update admin status',
+            error: err.message
+        });
     }
 });
 
-// Обработчик маршрута для поиска пользователей
-router.get('/admin/search', async(req, res) => {
-    const searchTerm = req.query.term || '';
-    let pool = null;
+// Поиск пользователей
+router.get('/admin/search', isAdmin, async(req, res) => {
+    const { term } = req.query;
+    const currentUser = req.session.user;
+
+    if (!term) {
+        log.debug(`Empty search request from ${formatAdminStatus(true)} ${chalk.magenta(currentUser.username)}`);
+        return res.json([]);
+    }
+
+    log.debug(`Search initiated by ${formatAdminStatus(true)} ${chalk.magenta(currentUser.username)}: "${chalk.yellow(term)}"`);
 
     try {
-        pool = await sql.connect(configPlatformAcctDb);
-        const usersResult = await pool.request()
-            .input('searchTerm', sql.NVarChar, `%${searchTerm}%`)
-            .query('SELECT UserId, UserName, admin FROM Users WHERE UserName LIKE @searchTerm ORDER BY UserId');
-        
-        res.json(usersResult.recordset);
+        const result = await executeQuery(
+                configPlatformAcctDb,
+                'SELECT UserId, UserName, admin FROM dbo.Users WHERE UserName LIKE @term ORDER BY UserName', {
+                term: `%${term}%`
+            });
+
+        log.success(`Found ${chalk.green(result.recordset.length)} users for search "${chalk.yellow(term)}"`);
+        res.json(result.recordset);
     } catch (err) {
-        res.status(500).json({ message: 'Server error' });
-    } finally {
-        if (pool) await pool.close();
+        log.error(`Search failed: ${chalk.red(err.message)}`);
+        res.status(500).json({
+            success: false,
+            message: 'Search failed',
+            error: err.message
+        });
     }
 });
 
-// Маршрут для выхода
-router.get('/admin/logout', (req, res) => {
-    // Удаляем сессию пользователя или делаем логаут
-    req.session.destroy((err) => {
+// Выход
+router.get('/admin/logout', isAdmin, (req, res) => {
+    const user = req.session.user;
+    log.debug(`Logout initiated for ${formatAdminStatus(true)} ${chalk.magenta(user.username)}`);
+
+    req.session.destroy(err => {
         if (err) {
-            return res.redirect('/admin'); // Если ошибка, перенаправляем все равно на /admin
+            log.error(`Logout failed for ${formatAdminStatus(true)} ${chalk.magenta(user.username)}: ${chalk.red(err.message)}`);
+            return res.status(500).send('Logout failed');
         }
-        res.redirect('/admin');
+        log.auth(user.username, true, user.admin);
+        log.adminAction(`User logged out`, user);
+        res.redirect('/admin/login');
     });
 });
 

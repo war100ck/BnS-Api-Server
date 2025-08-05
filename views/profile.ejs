@@ -3,155 +3,243 @@
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Blade & Soul</title>
+      <title>Profile: <%= UserName %></title>
       <link rel="icon" href="images/favicon.png" type="image/png">
-      <link rel="stylesheet" href="css/bootstrap.min.css">
       <link rel="stylesheet" href="css/navbar.css">
+      <link rel="stylesheet" href="css/preloader.css">
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="css/profile.css">
-      <link rel="stylesheet" href="css/all.min.css">
-      <!-- Подключение Font Awesome -->
+      <link rel="stylesheet" href="/node_modules/sweetalert2/dist/sweetalert2.min.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
    </head>
-   <body id="profile-page" class="d-flex flex-column min-vh-100">
-      <!-- Навигационное меню -->
+   <body>
+      <div id="preloader">
+         <div class="bns"></div>
+      </div>
       <%- include('partials/navbar') %>
       <div class="container">
-         <!-- Profile Card -->
-         <div class="profile-card card mb-4">
-            <div class="card-header username-header text-center">
-               <h3></i> <%= UserName %></h3>
-            </div>
-            <div class="card-body text-center">
-               <img src="/images/avatar/user-avatar.jpg" alt="User Avatar" class="img-fluid">
-               <p class="mt-3">Email: <%= LoginName %></p>
-               <p>Created: <%= Created %></p>
+         <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+         <div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+            <div class="alert alert-danger text-center" role="alert" style="width: 400px;">
+               <i class="fas fa-exclamation-triangle me-2"></i>
+               <%= errorMessage %>
             </div>
          </div>
-         <!-- Table Container -->
-         <div class="table-container">
-            <!-- Character Information -->
-            <div class="accordion" id="characterAccordion">
-   <% if (creatures && creatures.length > 0) { %>
-   <% creatures.forEach((creature, index) => { %>
-      <% if (creature.deletion !== 1) { %> <!-- Проверяем, не удалён ли персонаж -->
-      <div class="accordion-item mb-3">
-         <h2 class="accordion-header" id="heading<%= index %>">
-            <button class="accordion-button <%= creature.jobClass %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
-               <img src="<%= creature.jobImageUrl %>" alt="Job Image" class="job-image">
-               Character: <%= creature.name %>
-            </button>
-         </h2>
-         <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>" data-bs-parent="#characterAccordion">
-            <div class="accordion-body">
-               <table class="table">
-                  <tbody>
-                     <tr>
-                        <th scope="row">Race</th>
-                        <td class="image-text-container">
-                           <img src="<%= creature.raceImageUrl %>" alt="<%= creature.race %> Image" class="image-small">
-                           <span><%= creature.race %></span>
-                        </td>
-                     </tr>
-                     <tr>
-                        <th scope="row">Sex</th>
-                        <td class="image-text-container">
-                           <img src="<%= creature.sexImageUrl %>" alt="<%= creature.sex %> Image" class="image-small">
-                           <span><%= creature.sex %></span>
-                        </td>
-                     </tr>
-                     <tr>
-                        <th scope="row">Job</th>
-                        <td class="image-text-container">
-                           <img src="<%= creature.jobImageUrl %>" alt="<%= creature.job %> Image" class="image-small">
-                           <span><%= creature.job %></span>
-                        </td>
-                     </tr>
-                     <tr>
-                        <th scope="row">Level Account</th>
-                        <td><%= accountExp %></td>
-                     </tr>
-                     <tr>
-                        <th scope="row">Level</th>
-                        <td><%= creature.level %></td>
-                     </tr>
-                     <tr>
-                        <th scope="row">Mastery Level</th>
-                        <td><%= creature.mastery_level %></td>
-                     </tr>
-                     <tr>
-                        <th scope="row">Faction</th>
-                        <td class="image-text-container">
-                           <img src="<%= creature.factionImageUrl %>" alt="<%= creature.faction %> Image" class="image-small">
-                           <span><%= creature.faction %></span>
-                        </td>
-                     </tr>
-                     <tr>
-                        <th scope="row">Money</th>
-                        <td>
-                           <img src="/images/money/gold.png" alt="Gold" style="width: 20px; height: 20px; vertical-align: middle;"> <%= creature.money.gold %> 
-                           &nbsp; <!-- Добавляет пробел -->
-                           <img src="/images/money/silver.png" alt="Silver" style="width: 20px; height: 20px; vertical-align: middle;"> <%= creature.money.silver %> 
-                           &nbsp; <!-- Добавляет пробел -->
-                           <img src="/images/money/copper.png" alt="Copper" style="width: 20px; height: 20px; vertical-align: middle;"> <%= creature.money.copper %> 
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-         </div>
-      </div>
-      <% } %> <!-- Конец проверки на удаление -->
-   <% }) %>
-   <% } else { %>
-   <div class="alert alert-warning" role="alert">
-      Characters not found. Please create a character in the game to view the statistics.
-   </div>
-   <% } %>
-</div>
-
-            <!-- Deposit Information -->
-            <% if (deposits && deposits.length > 0) { %>
-            <div class="card mb-4">
-               <div class="card-header deposit-header">
-                  <h5><i class="fas fa-wallet icon"></i> Deposit Information</h5>
+         <% } else { %>
+         <!-- Профиль пользователя -->
+         <div class="profile-section">
+            <div class="profile-card">
+               <div class="profile-header">
+                  <h3><%= UserName %></h3>
                </div>
-               <div class="card-body">
-                  <table class="table">
+               <div class="profile-body">
+                  <div class="avatar-container">
+                     <img src="/images/avatars/<%= currentAvatar %>" alt="User Avatar" class="user-avatar">
+                     <div class="avatar-edit-icon" id="avatarEditIcon">
+                        <i class="fas fa-pencil-alt"></i>
+                     </div>
+                  </div>
+                  <div class="profile-info">
+                     <p>Email: <%= LoginName %></p>
+                     <p>Created: <%= Created %></p>
+                     <p>Last Login: <%= lastLoginTime %></p>
+                     <p>Last Logout: <%= lastLogoutTime %></p>
+                     <!-- <p>Last IP: <%= lastAccessIP %></p> -->
+                     <% if (statusMessage.imageUrl) { %>
+                     <div class="vip-status">
+                        <img src="<%= statusMessage.imageUrl %>" alt="VIP Status" class="vip-status-image">
+                        <span style="color: <%= statusMessage.color %>;"><%= statusMessage.message %></span>
+                     </div>
+                     <% } %>
+                     <p>VIP Level: <%= vipLevel %></p>
+                     <p>VIP Expiration: <%= expirationDate ? new Date(expirationDate).toLocaleString('en-GB') : 'Not set' %></p>
+                     <% if (activeBan) { %>
+                     <div class="ban-status" style="margin-top: 10px; padding: 10px; background-color: #ff0000; border-radius: 4px; border-left: 4px solid #000000;">
+                        <p style="margin: 0; color: #ffffff; font-weight: bold; font-size: 16px;">
+                           <i class="fas fa-ban" style="margin-right: 5px;"></i> ACCOUNT BANNED
+                        </p>
+                        <p style="margin: 8px 0 0 0; color: #ffffff;"><strong style="color: #ffffff;">Reason:</strong> <%= activeBan.BanReason %></p>
+                        <p style="margin: 5px 0 0 0; color: #ffffff;"><strong style="color: #ffffff;">Until:</strong> <%= new Date(activeBan.EffectiveTo).toLocaleString('en-GB') %></p>
+                     </div>
+                     <% } %>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="content-section">
+            <div class="data-card">
+               <div class="card-title">
+                  <i class="fas fa-users"></i> Characters
+               </div>
+               <div class="card-content">
+                  <table class="characters-table">
                      <thead>
                         <tr>
-                           <th scope="col">Total Amount</th>
-                           <th scope="col">Total Balance</th>
+                           <th>Name</th>
+                           <th>Server</th>
+                           <th>Level</th>
+                           <th>Class</th>
+                           <th>Race</th>
+                           <th>Gender</th>
+                           <th>Faction</th>
+                           <th>Money</th>
                         </tr>
                      </thead>
                      <tbody>
+                        <% if (creatures && creatures.length > 0) { %>
+                        <% creatures.forEach(creature => { %>
+                        <% if (creature.deletion !== 1) { %>
                         <tr>
+                           <td><%= creature.name %></td>
+                           <td><%= creature.worldName %>
+                           <td><%= creature.level %></td>
                            <td>
-                              <%= totalAmount %>  <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px; margin-right: 5px;"> Hangmoon Coins
+                              <div class="table-image-text">
+                                 <img src="<%= creature.jobImageUrl %>" alt="<%= creature.job %>" class="image-small">
+                                 <span><%= creature.job %></span>
+                              </div>
                            </td>
-                           <td><%= totalBalance %>  <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px; margin-right: 5px;"> Hangmoon Coins</td>
+                           <td>
+                              <div class="table-image-text">
+                                 <img src="<%= creature.raceImageUrl %>" alt="<%= creature.race %>" class="image-small">
+                              </div>
+                           </td>
+                           <td>
+                              <div class="table-image-text">
+                                 <i class="<%= creature.sexIconClass %>"></i>
+                                 <span><%= creature.sex %></span>
+                              </div>
+                           </td>
+                           <td>
+                              <div class="table-image-text">
+                                 <img src="<%= creature.factionImageUrl %>" alt="<%= creature.faction %>" class="image-small">
+                              </div>
+                           </td>
+                           <td>
+                              <div class="money-display" style="display: inline-block;">
+                                 <img src="<%= creature.money.gold.imageUrl %>" alt="Gold" class="money-icon">
+                                 <span class="money-value"><%= creature.money.gold.value %></span>
+                              </div>
+                              <div class="money-display" style="display: inline-block;">
+                                 <img src="<%= creature.money.silver.imageUrl %>" alt="Silver" class="money-icon">
+                                 <span class="money-value"><%= creature.money.silver.value %></span>
+                              </div>
+                              <div class="money-display" style="display: inline-block;">
+                                 <img src="<%= creature.money.copper.imageUrl %>" alt="Copper" class="money-icon">
+                                 <span class="money-value"><%= creature.money.copper.value %></span>
+                              </div>
+                           </td>
                         </tr>
+                        <% } %>
+                        <% }) %>
+                        <% } else { %>
+                        <tr>
+                           <td colspan="8" style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                              No characters found
+                           </td>
+                        </tr>
+                        <% } %>
                      </tbody>
                   </table>
+                  <div class="characters-mobile">
+                     <% if (creatures && creatures.length > 0) { %>
+                     <% creatures.forEach(creature => { %>
+                     <% if (creature.deletion !== 1) { %>
+                     <div class="character-card">
+                        <div class="character-name"><%= creature.name %></div>
+                        <div class="character-server">BnS Private • Level <%= creature.level %></div>
+                        <div class="character-detail">
+                           <span class="detail-label">Class</span>
+                           <span class="detail-value">
+                           <img src="<%= creature.jobImageUrl %>" alt="<%= creature.job %>" class="image-small">
+                           <%= creature.job %>
+                           </span>
+                        </div>
+                        <div class="character-detail">
+                           <span class="detail-label">Race</span>
+                           <span class="detail-value">
+                           <img src="<%= creature.raceImageUrl %>" alt="<%= creature.race %>" class="image-small">
+                           <%= creature.race %>
+                           </span>
+                        </div>
+                        <div class="character-detail">
+                           <span class="detail-label">Sex</span>
+                           <span class="detail-value">
+                           <i class="<%= creature.sexIconClass %>"></i>
+                           <%= creature.sex %>
+                           </span>
+                        </div>
+                        <div class="character-detail">
+                           <span class="detail-label">Faction</span>
+                           <span class="detail-value">
+                           <img src="<%= creature.factionImageUrl %>" alt="<%= creature.faction %>" class="image-small">
+                           <%= creature.faction %>
+                           </span>
+                        </div>
+                        <div class="character-created">
+                           Created: <%= new Date(creature.created).toLocaleString('en-GB') %>
+                        </div>
+                     </div>
+                     <% } %>
+                     <% }) %>
+                     <% } else { %>
+                     <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                        No characters found
+                     </div>
+                     <% } %>
+                  </div>
                </div>
             </div>
-            <% } else { %>
-            <div class="alert alert-danger" role="alert">
-               Player's account balance data not found.
+            <div class="data-card">
+               <div class="card-title">
+                  <i class="fas fa-wallet"></i> Deposit Information
+               </div>
+               <div class="card-content">
+                  <% if (deposits && deposits.length > 0) { %>
+                  <div class="deposit-grid">
+                     <div class="deposit-item">
+                        <div class="deposit-label">Total Amount</div>
+                        <div class="deposit-value">
+                           <img src="/images/money/NCoin.webp" alt="Coins" class="coin-icon">
+                           <%= totalAmount %> Hangmoon Coins
+                        </div>
+                     </div>
+                     <div class="deposit-item">
+                        <div class="deposit-label">Total Balance</div>
+                        <div class="deposit-value">
+                           <img src="/images/money/NCoin.webp" alt="Coins" class="coin-icon">
+                           <%= totalBalance %> Hangmoon Coins
+                        </div>
+                     </div>
+                  </div>
+                  <% } else { %>
+                  <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                     Player's account balance data not found
+                  </div>
+                  <% } %>
+               </div>
             </div>
-            <% } %>
          </div>
+         <% } %>
       </div>
-      <!-- Footer -->
-      <footer class="custom-footer text-light text-center py-3">
-         <p class="mb-0">&copy; 2024 Blade & Soul: Private Server</p>
-         <p class="mb-0">All rights reserved.</p>
+      <footer class="custom-footer">
+         <p>&copy; 2024 Blade & Soul: Private Server</p>
+         <p>All rights reserved.</p>
       </footer>
-      <!-- Include Modals -->
       <%- include('partials/signupModal') %>
       <%- include('partials/signinModal') %>
-      <!-- Bootstrap JS and dependencies -->
-      <script src="js/popper.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
-      <script src="js/all.min.js"></script>
-      <script src="js/navbar.js"></script>
+      <% if (activeBan) { %>
+      <div id="ban-data" 
+         data-ban-reason="<%= activeBan.BanReason %>" 
+         data-ban-until="<%= new Date(activeBan.EffectiveTo).toLocaleString('en-GB') %>"
+         style="display: none;"></div>
+      <% } %>
+      <!-- Скрипты -->
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="js/preloader.js"></script>
+      <script src="js/navbar.min.js"></script>
+      <script src="/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+      <script src="js/profile.js"></script>
+      <script src="/js/banAlert.js"></script>
    </body>
 </html>

@@ -1,0 +1,119 @@
+<!-- partials/promoInfoModal.ejs -->
+<div class="modal fade" id="promoInfoModal" tabindex="-1" aria-labelledby="promoInfoModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title fw-bold" id="promoInfoModalLabel">
+               <i class="fas fa-info-circle me-2"></i>
+               Promotions Management Guide
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="alert alert-primary mb-4">
+               <h4 class="alert-heading d-flex align-items-center">
+                  <i class="fas fa-info-circle me-2"></i>
+                  About Promotions Management
+               </h4>
+               <hr>
+               <p class="mb-0">This dashboard allows you to manage all active and upcoming promotions in the system. Each promotion has configurable parameters and status controls.</p>
+            </div>
+            <div class="card border-primary mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-columns me-2"></i> Table Columns Explanation
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="card border-success h-100">
+                           <div class="card-header bg-success bg-opacity-10 text-success">
+                              <i class="fas fa-check-circle me-2"></i> Basic Information
+                           </div>
+                           <div class="card-body">
+                              <ul class="mb-0">
+                                 <li><strong>ID:</strong> Unique promotion identifier</li>
+                                 <li><strong>Promotion Name:</strong> Display name shown to users</li>
+                                 <li><strong>Description:</strong> Detailed promotion rules</li>
+                                 <li><strong>Date Range:</strong> Active period (start and end dates)</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card border-info h-100">
+                           <div class="card-header bg-info bg-opacity-10 text-info">
+                              <i class="fas fa-chart-bar me-2"></i> Statistics & Controls
+                           </div>
+                           <div class="card-body">
+                              <ul class="mb-0">
+                                 <li><strong>Participation Limits:</strong> Total and free participation counts</li>
+                                 <li><strong>Status:</strong> Current activity state (Active/Inactive)</li>
+                                 <li><strong>Actions:</strong> Management controls for each promotion</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="card border-warning mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-tools me-2"></i> Available Actions
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card h-100">
+                           <div class="card-header bg-warning bg-opacity-10 text-warning">
+                              <i class="fas fa-calendar-plus me-2"></i> Extend
+                           </div>
+                           <div class="card-body">
+                              <p>Adds 1 month to the promotion's end date. Use this to manually prolong active promotions.</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card h-100">
+                           <div class="card-header bg-danger bg-opacity-10 text-danger">
+                              <i class="fas fa-stop-circle me-2"></i> Stop
+                           </div>
+                           <div class="card-body">
+                              <p>Immediately suspends an active promotion. Users won't be able to participate after stopping.</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class="card h-100">
+                           <div class="card-header bg-success bg-opacity-10 text-success">
+                              <i class="fas fa-redo me-2"></i> Auto Renew
+                           </div>
+                           <div class="card-body">
+                              <p>When enabled, the promotion will automatically extend for 1 month when it expires.</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="alert alert-warning">
+               <h5 class="alert-heading d-flex align-items-center">
+                  <i class="fas fa-exclamation-triangle me-2"></i>
+                  Important Notes
+               </h5>
+               <hr>
+               <ul class="mb-0">
+                  <li>Changes to promotions require service restart (approx. 3 minutes)</li>
+                  <li>Avoid making multiple changes simultaneously</li>
+                  <li>Auto-renew only works for active promotions</li>
+                  <li>Stopped promotions cannot be reactivated - create new ones instead</li>
+               </ul>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+            <i class="fas fa-check-circle me-1"></i> Understood
+            </button>
+         </div>
+      </div>
+   </div>
+</div>

@@ -5,231 +5,202 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>System Stats</title>
       <link rel="icon" href="../images/favicon-admin.png" type="image/png">
-      <link href="../css/bootstrap.min.css" rel="stylesheet">
-      <script src="../js/chart.js"></script>
-      <link rel="stylesheet" href="../css/admin.css">
-      <style>
-         canvas {
-         max-width: 300px;
-         max-height: 300px;
-         }
-      </style>
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+      <script src="/node_modules/chart.js/dist/chart.umd.js"></script>
+      <link rel="stylesheet" href="/css/admin-system-stats.css">
    </head>
-   <body>
+   <body class="bg-light d-flex flex-column min-vh-100">
       <%- include('partials/nav') %>
-      <div class="container mt-5">
-         <h2 class="mb-4">System Statistics</h2>
-         <div id="serverStartTime"></div>
-         <div id="currentTime"></div>
-         <div class="row">
-            <div class="col text-center">
-               <h3>CPU Usage</h3>
-               <canvas id="combinedCpuChart"></canvas>
-            </div>
-            <div class="col text-center">
-               <h3>Memory Usage</h3>
-               <canvas id="combinedMemoryChart"></canvas>
-            </div>
-         </div>
-         <div class="row mt-4">
-            <div class="col text-center">
-               <h4>CPU Used: <span id="usedCpu">0</span>%</h4>
-               <h4>CPU Free: <span id="freeCpu">0</span>%</h4>
-            </div>
-            <div class="col text-center">
-               <h4>Total Memory: <span id="totalMemory">0</span> MB</h4>
-               <h4>Free Memory: <span id="freeMemory">0</span> MB</h4>
-            </div>
-         </div>
-         <!-- Accordion for Detailed System Information -->
-         <div class="accordion mt-5" id="systemInfoAccordion">
-            <div class="accordion-item">
-               <h2 class="accordion-header" id="headingSystemInfo">
-                  <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSystemInfo" aria-expanded="false" aria-controls="collapseSystemInfo">
-                  Detailed System Information
-                  </button>
+      <main class="flex-grow-1 pb-5">
+         <div class="container py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+               <h2 class="mb-0">
+                  <i class="bi bi-speedometer2 me-2 text-primary"></i>System Statistics
                </h2>
-               <div id="collapseSystemInfo" class="accordion-collapse collapse" aria-labelledby="headingSystemInfo" data-bs-parent="#systemInfoAccordion">
-                  <div class="accordion-body">
-                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>CPU Model:</strong> <span id="cpuModel"></span></li>
-                        <li class="list-group-item"><strong>CPU Speed:</strong> <span id="cpuSpeed"></span> MHz</li>
-                        <li class="list-group-item"><strong>CPU Cores:</strong> <span id="cpuCores"></span></li>
-                        <li class="list-group-item"><strong>Total Memory:</strong> <span id="systemTotalMemory"></span> MB</li>
-                        <li class="list-group-item"><strong>Free Memory:</strong> <span id="systemFreeMemory"></span> MB</li>
-                        <li class="list-group-item"><strong>OS Type:</strong> <span id="osType"></span></li>
-                        <li class="list-group-item"><strong>OS Version:</strong> <span id="osRelease"></span></li>
-                        <li class="list-group-item"><strong>Platform:</strong> <span id="platform"></span></li>
-                     </ul>
+               <div>
+                  <span class="badge bg-primary bg-opacity-10 text-primary fs-6 me-2">
+                  <i class="bi bi-clock-history me-1"></i>
+                  <span id="serverStartTime">00:00:00</span>
+                  </span>
+                  <span class="badge bg-info bg-opacity-10 text-info fs-6">
+                  <i class="bi bi-clock me-1"></i>
+                  <span id="currentTime">00:00:00</span>
+                  </span>
+               </div>
+            </div>
+            <div class="row g-4 mb-4">
+               <!-- CPU Card -->
+               <div class="col-md-6">
+                  <div class="stat-card card border-0 shadow-sm h-100">
+                     <div class="card-header bg-white border-0">
+                        <h3 class="card-title mb-0">
+                           <i class="bi bi-cpu text-danger me-2"></i>CPU Usage
+                        </h3>
+                     </div>
+                     <div class="card-body text-center py-4">
+                        <canvas id="combinedCpuChart"></canvas>
+                        <div class="row mt-4">
+                           <div class="col-6">
+                              <div class="p-3 bg-danger bg-opacity-10 rounded">
+                                 <h5 class="mb-1 text-danger">
+                                    <i class="bi bi-arrow-up-right"></i> Used
+                                 </h5>
+                                 <h3 class="mb-0 fw-bold"><span id="usedCpu">0</span>%</h3>
+                              </div>
+                           </div>
+                           <div class="col-6">
+                              <div class="p-3 bg-success bg-opacity-10 rounded">
+                                 <h5 class="mb-1 text-success">
+                                    <i class="bi bi-arrow-down-right"></i> Free
+                                 </h5>
+                                 <h3 class="mb-0 fw-bold"><span id="freeCpu">0</span>%</h3>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Memory Card -->
+               <div class="col-md-6">
+                  <div class="stat-card card border-0 shadow-sm h-100">
+                     <div class="card-header bg-white border-0">
+                        <h3 class="card-title mb-0">
+                           <i class="bi bi-memory text-purple me-2"></i>Memory Usage
+                        </h3>
+                     </div>
+                     <div class="card-body text-center py-4">
+                        <canvas id="combinedMemoryChart"></canvas>
+                        <div class="row mt-4">
+                           <div class="col-6">
+                              <div class="p-3 bg-purple bg-opacity-10 rounded">
+                                 <h5 class="mb-1 text-purple">
+                                    <i class="bi bi-file-bar-graph"></i> Total
+                                 </h5>
+                                 <h3 class="mb-0 fw-bold"><span id="totalMemory">0</span> MB</h3>
+                              </div>
+                           </div>
+                           <div class="col-6">
+                              <div class="p-3 bg-success bg-opacity-10 rounded">
+                                 <h5 class="mb-1 text-success">
+                                    <i class="bi bi-check-circle"></i> Free
+                                 </h5>
+                                 <h3 class="mb-0 fw-bold"><span id="freeMemory">0</span> MB</h3>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Accordions -->
+            <div class="row g-4">
+               <div class="col-md-6">
+                  <div class="card border-0 shadow-sm">
+                     <div class="card-header bg-white border-0">
+                        <h3 class="card-title mb-0">
+                           <i class="bi bi-pc-display text-info me-2"></i>System Information
+                        </h3>
+                     </div>
+                     <div class="card-body p-0">
+                        <div class="accordion accordion-flush" id="systemInfoAccordion">
+                           <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingSystemInfo">
+                                 <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSystemInfo" aria-expanded="true" aria-controls="collapseSystemInfo">
+                                 <i class="bi bi-info-circle me-2 text-info"></i>Detailed System Information
+                                 </button>
+                              </h2>
+                              <div id="collapseSystemInfo" class="accordion-collapse collapse" aria-labelledby="headingSystemInfo" data-bs-parent="#systemInfoAccordion">
+                                 <div class="accordion-body">
+                                    <ul class="list-group list-group-flush">
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-cpu me-2 text-secondary"></i><strong>CPU Model:</strong></span>
+                                          <span class="badge bg-secondary bg-opacity-10 text-secondary" id="cpuModel">-</span>
+                                       </li>
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-speedometer me-2 text-secondary"></i><strong>CPU Speed:</strong></span>
+                                          <span class="badge bg-secondary bg-opacity-10 text-secondary" id="cpuSpeed">0</span> MHz
+                                       </li>
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-collection me-2 text-secondary"></i><strong>CPU Cores:</strong></span>
+                                          <span class="badge bg-secondary bg-opacity-10 text-secondary" id="cpuCores">0</span>
+                                       </li>
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-memory me-2 text-secondary"></i><strong>Total Memory:</strong></span>
+                                          <span class="badge bg-secondary bg-opacity-10 text-secondary" id="systemTotalMemory">0</span> MB
+                                       </li>
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-check-circle me-2 text-secondary"></i><strong>Free Memory:</strong></span>
+                                          <span class="badge bg-secondary bg-opacity-10 text-secondary" id="systemFreeMemory">0</span> MB
+                                       </li>
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-windows me-2 text-secondary"></i><strong>OS Type:</strong></span>
+                                          <span class="badge bg-secondary bg-opacity-10 text-secondary" id="osType">-</span>
+                                       </li>
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-tag me-2 text-secondary"></i><strong>OS Version:</strong></span>
+                                          <span class="badge bg-secondary bg-opacity-10 text-secondary" id="osRelease">-</span>
+                                       </li>
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-device-hdd me-2 text-secondary"></i><strong>Platform:</strong></span>
+                                          <span class="badge bg-secondary bg-opacity-10 text-secondary" id="platform">-</span>
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="card border-0 shadow-sm">
+                     <div class="card-header bg-white border-0">
+                        <h3 class="card-title mb-0">
+                           <i class="bi bi-terminal text-warning me-2"></i>Process Information
+                        </h3>
+                     </div>
+                     <div class="card-body p-0">
+                        <div class="accordion accordion-flush" id="processInfoAccordion">
+                           <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingProcessInfo">
+                                 <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProcessInfo" aria-expanded="true" aria-controls="collapseProcessInfo">
+                                 <i class="bi bi-gear me-2 text-warning"></i>Server Api Process Information
+                                 </button>
+                              </h2>
+                              <div id="collapseProcessInfo" class="accordion-collapse collapse" aria-labelledby="headingProcessInfo" data-bs-parent="#processInfoAccordion">
+                                 <div class="accordion-body">
+                                    <ul class="list-group list-group-flush">
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-123 me-2 text-warning"></i><strong>PID:</strong></span>
+                                          <span class="badge bg-warning bg-opacity-10 text-warning" id="processPid">N/A</span>
+                                       </li>
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-file-earmark-text me-2 text-warning"></i><strong>Process Name:</strong></span>
+                                          <span class="badge bg-warning bg-opacity-10 text-warning" id="processName">N/A</span>
+                                       </li>
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-memory me-2 text-warning"></i><strong>Memory Usage:</strong></span>
+                                          <span class="badge bg-warning bg-opacity-10 text-warning" id="processMemory">N/A</span>
+                                       </li>
+                                       <li class="list-group-item d-flex justify-content-between align-items-center">
+                                          <span><i class="bi bi-graph-up me-2 text-warning"></i><strong>CPU Usage:</strong></span>
+                                          <span class="badge bg-warning bg-opacity-10 text-warning" id="processCpu">N/A</span>
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                </div>
             </div>
          </div>
-         <!-- Accordion for Server Api Process Information -->
-         <div class="accordion mt-4" id="processInfoAccordion">
-            <div class="accordion-item">
-               <h2 class="accordion-header" id="headingProcessInfo">
-                  <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProcessInfo" aria-expanded="false" aria-controls="collapseProcessInfo">
-                  Server Api Process Information
-                  </button>
-               </h2>
-               <div id="collapseProcessInfo" class="accordion-collapse collapse" aria-labelledby="headingProcessInfo" data-bs-parent="#processInfoAccordion">
-                  <div class="accordion-body">
-                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>PID:</strong> <span id="processPid">N/A</span></li>
-                        <li class="list-group-item"><strong>Process Name:</strong> <span id="processName">N/A</span></li>
-                        <li class="list-group-item"><strong>Memory Usage:</strong> <span id="processMemory">N/A</span></li>
-                        <li class="list-group-item"><strong>CPU Usage:</strong> <span id="processCpu">N/A</span></li>
-                     </ul>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <script>
-         const ctxCombinedCpu = document.getElementById('combinedCpuChart').getContext('2d');
-         const ctxCombinedMemory = document.getElementById('combinedMemoryChart').getContext('2d');
-         
-         const combinedCpuChart = new Chart(ctxCombinedCpu, {
-             type: 'bar',
-             data: {
-                 labels: ['Used', 'Free'],
-                 datasets: [{
-                     label: 'CPU Usage (%)',
-                     data: [0, 100],
-                     backgroundColor: 'rgba(75, 192, 192, 1)',
-                 }]
-             },
-             options: {
-                 scales: {
-                     y: {
-                         beginAtZero: true,
-                         max: 100
-                     }
-                 }
-             }
-         });
-         
-         const combinedMemoryChart = new Chart(ctxCombinedMemory, {
-             type: 'bar',
-             data: {
-                 labels: ['Used', 'Free'],
-                 datasets: [{
-                     label: 'Memory Usage (%)',
-                     data: [0, 100],
-                     backgroundColor: 'rgba(153, 102, 255, 1)',
-                 }]
-             },
-             options: {
-                 scales: {
-                     y: {
-                         beginAtZero: true,
-                         max: 100
-                     }
-                 }
-             }
-         });
-         
-         let serverStartTime; // Переменная для хранения времени запуска сервера
-         
-         // Обновление информации о системе
-         function updateSystemInfo(systemInfo) {
-             document.getElementById('cpuModel').textContent = systemInfo.cpuModel;
-             document.getElementById('cpuSpeed').textContent = systemInfo.cpuSpeed;
-             document.getElementById('cpuCores').textContent = systemInfo.cpuCores;
-             document.getElementById('systemTotalMemory').textContent = systemInfo.totalMemory;
-             document.getElementById('systemFreeMemory').textContent = systemInfo.freeMemory;
-             document.getElementById('osType').textContent = systemInfo.osType;
-             document.getElementById('osRelease').textContent = systemInfo.osRelease;
-             document.getElementById('platform').textContent = systemInfo.platform;
-         }
-         
-         // Обновление информации о процессе
-         function updateProcessInfo(processInfo) {
-             document.getElementById('processPid').textContent = processInfo.pid;
-             document.getElementById('processName').textContent = processInfo.name;
-             document.getElementById('processMemory').textContent = processInfo.memory;
-             document.getElementById('processCpu').textContent = processInfo.cpu;
-         }
-         
-         // Обновление статистики
-         function updateStats() {
-             fetch('/api/system-stats')
-                 .then(response => response.json())
-                 .then(data => {
-                     // Сохраняем время запуска сервера
-                     serverStartTime = new Date(data.serverStartTime);
-         
-                     // Обновляем системную информацию и информацию о процессе
-                     updateSystemInfo(data.systemInfo);
-                     updateProcessInfo(data.processInfo);
-         
-                     // Обновляем данные в графиках
-                     combinedCpuChart.data.datasets[0].data = [data.usedCpu, data.freeCpu];
-                     combinedMemoryChart.data.datasets[0].data = [data.usedMemory, 100 - data.usedMemory];
-         
-                     // Обновляем текстовые данные
-                     document.getElementById('usedCpu').textContent = data.usedCpu;
-                     document.getElementById('freeCpu').textContent = data.freeCpu;
-                     document.getElementById('totalMemory').textContent = data.totalMemory;
-                     document.getElementById('freeMemory').textContent = data.freeMemory;
-         
-                     // Обновляем графики
-                     combinedCpuChart.update();
-                     combinedMemoryChart.update();
-                 })
-                 .catch(error => console.error('Error:', error));
-         }
-         
-         // Форматирование времени с учетом месяцев и недель
-         function formatTime(seconds) {
-         const months = Math.floor(seconds / (30 * 24 * 3600)); // 30 дней в месяце
-         const weeks = Math.floor((seconds % (30 * 24 * 3600)) / (7 * 24 * 3600)); // 7 дней в неделе
-         const days = Math.floor((seconds % (7 * 24 * 3600)) / (24 * 3600));
-         const hours = Math.floor((seconds % (24 * 3600)) / 3600);
-         const minutes = Math.floor((seconds % 3600) / 60);
-         const secs = seconds % 60;
-         
-         // Формирование строки времени
-         return `
-             <span class="time-part month">${months}m</span> 
-             <span class="time-part week">${weeks}w</span> 
-             <span class="time-part day">${days}d</span>
-             <span class="slash">/</span>
-             <span class="time-part hour">${hours.toString().padStart(2, '0')}</span>: 
-             <span class="time-part minute">${minutes.toString().padStart(2, '0')}</span>: 
-             <span class="time-part second">${secs.toString().padStart(2, '0')}</span>
-         `;
-         }
-         
-         // Функция для отображения времени с момента старта сервера
-         function updateTimeDisplay() {
-         const currentTime = new Date();
-         const elapsedTime = Math.floor((currentTime - serverStartTime) / 1000); // Время в секундах
-         const elapsedTimeFormatted = formatTime(elapsedTime);
-         
-         // Отображение времени
-         const serverStartTimeElement = document.getElementById('serverStartTime');
-         serverStartTimeElement.innerHTML = `Server Uptime: ${elapsedTimeFormatted}`;
-         serverStartTimeElement.style.fontSize = '18px';
-         serverStartTimeElement.style.color = '#0d6efd';
-         serverStartTimeElement.style.fontWeight = 'bold';
-         
-         // Стилизация для текущего времени
-         const currentTimeElement = document.getElementById('currentTime');
-         currentTimeElement.textContent = `Current Time: ${currentTime.toLocaleTimeString()}`;
-         currentTimeElement.style.fontSize = '18px';
-         currentTimeElement.style.color = '#0d6efd';
-         currentTimeElement.style.fontWeight = 'bold';
-         }
-         
-         // Обновление времени каждую секунду
-         setInterval(updateTimeDisplay, 1000);
-         
-         // Первоначальный вызов для загрузки данных
-         updateStats();
-         setInterval(updateStats, 5000); // Обновляем статистику каждые 5 секунд
-      </script>
-      <script src="../js/bootstrap.bundle.min.js"></script>
+      </main>
+      <%- include('partials/adminFooter') %>
+      <script src="/js/admin-system-stats.js"></script>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
    </body>
 </html>

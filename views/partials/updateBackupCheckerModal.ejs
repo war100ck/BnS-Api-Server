@@ -1,0 +1,30 @@
+<!-- partials/updateBackupCheckerModal.ejs -->
+<div class="modal fade" id="backupModal" tabindex="-1" aria-labelledby="backupModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="backupModalLabel">
+               <i class="bi bi-file-earmark-zip text-warning me-2"></i>
+               Backup Instructions
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <h6 class="mb-3">To backup your modified files:</h6>
+            <ol class="mb-4">
+               <li class="mb-2">Click the "Backup" button in the top right corner</li>
+               <li class="mb-2">Specify the folder where you want to save the backup</li>
+               <li class="mb-2">The system will automatically create a ZIP archive with all files that will be updated</li>
+               <li>Wait for the backup process to complete</li>
+            </ol>
+            <div class="alert alert-info">
+               <i class="bi bi-info-circle me-2"></i>
+               The backup will include all files listed in the "Files to update" section below.
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>

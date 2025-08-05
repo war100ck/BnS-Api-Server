@@ -1,0 +1,6 @@
+ .toast-container{ position:fixed;  top:20px;  right:20px;  z-index:1100}
+ .toast{ width:350px;  max-width:100%}
+ .money-icon{ width:20px;  height:20px}
+ .deposit-table{ background-color:#f8f9fa;  border-radius:0.5rem}
+ .deposit-summary{ background-color:#e9ecef;  border-radius:0.5rem;  padding:1rem;  margin-top:1rem}
+ .badge-currency{ background-color:#6c757d;  color:white}

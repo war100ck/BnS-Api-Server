@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title><%= title %></title>
+      <link rel="icon" href="../images/favicon-admin.png" type="image/png">
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+   </head>
+   <body class="bg-light d-flex flex-column min-vh-100">
+      <%- include('partials/nav') %>
+      <!-- Toast Notification (Top Right) -->
+      <div class="position-fixed top-0 end-0 p-3" style="z-index: 1031">
+         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+               <i class="bi bi-check-circle-fill me-2"></i>
+               <strong class="me-auto" id="toastTitle">Notification</strong>
+               <small class="text-white-50">Just now</small>
+               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body bg-light-success text-success d-flex align-items-center">
+               <i class="bi bi-check-circle-fill text-success me-2" id="toastIcon"></i>
+               <span id="toastMessage"></span>
+            </div>
+         </div>
+      </div>
+      <main class="flex-grow-1 pb-5">
+         <div class="container py-4">
+            <% if (success) { %>
+            <div class="alert alert-success alert-dismissible fade show d-flex align-items-center">
+               <i class="bi bi-check-circle-fill me-2"></i>
+               <div><%= success %></div>
+               <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <% } %>
+            <% if (error) { %>
+            <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center">
+               <i class="bi bi-exclamation-triangle-fill me-2"></i>
+               <div><%= error %></div>
+               <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            <% } %>
+            <div class="alert alert-warning d-flex align-items-center mb-4">
+               <i class="bi bi-exclamation-triangle-fill me-2"></i>
+               <div>Server restart required to apply configuration changes</div>
+            </div>
+            <div class="card shadow-sm">
+               <div class="card-header bg-primary bg-gradient text-white d-flex justify-content-between align-items-center">
+                  <h2 class="h5 mb-0"><i class="bi bi-gear me-2"></i>Server Configuration</h2>
+                  <div>
+                     <a href="?raw=<%= !rawMode %>" class="btn btn-sm <%= rawMode ? 'btn-outline-light' : 'btn-light' %>">
+                     <i class="bi <%= rawMode ? 'bi-pencil-square' : 'bi-code-slash' %> me-1"></i>
+                     <%= rawMode ? 'Form View' : 'Raw Edit' %>
+                     </a>
+                     <button type="button" class="btn btn-sm btn-info ms-2" data-bs-toggle="modal" data-bs-target="#envWarningModal">
+                     <i class="bi bi-info-circle me-1"></i> Info
+                     </button>
+                     <button type="button" id="restartServer" class="btn btn-sm btn-danger ms-2">
+                     <i class="bi bi-arrow-repeat me-1"></i> Restart Api Server
+                     </button>
+                  </div>
+               </div>
+               <div class="card-body p-0">
+                  <% if (rawMode) { %>
+                  <form action="/admin/apiconfig/update" method="POST">
+                     <textarea name="raw_content" class="form-control rounded-0 font-monospace" style="min-height: 500px;"><%= envData.raw %></textarea>
+                     <div class="card-footer bg-white d-flex justify-content-end gap-2">
+                        <a href="/admin/apiconfig" class="btn btn-outline-secondary">
+                        <i class="bi bi-x-circle me-1"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i> Save Configuration
+                        </button>
+                     </div>
+                  </form>
+                  <% } else { %>
+                  <ul class="nav nav-tabs px-3 pt-3" id="configTabs" role="tablist">
+                     <% envData.sections.forEach((section, index) => { %>
+                     <li class="nav-item" role="presentation">
+                        <button class="nav-link <%= index === 0 ? 'active' : '' %>" id="tab-<%= index %>" data-bs-toggle="tab" 
+                           data-bs-target="#section-<%= index %>" type="button" role="tab">
+                        <i class="bi <%= section.icon || 'bi-gear' %> me-1"></i>
+                        <%= section.title %>
+                        </button>
+                     </li>
+                     <% }); %>
+                     <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tab-logs" data-bs-toggle="tab" 
+                           data-bs-target="#section-logs" type="button" role="tab">
+                        <i class="bi bi-journal-text me-1"></i>
+                        REGISTRATION LOG
+                        <% if (logContent && logContent.trim().length > 0 && logContent !== "No log entries") { %>
+                        <span class="badge bg-danger ms-1">New</span>
+                        <% } %>
+                        </button>
+                     </li>
+                  </ul>
+                  <form action="/admin/apiconfig/update" method="POST">
+                     <div class="tab-content p-3">
+                        <% envData.sections.forEach((section, index) => { %>
+                        <div class="tab-pane fade <%= index === 0 ? 'show active' : '' %>" id="section-<%= index %>" role="tabpanel">
+                           <div class="border-start border-primary border-4 ps-3 mb-4">
+                              <h3 class="h5 text-primary"><%= section.title %></h3>
+                              <% if (section.description) { %>
+                              <p class="text-muted"><%= section.description %></p>
+                              <% } %>
+                           </div>
+                           <% section.subsections.forEach(subsection => { %>
+                           <div class="card mb-4 shadow-sm">
+                              <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                 <h4 class="h6 mb-0">
+                                    <i class="bi <%= subsection.icon || 'bi-collection' %> text-muted me-2"></i>
+                                    <%= subsection.title %>
+                                 </h4>
+                                 <button type="submit" class="btn btn-sm btn-outline-primary">
+                                 <i class="bi bi-save me-1"></i> Save
+                                 </button>
+                              </div>
+                              <div class="card-body">
+                                 <% if (subsection.description) { %>
+                                 <div class="alert alert-info mb-3">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    <%= subsection.description %>
+                                 </div>
+                                 <% } %>
+                                 <div class="row g-3">
+                                    <% subsection.variables.forEach(variable => { %>
+                                    <div class="col-12">
+                                       <div class="p-3 bg-white rounded border">
+                                          <div class="row align-items-center">
+                                             <div class="col-md-3">
+                                                <label class="form-label fw-bold">
+                                                <%= variable.name %>
+                                                <% if (variable.required) { %>
+                                                <span class="text-danger">*</span>
+                                                <% } %>
+                                                </label>
+                                                <% if (variable.hint) { %>
+                                                <small class="text-muted d-block"><%= variable.hint %></small>
+                                                <% } %>
+                                             </div>
+                                             <div class="col-md-9">
+                                                <% if (variable.isBoolean) { %>
+                                                <div class="form-check form-switch">
+                                                   <input class="form-check-input" type="checkbox" 
+                                                      name="env_<%= variable.name %>" 
+                                                      <%= variable.value.toLowerCase() === 'true' ? 'checked' : '' %>>
+                                                   <label class="form-check-label">
+                                                   <%= variable.value.toLowerCase() === 'true' ? 'Enabled' : 'Disabled' %>
+                                                   </label>
+                                                </div>
+                                                <% } else { %>
+                                                <div class="input-group">
+                                                   <input type="text" class="form-control" 
+                                                      name="env_<%= variable.name %>" 
+                                                      value="<%= variable.value %>">
+                                                   <% if (variable.example) { %>
+                                                   <button class="btn btn-outline-secondary" type="button" 
+                                                      onclick="this.previousElementSibling.value='<%= variable.example %>'">
+                                                   <i class="bi bi-lightbulb"></i> Example
+                                                   </button>
+                                                   <% } %>
+                                                </div>
+                                                <% } %>
+                                             </div>
+                                          </div>
+                                          <% if (variable.description) { %>
+                                          <div class="mt-2 text-muted small">
+                                             <i class="bi bi-info-circle me-1"></i>
+                                             <%= variable.description %>
+                                          </div>
+                                          <% } %>
+                                       </div>
+                                    </div>
+                                    <% }); %>
+                                 </div>
+                              </div>
+                           </div>
+                           <% }); %>
+                        </div>
+                        <% }); %>
+                        <!-- Logs Tab -->
+                        <div class="tab-pane fade" id="section-logs" role="tabpanel">
+                           <div class="d-flex justify-content-between align-items-center mb-3">
+                              <h3 class="h5 text-primary">
+                                 <i class="bi bi-journal-text me-2"></i>
+                                 Registration Logs
+                              </h3>
+                              <div>
+                                 <button type="button" id="refreshLogs" class="btn btn-sm btn-info me-2">
+                                 <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+                                 </button>
+                                 <button type="button" id="clearLogs" class="btn btn-sm btn-danger">
+                                 <i class="bi bi-trash me-1"></i> Clear Logs
+                                 </button>
+                              </div>
+                           </div>
+                           <div class="bg-dark text-white font-monospace p-3 rounded" style="max-height: 500px; overflow-y: auto;" id="logContainer">
+                              <% if (logContent && logContent.trim().length > 0) { %>
+                              <pre class="text-white mb-0"><%= logContent %></pre>
+                              <% } else { %>
+                              <div class="text-muted">No log entries</div>
+                              <% } %>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                        <div class="form-text">
+                           <i class="bi bi-info-circle me-1"></i>
+                           Changes will require server restart to take effect
+                        </div>
+                        <div>
+                           <button type="reset" class="btn btn-outline-secondary me-2">
+                           <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+                           </button>
+                           <button type="submit" class="btn btn-primary">
+                           <i class="bi bi-save me-1"></i> Save All Changes
+                           </button>
+                        </div>
+                     </div>
+                  </form>
+                  <% } %>
+               </div>
+            </div>
+         </div>
+         <!-- Modal for .env Warning -->
+         <div class="modal fade" id="envWarningModal" tabindex="-1" aria-labelledby="envWarningModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content">
+                  <div class="modal-header bg-warning text-dark">
+                     <h5 class="modal-title fw-bold" id="envWarningModalLabel">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        Important Configuration Notice
+                     </h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="alert alert-danger mb-4">
+                        <h4 class="alert-heading d-flex align-items-center">
+                           <i class="bi bi-exclamation-octagon-fill me-2"></i>
+                           Warning: .env File Structure
+                        </h4>
+                        <hr>
+                        <p class="mb-0">The <span class="fw-bold">.env</span> file structure is critical for system stability. Never modify:</p>
+                        <ul class="mt-2 mb-0">
+                           <li>Variable names (left of equals sign)</li>
+                           <li>File formatting or section headers</li>
+                           <li>Comment formatting if present</li>
+                        </ul>
+                     </div>
+                     <div class="card border-warning mb-4">
+                        <div class="card-header bg-light">
+                           <i class="bi bi-list-check me-2"></i> Configuration Rules
+                        </div>
+                        <div class="card-body">
+                           <div class="row">
+                              <div class="col-md-6">
+                                 <div class="card border-success h-100">
+                                    <div class="card-header bg-success bg-opacity-10 text-success">
+                                       <i class="bi bi-check-circle me-2"></i> Safe Changes
+                                    </div>
+                                    <div class="card-body">
+                                       <ul>
+                                          <li>Values after equals sign</li>
+                                          <li>Boolean (true/false) flags</li>
+                                          <li>Port numbers</li>
+                                       </ul>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-md-6">
+                                 <div class="card border-danger h-100">
+                                    <div class="card-header bg-danger bg-opacity-10 text-danger">
+                                       <i class="bi bi-x-circle me-2"></i> Dangerous Changes
+                                    </div>
+                                    <div class="card-body">
+                                       <ul>
+                                          <li>Variable names</li>
+                                          <li>File structure</li>
+                                          <li>Special characters</li>
+                                       </ul>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="alert alert-primary d-flex align-items-center">
+                        <i class="bi bi-arrow-repeat fs-4 me-3"></i>
+                        <div>
+                           <h5 class="alert-heading">Restart Required</h5>
+                           Any changes to .env require a <span class="fw-bold">server restart</span> to take effect.
+                           Use the <i class="bi bi-arrow-repeat"></i> Restart Server button after saving changes.
+                        </div>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                     <i class="bi bi-check-circle me-1"></i> I Understand
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </main>
+      <%- include('partials/adminFooter') %>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/js/admin-api-config.js"></script>
+   </body>
+</html>

@@ -1,0 +1,97 @@
+<!-- partials/adminInfoModal.ejs -->
+<div class="modal fade" id="adminInfoModal" tabindex="-1" aria-labelledby="adminInfoModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header bg-secondary text-white">
+            <h5 class="modal-title fw-bold" id="adminInfoModalLabel">
+               <i class="fas fa-user-shield me-2"></i>
+               Admin Panel Guide
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <!-- Core Functionality -->
+            <div class="alert alert-secondary mb-4">
+               <h5 class="alert-heading">
+                  <i class="fas fa-info-circle me-2"></i>
+                  Main Features
+               </h5>
+               <hr>
+               <p class="mb-0">
+                  This page allows you to manage system users. All changes are applied immediately.
+               </p>
+            </div>
+            <!-- Users Table -->
+            <div class="card border-secondary mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-table me-2"></i> Users Table
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <ul class="mb-0">
+                           <li><strong>#</strong> - sequential number</li>
+                           <li><strong>Username</strong> - user login</li>
+                           <li>
+                              <strong>Role</strong> - current role:
+                              <ul>
+                                 <li><span class="badge bg-success">User</span> - regular user</li>
+                                 <li><span class="badge bg-danger">Admin</span> - administrator</li>
+                              </ul>
+                           </li>
+                        </ul>
+                     </div>
+                     <div class="col-md-6">
+                        <ul class="mb-0">
+                           <li><strong>Role Toggle</strong> - switch user role</li>
+                           <li>
+                              <strong>Actions</strong> - available operations:
+                              <ul>
+                                 <li><i class="fas fa-user-edit text-secondary"></i> - edit characters</li>
+                                 <li><i class="fas fa-coins text-success"></i> - manage balance</li>
+                                 <li><i class="fas fa-paper-plane text-info"></i> - send items</li>
+                                 <li><i class="fas fa-crown text-warning"></i> - VIP management</li>
+                                 <li><i class="fas fa-gavel text-danger"></i> - ban user</li>
+                              </ul>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Statistics -->
+            <div class="card border-secondary mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-chart-bar me-2"></i> Statistics Panel
+               </div>
+               <div class="card-body">
+                  <ul class="mb-0">
+                     <li><strong>Total Users</strong> - total registered users</li>
+                     <li><strong>Characters</strong> - active characters count</li>
+                     <li><strong>Deleted Chars</strong> - deleted characters count</li>
+                     <li><strong>Items per page</strong> - records display settings</li>
+                  </ul>
+               </div>
+            </div>
+            <!-- Important Notes -->
+            <div class="alert alert-warning">
+               <h5 class="alert-heading">
+                  <i class="fas fa-exclamation-triangle me-2"></i>
+                  Important!
+               </h5>
+               <hr>
+               <ul class="mb-0">
+                  <li>Role changes are applied immediately</li>
+                  <li>Admins gain full system access</li>
+                  <li>Some actions are irreversible (ban, delete)</li>
+               </ul>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fas fa-check-circle me-1"></i> Understood
+            </button>
+         </div>
+      </div>
+   </div>
+</div>

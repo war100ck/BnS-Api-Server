@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Sending Items</title>
+      <link rel="icon" href="/images/favicon-admin.png" type="image/png">
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+      <link rel="stylesheet" href="/css/admin-warehouseItem.css">
+   </head>
+   <body class="bg-light d-flex flex-column min-vh-100">
+      <%- include('partials/nav') %>
+      <main class="flex-grow-1 pb-5">
+         <div class="container py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-md-row">
+               <div class="account-management-block mb-4 p-3 rounded-3 shadow-sm" style="background-color: #f8f9fa; border-left: 4px solid #0dcaf0;">
+                  <h2 class="mb-3 d-flex align-items-center">
+                     <i class="bi bi-send-check fs-4 text-info me-2"></i>Sending Items
+                  </h2>
+                  <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                     <span class="badge bg-secondary py-2 px-3 d-flex align-items-center">
+                     <i class="fas fa-id-card me-2"></i>
+                     <span class="fw-medium">User ID: <%= userId %></span>
+                     </span>
+                  </div>
+               </div>
+               <div class="d-flex ms-md-auto mt-3 mt-md-0">
+                  <div class="dropdown">
+                     <button class="btn btn-sm btn-outline-info dropdown-toggle py-1 px-2" type="button" id="userActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                     <i class="fas fa-user-cog fa-sm me-1"></i> Actions
+                     </button>
+                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userActionsDropdown">
+                        <li>
+                           <h6 class="dropdown-header">User Actions</h6>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="edit-character?userId=<%= userId %>">
+                           <i class="fas fa-user-edit fa-fw me-2 text-primary"></i>Edit Character
+                           </a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-deposit?userId=<%= userId %>">
+                           <i class="fas fa-coins fa-fw me-2 text-success"></i>Add Deposit
+                           </a>
+                        </li>
+                        <li>
+                           <hr class="dropdown-divider my-1">
+                        </li>
+                        <li>
+                           <h6 class="dropdown-header">Administration</h6>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-vip?userId=<%= userId %>">
+                           <i class="fas fa-crown fa-fw me-2 text-warning"></i>VIP Management
+                           </a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-ban?userId=<%= userId %>">
+                           <i class="fas fa-gavel fa-fw me-2 text-danger"></i>Ban Management
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+                  <button class="btn btn-sm btn-outline-info ms-2 py-1 px-2" data-bs-toggle="modal" data-bs-target="#warehouseInfoModal">
+                  <i class="fas fa-info-circle fa-sm me-1"></i> Info
+                  </button>
+               </div>
+            </div>
+            <div class="card mb-4 shadow-sm">
+               <div class="card-body">
+                  <div class="row g-3 mb-4">
+                     <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                           <div class="card-body">
+                              <label for="searchItemID" class="form-label d-flex align-items-center">
+                              <i class="bi bi-search me-2"></i>Search by Item ID
+                              </label>
+                              <input type="text" id="searchItemID" class="form-control" placeholder="Enter Item ID">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card h-100 search-result-card" id="searchResults" style="display: none;">
+                           <div class="card-body d-flex">
+                              <div class="flex-grow-1">
+                                 <h5 class="card-title d-flex align-items-center">
+                                    <i class="bi bi-info-circle me-2 text-info"></i>Search Results
+                                 </h5>
+                                 <div class="mb-2">
+                                    <span class="badge bg-info text-dark me-1">Category:</span>
+                                    <span id="resultCategory" class="fw-semibold"></span>
+                                 </div>
+                                 <p class="mb-1 small">
+                                    <span class="text-muted">EN:</span> 
+                                    <span id="resultDescription" class="fw-medium"></span>
+                                 </p>
+                                 <p class="mb-0 small">
+                                    <span class="text-muted">CN:</span> 
+                                    <span id="resultCNDescription"></span>
+                                 </p>
+                              </div>
+                              <img id="resultIcon" src="/images/items/default.png" alt="Item" class="item-icon-preview ms-3">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="alert info-badge d-flex align-items-center mb-4">
+                     <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+                     <div>
+                        After sending the item to the character, you need to log out with that character and log back in. 
+                        The item will then be delivered via in-game mail.
+                     </div>
+                  </div>
+                  <form action="/process" method="get" id="addItemForm" onsubmit="sendItem(event)">
+                     <div class="row g-3">
+                        <div class="col-md-6">
+                           <label for="charname" class="form-label d-flex align-items-center">
+                           <i class="bi bi-person-vcard me-2"></i>Character Name
+                           </label>
+                           <select id="charname" name="charname" class="form-select" required>
+                              <% characters.forEach(function(character) { %>
+                              <option value="<%= character.name %>">
+                                 <%= character.name %> (<%= character.job %>)
+                              </option>
+                              <% }); %>
+                           </select>
+                        </div>
+                        <div class="col-md-3">
+                           <label for="itemid" class="form-label d-flex align-items-center">
+                           <i class="bi bi-upc-scan me-2"></i>Item ID
+                           </label>
+                           <div class="input-group">
+                              <span class="input-group-text"><i class="bi bi-123"></i></span>
+                              <input type="text" id="itemid" name="itemid" class="form-control">
+                           </div>
+                        </div>
+                        <div class="col-md-3">
+                           <label for="quantity" class="form-label d-flex align-items-center">
+                           <i class="bi bi-box-seam me-2"></i>Quantity
+                           </label>
+                           <div class="input-group">
+                              <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                              <input type="number" id="quantity" name="quantity" class="form-control" min="1" required>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <label for="category" class="form-label d-flex align-items-center">
+                           <i class="bi bi-folder me-2"></i>Category
+                           </label>
+                           <select id="category" name="category" class="form-select">
+                              <option value="">-- Select Category --</option>
+                              <% Object.keys(categories).forEach(function (categoryKey) { %>
+                              <option value="<%= categoryKey %>"><%= categoryKey %></option>
+                              <% }); %>
+                           </select>
+                        </div>
+                        <div class="col-md-6">
+                           <label class="form-label d-flex align-items-center">
+                           <i class="bi bi-box me-2"></i>Item Selection
+                           </label>
+                           <div class="d-flex align-items-center">
+                              <button type="button" class="btn btn-outline-info flex-grow-1 me-2 d-flex align-items-center justify-content-center" 
+                                 data-bs-toggle="modal" data-bs-target="#itemModal">
+                              <i class="bi bi-grid me-2"></i>Browse Items
+                              </button>
+                              <img id="itemIcon" src="/images/items/default.png" alt="Item" class="item-icon-preview">
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <label for="senderDescription" class="form-label d-flex align-items-center">
+                           <i class="bi bi-card-text me-2"></i>Sender Description
+                           </label>
+                           <div class="input-group">
+                              <span class="input-group-text"><i class="bi bi-pencil"></i></span>
+                              <input type="text" id="senderDescription" name="senderDescription" class="form-control" maxlength="128" placeholder="Optional">
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <label for="senderMessage" class="form-label d-flex align-items-center">
+                           <i class="bi bi-chat-left-text me-2"></i>Sender Message
+                           </label>
+                           <div class="input-group">
+                              <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                              <input type="text" id="senderMessage" name="senderMessage" class="form-control" maxlength="128" placeholder="Optional">
+                           </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                           <button type="submit" class="btn btn-info px-4 py-2 d-flex align-items-center">
+                           <i class="bi bi-send-check me-2"></i>Send Item
+                           </button>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+         <!-- Item Modal -->
+         <div class="modal fade" id="itemModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+               <div class="modal-content border-0">
+                  <div class="modal-header bg-dark text-white py-2">
+                     <h5 class="modal-title d-flex align-items-center fs-6 mb-0">
+                        <i class="bi bi-box-seam me-2"></i>Item Selection
+                     </h5>
+                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body p-2 bg-opacity-10">
+                     <div class="inventory-grid" id="itemList"></div>
+                  </div>
+                  <div class="modal-footer bg-dark py-2 d-flex justify-content-between align-items-center">
+                     <small class="text-muted">Total: <span id="totalItemsCount">0</span> items</small>
+                     <div id="paginationControls" class="d-flex gap-1"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div id="customTooltip" class="custom-tooltip" role="tooltip" aria-hidden="true"></div>
+         <div class="toast-custom" id="toastContainer"></div>
+      </main>
+      <%- include('partials/adminFooter') %>
+      <%- include('partials/warehouseInfoModal') %>
+      <script>window.categoriesData = <%- JSON.stringify(categories) %>;</script>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/js/admin-warehouseItem.js"></script>
+   </body>
+</html>

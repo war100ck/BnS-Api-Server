@@ -1,0 +1,54 @@
+<!-- partials/overview.ejs -->
+<div class="container mb-5" id="profs">
+  <h1 class="section-title text-center text-light">Blade & Soul Overview</h1>
+  <div class="accordion" id="accordionBladeSoul">
+    <div role="tablist" aria-label="Blade & Soul Overview Tabs" class="d-flex flex-column gap-2">
+      <% const sections = [
+         { id: 'One', title: 'Combat System', text: 'Blade & Soul features an action-oriented combat system that emphasizes player skill and timing. Players can execute combos and special moves, which adds depth to the combat experience.' },
+            { id: 'Two', title: 'Character Classes', text: 'There are various character classes in Blade & Soul, each offering unique skills and mechanics. Players can select a class that aligns with their preferred playstyle.' },
+            { id: 'Three', title: 'Quests and Story', text: 'The game offers a rich narrative with various quests, including main and side quests, that delve deeper into the story and world of Blade & Soul.' },
+            { id: 'Four', title: 'PvP and PvE', text: 'Players can engage in both PvP and PvE combat. There are arenas and special PvP modes available for competitive players.' },
+            { id: 'Five', title: 'Customization', text: 'Blade & Soul offers extensive character customization options, allowing players to modify their appearance and skill sets.' },
+            { id: 'Six', title: 'Graphics and Animation', text: 'The game is known for its high-quality graphics and animations, featuring unique character designs and immersive environments.' },
+            { id: 'Seven', title: 'Social Aspects', text: 'Blade & Soul provides social features that allow players to communicate with others, including guilds and group dungeons.' },
+            { id: 'Eight', title: 'Regular Updates', text: 'The developers frequently add new content, such as classes, zones, quests, and events, keeping the game fresh and engaging.' }
+      ]; %>
+
+      <% sections.forEach((section, index) => { %>
+        <div class="accordion-item" role="presentation">
+          <!-- Вкладка с ролью tab -->
+          <div 
+            role="tab"
+            id="tab-<%= section.id %>"
+            class="accordion-header"
+            aria-selected="<%= index === 0 ? 'true' : 'false' %>"
+            aria-controls="collapse<%= section.id %>"
+          >
+            <button 
+              class="accordion-button <%= index !== 0 ? 'collapsed' : '' %>"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapse<%= section.id %>"
+              aria-expanded="<%= index === 0 ? 'true' : 'false' %>"
+            >
+              <%= section.title %>
+            </button>
+          </div>
+
+          <!-- Содержимое вкладки -->
+          <div 
+            id="collapse<%= section.id %>"
+            class="accordion-collapse collapse <%= index === 0 ? 'show' : '' %>"
+            role="tabpanel"
+            aria-labelledby="tab-<%= section.id %>"
+            data-bs-parent="#accordionBladeSoul"
+          >
+            <div class="accordion-body" style="background: rgba(0, 0, 0, 0.7); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);">
+              <p><%= section.text %></p>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</div>

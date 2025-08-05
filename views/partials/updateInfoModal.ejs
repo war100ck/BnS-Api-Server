@@ -1,0 +1,134 @@
+<!-- partials/updateInfoModal.ejs -->
+<div class="modal fade" id="updateInfoModal" tabindex="-1" aria-labelledby="updateInfoModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header bg-info text-white">
+            <h5 class="modal-title fw-bold" id="updateInfoModalLabel">
+               <i class="fas fa-info-circle me-2"></i>
+               Server Update Guide
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="alert alert-info mb-4">
+               <h4 class="alert-heading d-flex align-items-center">
+                  <i class="fas fa-info-circle me-2"></i>
+                  About Server Updates
+               </h4>
+               <hr>
+               <p class="mb-0">This dashboard allows you to check for available updates, create backups, and apply updates to your server API.</p>
+            </div>
+            <div class="card border-info mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-columns me-2"></i> Update Process Explanation
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="card border-primary h-100">
+                           <div class="card-header bg-primary bg-opacity-10 text-primary">
+                              <i class="fas fa-search me-2"></i> Check for Updates
+                           </div>
+                           <div class="card-body">
+                              <ul class="mb-0">
+                                 <li><strong>Check Button:</strong> Scans for available updates</li>
+                                 <li><strong>Update Log:</strong> Shows detailed update information</li>
+                                 <li><strong>Files List:</strong> Displays files that will be updated</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card border-success h-100">
+                           <div class="card-header bg-success bg-opacity-10 text-success">
+                              <i class="fas fa-cloud-upload-alt me-2"></i> Apply Updates
+                           </div>
+                           <div class="card-body">
+                              <ul class="mb-0">
+                                 <li><strong>Backup:</strong> Creates backup before updating</li>
+                                 <li><strong>Update:</strong> Downloads and applies updates</li>
+                                 <li><strong>Progress Bar:</strong> Shows update progress</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="card border-warning mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-tools me-2"></i> Available Actions
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card h-100">
+                           <div class="card-header bg-info bg-opacity-10 text-info">
+                              <i class="fas fa-search me-2"></i> Check
+                           </div>
+                           <div class="card-body">
+                              <p>Scans the server for available updates and displays a list of files that will be modified.</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card h-100">
+                           <div class="card-header bg-warning bg-opacity-10 text-warning">
+                              <i class="fas fa-file-archive me-2"></i> Backup
+                           </div>
+                           <div class="card-body">
+                              <p>Creates a backup of all files that will be updated. Highly recommended before applying updates.</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class="card h-100">
+                           <div class="card-header bg-success bg-opacity-10 text-success">
+                              <i class="fas fa-download me-2"></i> Update
+                           </div>
+                           <div class="card-body">
+                              <p>Downloads and applies all available updates. Server may restart automatically.</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="alert alert-danger mb-4">
+               <h4 class="alert-heading d-flex align-items-center">
+                  <i class="fas fa-exclamation-triangle me-2"></i>
+                  Critical Updates Notice
+               </h4>
+               <hr>
+               <p class="mb-0">
+                  Occasionally, critical updates may be released and should be downloaded directly from the 
+                  <a href="https://github.com/war100ck/Server-Api-BnS-2017" target="_blank" class="alert-link">GitHub repository</a>.
+                  These updates can alter the file structure or paths, potentially affecting the functionality of the BnS API server.
+                  Always review the Update Log — critical updates will be clearly marked.
+               </p>
+            </div>
+            <div class="alert alert-warning">
+               <h5 class="alert-heading d-flex align-items-center">
+                  <i class="fas fa-exclamation-triangle me-2"></i>
+                  Important Notes
+               </h5>
+               <hr>
+               <ul class="mb-0">
+                  <li>Always create a backup before applying updates</li>
+                  <li>Update process may take several minutes</li>
+                  <li>Server may be temporarily unavailable during update</li>
+                  <li>Custom modifications will be overwritten by updates</li>
+                  <li>Check forum for update details before applying</li>
+                  <li>Critical updates may require manual installation</li>
+                  <li>Review file structure changes after major updates</li>
+               </ul>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-bs-dismiss="modal">
+            <i class="fas fa-check-circle me-1"></i> Understood
+            </button>
+         </div>
+      </div>
+   </div>
+</div>

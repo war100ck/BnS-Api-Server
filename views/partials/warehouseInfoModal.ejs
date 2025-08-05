@@ -1,0 +1,108 @@
+<!-- partials/warehouseInfoModal.ejs -->
+<div class="modal fade" id="warehouseInfoModal" tabindex="-1" aria-labelledby="warehouseInfoModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header bg-info text-white">
+            <h5 class="modal-title fw-bold" id="warehouseInfoModalLabel">
+               <i class="fas fa-info-circle me-2"></i>
+               Item Sending Guide
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="alert alert-info mb-4">
+               <h4 class="alert-heading d-flex align-items-center">
+                  <i class="fas fa-info-circle me-2"></i>
+                  About Item Sending
+               </h4>
+               <hr>
+               <p class="mb-0">This interface allows you to send items directly to player characters. Items will be delivered via in-game mail system.</p>
+            </div>
+            <div class="card border-info mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-columns me-2"></i> Key Features
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="card border-success h-100">
+                           <div class="card-header bg-success bg-opacity-10 text-success">
+                              <i class="fas fa-search me-2"></i> Item Search
+                           </div>
+                           <div class="card-body">
+                              <ul class="mb-0">
+                                 <li><strong>Search by ID:</strong> Find items by their exact ID number</li>
+                                 <li><strong>Browse Items:</strong> Visual catalog of available items</li>
+                                 <li><strong>Categories:</strong> Filter items by type and function</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card border-info h-100">
+                           <div class="card-header bg-info bg-opacity-10 text-info">
+                              <i class="fas fa-paper-plane me-2"></i> Delivery Options
+                           </div>
+                           <div class="card-body">
+                              <ul class="mb-0">
+                                 <li><strong>Character Selection:</strong> Choose recipient from available characters</li>
+                                 <li><strong>Custom Messages:</strong> Add sender description and message</li>
+                                 <li><strong>Quantity Control:</strong> Send multiple items at once</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="card border-info mb-4">
+               <div class="card-header bg-light">
+                  <i class="fas fa-exclamation-triangle me-2"></i> Important Notes
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-6 mb-3 mb-md-0">
+                        <div class="card h-100">
+                           <div class="card-header bg-warning bg-opacity-10 text-warning">
+                              <i class="fas fa-sync-alt me-2"></i> Delivery Process
+                           </div>
+                           <div class="card-body">
+                              <p>Items are delivered via in-game mail. The recipient must relog to receive the items.</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-danger bg-opacity-10 text-danger">
+                              <i class="fas fa-ban me-2"></i> Restrictions
+                           </div>
+                           <div class="card-body">
+                              <p>Some items may have restrictions based on character level, job, or other factors.</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="alert alert-warning">
+               <h5 class="alert-heading d-flex align-items-center">
+                  <i class="fas fa-clock me-2"></i>
+                  Delivery Timing
+               </h5>
+               <hr>
+               <ul class="mb-0">
+                  <li>Items typically arrive within 1-5 minutes</li>
+                  <li>If items don't appear, ask player to relog</li>
+                  <li>High server load may delay delivery</li>
+                  <li>Always verify item ID before sending</li>
+               </ul>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-bs-dismiss="modal">
+            <i class="fas fa-check-circle me-1"></i> Understood
+            </button>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,16 +1,15 @@
-// routes/addDepositRoutes.js
-
 import express from 'express';
 import sql from 'mssql';
 import axios from 'axios';
 import { configPlatformAcctDb, configVirtualCurrencyDb, WH_config } from '../config/dbConfig.js';
 import { isAdmin } from '../middleware/adminMiddleware.js';
 import path from 'path';
+import chalk from 'chalk';
 
 const router = express.Router();
 
 // Настройки подключения к базе данных Warehouse
-const WH_connectionInfo = WH_config; // Используем WH_config из dbConfig.js
+const WH_connectionInfo = WH_config;
 
 // Настройки для обращения к внешнему сервису
 const ip = '127.0.0.1';
@@ -27,22 +26,22 @@ function cut_str(begin, end, str) {
 async function check_user_id(userId) {
     let pool;
     try {
-        pool = await sql.connect(configPlatformAcctDb); // Используем конфиг для базы PlatformAcctDb
+        pool = await sql.connect(configPlatformAcctDb);
         const result = await pool.request()
             .input('userId', sql.VarChar, userId)
             .query('SELECT UserId FROM Users WHERE UserId = @userId');
         return result.recordset.length > 0;
     } catch (err) {
-        console.error('Ошибка подключения к базе данных PlatformAcctDb:', err);
+        console.error('Database connection error (PlatformAcctDb):', err);
         throw err;
     } finally {
         if (pool) {
-            await pool.close(); // Закрываем соединение
+            await pool.close();
         }
     }
 }
 
-// Функция для получения никнейма по UserId из базы данных PlatformAcctDb
+// Функция для получения никнейма по UserId
 async function getUsernameByUserId(userId) {
     let pool;
     try {
@@ -51,22 +50,22 @@ async function getUsernameByUserId(userId) {
             .input('userId', sql.VarChar, userId)
             .query('SELECT UserName FROM Users WHERE UserId = @userId');
 
-        return result.recordset[0] ? result.recordset[0].UserName : null; // Вернуть никнейм или null
+        return result.recordset[0] ? result.recordset[0].UserName : null;
     } catch (err) {
-        console.error('Ошибка подключения к базе данных PlatformAcctDb:', err);
+        console.error('Database connection error (PlatformAcctDb):', err);
         throw err;
     } finally {
         if (pool) {
-            await pool.close(); // Закрываем соединение
+            await pool.close();
         }
     }
 }
 
-router.get('/admin/add-deposit', isAdmin, async (req, res) => {
+router.get('/admin/add-deposit', isAdmin, async(req, res) => {
     const { userId } = req.query;
 
     if (!userId) {
-        return res.status(400).send('Отсутствует значение userId');
+        return res.status(400).send('User ID is required');
     }
 
     let pool;
@@ -76,19 +75,19 @@ router.get('/admin/add-deposit', isAdmin, async (req, res) => {
     let username = '';
 
     try {
-        // Проверка существования userId в базе PlatformAcctDb
+        // Проверка существования пользователя
         const userExists = await check_user_id(userId);
         if (!userExists) {
             return res.send('User ID not found in PlatformAcctDb.');
         }
 
-        // Получение никнейма по UserId
+        // Получение никнейма
         username = await getUsernameByUserId(userId);
         if (!username) {
-            return res.send('Nick not found for User ID.');
+            return res.send('Nickname not found for User ID.');
         }
 
-        // Подключение к базе данных VirtualCurrencyDb для получения данных о депозитах
+        // Подключение к базе данных VirtualCurrencyDb
         pool = await sql.connect(configVirtualCurrencyDb);
 
         // Получение общего баланса
@@ -98,42 +97,39 @@ router.get('/admin/add-deposit', isAdmin, async (req, res) => {
 
         totalBalance = balanceResult.recordset[0].totalBalance || 0;
 
-        // Получение всех депозитов для подсчета общей суммы
+        // Получение всех депозитов
         const depositsResult = await pool.request()
             .input('UserId', sql.UniqueIdentifier, userId)
             .query('SELECT DepositId, Amount FROM Deposits WHERE UserId = @UserId');
 
         deposits = depositsResult.recordset || [];
 
-        // Вычисление общей суммы Amount
+        // Вычисление общей суммы
         totalAmount = deposits.reduce((acc, deposit) => acc + Number(deposit.Amount), 0);
     } catch (error) {
         console.error(error);
-        return res.status(500).send('Произошла ошибка при получении данных о депозитах.');
+        return res.status(500).send('Error while fetching deposit data.');
     } finally {
         if (pool) {
-            await pool.close(); // Закрываем соединение
+            await pool.close();
         }
     }
 
-    // Отправляем страницу с формой добавления депозита
+    // Отправка страницы с формой
     res.render('addDeposit', {
         userId,
-        username, // Передаем никнейм в шаблон
+        username,
         totalAmount,
         totalBalance,
-		pathname: req.originalUrl
+        pathname: req.originalUrl
     });
 });
 
-
-
-
-// Главный маршрут для обработки депозита
-router.post('/add-deposit/process', async (req, res) => {
+// Обработка депозита
+router.post('/add-deposit/process', async(req, res) => {
     let { amount, game_account_id } = req.body;
 
-    // Проверка входных данных
+    // Валидация входных данных
     if (!amount || isNaN(amount) || !game_account_id || game_account_id.trim() === '') {
         return res.status(400).send('Amount or Game Account ID cannot be empty.');
     }
@@ -144,34 +140,46 @@ router.post('/add-deposit/process', async (req, res) => {
     }
 
     let pool;
+    let username = '';
     try {
-        // Проверка существования userId в базе PlatformAcctDb
+        // Проверка существования пользователя
         const userExists = await check_user_id(game_account_id);
         if (!userExists) {
             return res.status(404).send('User ID not found in PlatformAcctDb.');
         }
 
-        // Подключение к базе данных VirtualCurrencyDb для получения данных о депозитах
+        // Получение никнейма для логирования
+        username = await getUsernameByUserId(game_account_id);
+
+        // Подключение к базе данных
         pool = await sql.connect(configVirtualCurrencyDb);
 
-        // Выполнение логики добавления депозита
+        // Получение текущих депозитов
         const depositsResult = await pool.request()
             .input('userId', sql.UniqueIdentifier, game_account_id)
             .query('SELECT DepositId, Amount, Balance FROM Deposits WHERE UserId = @userId');
 
         let deposits = depositsResult.recordset || [];
 
-        // Вычисление общей суммы Amount
+        // Вычисление общей суммы
         let totalAmount = deposits.reduce((acc, deposit) => acc + Number(deposit.Amount), 0);
 
-        // Получение общего баланса из таблицы Deposits
+        // Получение текущего баланса
         const totalBalanceResult = await pool.request()
             .input('UserId', sql.UniqueIdentifier, game_account_id)
             .query('SELECT SUM(Balance) AS totalBalance FROM [dbo].[Deposits] WHERE UserId = @UserId');
 
         const totalBalanceFromDb = totalBalanceResult.recordset[0].totalBalance || 0;
 
-        // Получение данных из внешнего сервиса (добавление логики депозита и т.д.)
+        // Логирование перед пополнением
+        if (process.env.LOG_TO_CONSOLE === 'true') {
+            console.log(chalk.blue.bold(`[DEPOSIT INITIATED]`) + 
+                chalk.cyan(` User: ${username || 'unknown'} (${game_account_id})`) + 
+                chalk.yellow(` Amount: ${amount}`) + 
+                chalk.gray(` Current balance: ${totalBalanceFromDb}`));
+        }
+
+        // Получение данных от сервиса виртуальной валюты
         const response = await axios.get(`http://${ip}:6605/apps-state`);
         const appResult = response.data;
 
@@ -189,18 +197,17 @@ router.post('/add-deposit/process', async (req, res) => {
                 <Amount>${amount}</Amount>
                 <EffectiveTo>2099-05-05T03:30:30+09:00</EffectiveTo>
                 <IsRefundable>0</IsRefundable>
-                <DepositReasonCode>5</DepositReasonCode>
+                <DepositReasonCode>1</DepositReasonCode>
                 <DepositReason>입금사유</DepositReason>
                 <RequestCode>${request_code}</RequestCode>
-                <RequestId>efb8205d-0261-aa9f-8709-aff33e052091</RequestId>
+                <RequestId>G</RequestId>
             </Request>`,
         };
 
-        // Отправка POST-запроса на внешний сервис
+        // Отправка запроса на пополнение
         const postResponse = await axios.post(
             `http://${ip}:6605/spawned/${service}.1.${resultapp}/test/command_console`,
-            null,
-            {
+            null, {
                 params: {
                     protocol: postRequest.protocol,
                     command: postRequest.command,
@@ -216,15 +223,23 @@ router.post('/add-deposit/process', async (req, res) => {
                     Referer: `http://${ip}:6605/spawned/${service}.1.${resultapp}/test/`,
                     'User-Agent': 'Mozilla/5.0',
                 },
-            }
-        );
+            });
 
-        // После успешного добавления депозита, повторно извлекаем данные о текущем балансе и депозитах
+        // Получение обновленного баланса
         const updatedBalanceResult = await pool.request()
             .input('UserId', sql.UniqueIdentifier, game_account_id)
             .query('SELECT SUM(Balance) AS totalBalance FROM [dbo].[Deposits] WHERE UserId = @UserId');
 
         const updatedTotalBalance = updatedBalanceResult.recordset[0].totalBalance || 0;
+
+        // Логирование успешного пополнения
+        if (process.env.LOG_TO_CONSOLE === 'true') {
+            console.log(chalk.green.bold(`[DEPOSIT SUCCESS]`) + 
+                chalk.cyan(` User: ${username || 'unknown'} (${game_account_id})`) + 
+                chalk.yellow(` Amount: +${amount}`) + 
+                chalk.green(` New balance: ${updatedTotalBalance}`) + 
+                chalk.gray(` (was ${totalBalanceFromDb})`));
+        }
 
         // Получение обновленных данных о депозитах
         const updatedDepositsResult = await pool.request()
@@ -233,31 +248,61 @@ router.post('/add-deposit/process', async (req, res) => {
 
         let updatedDeposits = updatedDepositsResult.recordset || [];
 
-        // Генерация HTML для обновленных депозитов
-const resultPageContent = `
-    <h3>Deposits</h3>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Deposit ID</th>
-                <th>Amount</th>
-                <th>Balance</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${updatedDeposits.map(deposit => `
+        // Генерация HTML ответа
+        const resultPageContent = `
+<div class="deposit-table">
+    <h5 class="mb-3"><i class="fas fa-table me-2"></i>Deposit History</h5>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
                 <tr>
-                    <td>${deposit.DepositId}</td>
-                    <td>${deposit.Amount}</td>
-                    <td>${deposit.Balance}</td>
+                    <th><i class="fas fa-id-card me-1"></i>Deposit ID</th>
+                    <th><i class="fas fa-coins me-1"></i>Amount</th>
+                    <th><i class="fas fa-piggy-bank me-1"></i>Balance</th>
                 </tr>
-            `).join('')}
-        </tbody>
-    </table>
-    <h4>Total Amount before Contributions: ${totalAmount} <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px;"> Hangmoon Coins</h4>
-    <h4>Total Balance after Contributions: ${updatedTotalBalance} <img src="/images/money/NCoin.webp" alt="B&SCoin" style="width: 24px; height: 24px;"> Hangmoon Coins</h4>
-`;
+            </thead>
+            <tbody>
+                ${updatedDeposits.map(deposit => `
+                    <tr>
+                        <td>${deposit.DepositId}</td>
+                        <td>${deposit.Amount.toLocaleString()} <span class="badge badge-currency">HMC</span></td>
+                        <td>${deposit.Balance.toLocaleString()} <span class="badge badge-currency">HMC</span></td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    </div>
+</div>
 
+<div class="deposit-summary mt-4">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-coins text-warning fs-4 me-3"></i>
+                <div>
+                    <h5>Total Before</h5>
+                    <p class="mb-0 fs-5">
+                        ${totalAmount.toLocaleString()} 
+                        <img src="/images/money/NCoin.webp" alt="Hangmoon Coins" class="money-icon">
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-piggy-bank text-success fs-4 me-3"></i>
+                <div>
+                    <h5>Total After</h5>
+                    <p class="mb-0 fs-5">
+                        ${updatedTotalBalance.toLocaleString()} 
+                        <img src="/images/money/NCoin.webp" alt="Hangmoon Coins" class="money-icon">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+`;
 
         res.json({
             totalAmount,
@@ -265,11 +310,18 @@ const resultPageContent = `
             resultPageContent
         });
     } catch (error) {
+        // Логирование ошибки
+        if (process.env.LOG_TO_CONSOLE === 'true') {
+            console.log(chalk.red.bold(`[DEPOSIT FAILED]`) + 
+                chalk.cyan(` User: ${username || 'unknown'} (${game_account_id})`) + 
+                chalk.yellow(` Amount: ${amount}`) + 
+                chalk.red(` Error: ${error.message}`));
+        }
         console.error(error);
-        res.status(500).send('Произошла ошибка.');
+        res.status(500).send('An error occurred during deposit processing.');
     } finally {
         if (pool) {
-            await pool.close(); // Закрываем соединение
+            await pool.close();
         }
     }
 });
