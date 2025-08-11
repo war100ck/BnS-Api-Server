@@ -19,7 +19,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const REPO_OWNER = 'war100ck';
-const REPO_NAME = 'BnS-Api-Server';
+const REPO_NAME = 'Server-Api-BnS-Server';
 const BRANCH = 'main';
 const MANIFEST_FILE = 'manifest.json';
 const UPDATE_FILE = 'update.md';
