@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Character Block - <%= userName || userId %></title>
+      <link rel="icon" href="/images/favicon-admin.png" type="image/png">
+      <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+      <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+      <link rel="stylesheet" href="/css/block.css">
+   </head>
+   <body class="bg-body-tertiary">
+      <%- include('partials/nav') %>
+      <!-- Toast container -->
+      <div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100"></div>
+      <main class="flex-grow-1 pb-5">
+         <div class="container py-4">
+            <!-- Заголовок и информация о пользователе -->
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-md-row">
+               <div class="account-management-block mb-4 mb-md-0 p-3 rounded-3 shadow-sm" style="background-color: #f8f9fa; border-left: 4px solid #ffc107;">
+                  <h2 class="mb-3 d-flex align-items-center">
+                     <i class="fas fa-user-lock fs-4 text-warning me-2"></i>Character Block Management
+                  </h2>
+                  <div class="d-flex flex-wrap align-items-center gap-2 mb-2">                 
+                     <span class="badge bg-secondary py-2 px-3 d-flex align-items-center">
+                     <i class="fas fa-id-card me-2"></i>
+                     <span class="fw-medium">User ID: <%= userId %></span>
+                     </span>
+                     <% if (userName) { %>
+                     <span class="badge bg-success py-2 px-3 d-flex align-items-center">
+                     <i class="fas fa-user me-2"></i>
+                     <a href="/profile?userName=<%= userName %>" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none fw-medium"><%= userName %></a>
+                     </span>
+                     <% } %>
+                  </div>
+                  <span class="badge bg-info py-1 px-2">
+                  <i class="fas fa-users me-1"></i>
+                  <small>Characters: <%= characters ? characters.length : 0 %></small>
+                  </span>
+               </div>
+               <!-- dropdown меню -->
+               <div class="d-flex ms-md-auto mt-3 mt-md-0">
+                  <div class="dropdown">
+                     <button class="btn btn-sm btn-outline-warning dropdown-toggle py-1 px-2" type="button" id="userActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                     <i class="fas fa-user-cog fa-sm me-1"></i> Actions
+                     </button>
+                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userActionsDropdown">
+                        <li>
+                           <h6 class="dropdown-header">User Actions</h6>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="edit-character?userId=<%= userId %>">
+                           <i class="fas fa-user-edit fa-fw me-2 text-primary"></i>Edit Character
+                           </a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-deposit?userId=<%= userId %>">
+                           <i class="fas fa-coins fa-fw me-2 text-success"></i>Add Deposit
+                           </a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-item?userId=<%= userId %>">
+                           <i class="fas fa-paper-plane fa-fw me-2 text-info"></i>Sending Items
+                           </a>
+                        </li>
+                        <li>
+                           <hr class="dropdown-divider my-1">
+                        </li>
+                        <li>
+                           <h6 class="dropdown-header">Administration</h6>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-ban?userId=<%= userId %>">
+                           <i class="fas fa-gavel fa-fw me-2 text-danger"></i>Ban Management
+                           </a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-vip?userId=<%= userId %>">
+                           <i class="fas fa-crown fa-fw me-2 text-warning"></i>VIP Management
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+                  <button class="btn btn-sm btn-outline-warning ms-2 py-1 px-2" data-bs-toggle="modal" data-bs-target="#blockInfoModal">
+                  <i class="fas fa-info-circle fa-sm me-1"></i> Info
+                  </button>
+               </div>
+            </div>
+            <div class="card shadow-sm mb-4">
+               <div class="card-header bg-warning text-dark">
+                  <h2 class="h5 mb-0"><i class="bi bi-shield-lock me-2"></i>Character Block Controls</h2>
+               </div>
+               <div class="card-body">
+                  <% if (errorMessage) { %>
+                  <div class="alert alert-danger mb-4"><%= errorMessage %></div>
+                  <% } %>
+                  <div class="alert alert-info">
+                     <h5 class="alert-heading"><i class="bi bi-info-circle-fill me-2"></i>Block Process Information</h5>
+                     <hr>
+                     <p class="mb-0">
+                        Blocking a character will immediately prevent the user from accessing it. The character will remain in the game but cannot be selected or used.
+                        <span class="d-block mt-1 fw-semibold">Blocked characters can be unblocked at any time.</span>
+                     </p>
+                  </div>
+               </div>
+            </div>
+            <div class="card shadow-sm">
+               <div class="card-header bg-warning text-dark">
+                  <h2 class="h5 mb-0"><i class="bi bi-people-fill me-2"></i>User Characters</h2>
+               </div>
+               <div class="card-body">
+                  <% if (characters) { %>
+                  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                     <% characters.forEach(character => { %>
+                     <div class="col">
+                        <div class="card character-card h-100 <%= character.isBlocked ? 'character-blocked' : character.status === 'Deleted' ? 'character-deleted' : 'character-normal' %>">
+                           <div class="card-header d-flex justify-content-between align-items-center">
+                              <div class="d-flex align-items-center">
+                                 <% if (character.jobImageUrl) { %>
+                                 <img src="<%= character.jobImageUrl %>" alt="<%= character.jobName %>" class="job-icon">
+                                 <% } %>
+                                 <h5 class="mb-0"><%= character.CharacterName %></h5>
+                              </div>
+                              <span class="status-badge 
+                                 <%= character.status === 'Normal' && !character.isBlocked ? 'status-normal' : '' %>
+                                 <%= character.status === 'Deleted' ? 'status-deleted' : '' %>
+                                 <%= character.isBlocked ? 'status-blocked' : '' %>
+                                 <%= !['Normal', 'Deleted'].includes(character.status) && !character.isBlocked ? 'status-other' : '' %>">
+                              <%= character.isBlocked ? 'BLOCKED' : character.status %>
+                              </span>
+                           </div>
+                           <div class="card-body">
+                              <ul class="list-group list-group-flush">
+                                 <li class="list-group-item">
+                                    <strong><i class="fas fa-fingerprint me-1 text-muted"></i> PCID:</strong> <%= character.PCID %>
+                                 </li>
+                                 <li class="list-group-item">
+                                    <strong><i class="fas fa-user-tie me-1 text-muted"></i> Class:</strong> <%= character.jobName %>
+                                 </li>
+                                 <li class="list-group-item">
+                                    <strong><i class="fas fa-level-up-alt me-1 text-muted"></i> Level:</strong> <%= character.Level %>
+                                 </li>
+                                 <li class="list-group-item">
+                                    <strong><i class="fas fa-calendar-plus me-1 text-muted"></i> Created:</strong> <%= character.registrationDate %>
+                                 </li>
+                                 <% if (character.isBlocked && character.blockData) { %>
+                                 <li class="list-group-item">
+                                    <strong><i class="fas fa-user-shield me-1 text-muted"></i> Blocked by:</strong> <%= character.blockData.BlockerName %>
+                                 </li>
+                                 <li class="list-group-item">
+                                    <strong><i class="fas fa-comment me-1 text-muted"></i> Reason:</strong> <%= character.blockData.BlockComment %>
+                                 </li>
+                                 <li class="list-group-item">
+                                    <strong><i class="fas fa-clock me-1 text-muted"></i> Block date:</strong> <%= new Date(character.blockData.BlockTime).toLocaleString() %>
+                                 </li>
+                                 <% } %>
+                              </ul>
+                           </div>
+                           <div class="card-footer d-flex justify-content-between">
+                              <% if (character.isBlocked) { %>
+                              <button class="btn btn-sm btn-outline-success unblock-btn" 
+                                 data-pcid="<%= character.PCID %>"
+                                 data-user-id="<%= userId %>"
+                                 data-character-name="<%= character.CharacterName %>"
+                                 data-user-name="<%= userName %>">
+                              <i class="fas fa-unlock me-1"></i> Unblock
+                              </button>
+                              <% } else { %>
+                              <button class="btn btn-sm btn-outline-warning block-btn" 
+                                 data-pcid="<%= character.PCID %>"
+                                 data-user-id="<%= userId %>"
+                                 data-character-name="<%= character.CharacterName %>"
+                                 data-user-name="<%= userName %>">
+                              <i class="fas fa-lock me-1"></i> Block
+                              </button>
+                              <% } %>
+                              <button class="btn btn-sm btn-outline-danger kick-btn" 
+                                 data-user-id="<%= character.userId %>">
+                              <i class="fas fa-user-slash me-1"></i> Kick
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+                     <% }); %>
+                  </div>
+                  <% } else { %>
+                  <div class="alert alert-warning mb-0">
+                     <i class="fas fa-user-times me-2"></i> No characters found for this user.
+                  </div>
+                  <% } %>
+               </div>
+            </div>
+         </div>
+      </main>
+      <!-- Block Modal -->
+      <div class="modal fade" id="blockModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header bg-warning text-dark">
+                  <h5 class="modal-title"><i class="fas fa-lock me-2"></i> Block Character</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <form id="blockForm">
+                     <input type="hidden" id="blockPcid" name="pcid">
+                     <div class="mb-3">
+                        <label for="blockerName" class="form-label fw-bold"><i class="fas fa-signature me-1 text-muted"></i> Your Name</label>
+                        <input type="text" class="form-control" id="blockerName" name="blockerName" required>
+                     </div>
+                     <div class="mb-3">
+                        <label for="blockReason" class="form-label fw-bold"><i class="fas fa-exclamation-circle me-1 text-muted"></i> Reason</label>
+                        <select class="form-select" id="blockReason" name="blockReason" required>
+                           <option value="1">Cheating</option>
+                           <option value="2">Abusive Language</option>
+                           <option value="3">Harassment</option>
+                           <option value="4">Other</option>
+                        </select>
+                     </div>
+                     <div class="mb-3">
+                        <label for="blockComment" class="form-label fw-bold"><i class="fas fa-comment-dots me-1 text-muted"></i> Comment</label>
+                        <textarea class="form-control" id="blockComment" name="blockComment" rows="3"></textarea>
+                     </div>
+                  </form>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-1"></i> Cancel</button>
+                  <button type="button" class="btn btn-warning" id="confirmBlock"><i class="fas fa-lock me-1"></i> Block</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Unblock Modal -->
+      <div class="modal fade" id="unblockModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header bg-success text-white">
+                  <h5 class="modal-title"><i class="fas fa-unlock me-2"></i> Unblock Character</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <form id="unblockForm">
+                     <input type="hidden" id="unblockPcid" name="pcid">
+                     <div class="mb-3">
+                        <label for="releaserName" class="form-label fw-bold"><i class="fas fa-signature me-1 text-muted"></i> Your Name</label>
+                        <input type="text" class="form-control" id="releaserName" name="releaserName" required>
+                     </div>
+                     <div class="mb-3">
+                        <label for="releaseReason" class="form-label fw-bold"><i class="fas fa-exclamation-circle me-1 text-muted"></i> Reason</label>
+                        <select class="form-select" id="releaseReason" name="releaseReason" required>
+                           <option value="1">Appeal Accepted</option>
+                           <option value="2">Mistake</option>
+                           <option value="3">Time Served</option>
+                           <option value="4">Other</option>
+                        </select>
+                     </div>
+                     <div class="mb-3">
+                        <label for="releaseComment" class="form-label fw-bold"><i class="fas fa-comment-dots me-1 text-muted"></i> Comment</label>
+                        <textarea class="form-control" id="releaseComment" name="releaseComment" rows="3"></textarea>
+                     </div>
+                  </form>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-1"></i> Cancel</button>
+                  <button type="button" class="btn btn-success" id="confirmUnblock"><i class="fas fa-unlock me-1"></i> Unblock</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Kick Modal -->
+      <div class="modal fade" id="kickModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header bg-danger text-white">
+                  <h5 class="modal-title"><i class="fas fa-user-slash me-2"></i> Kick User</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <form id="kickForm">
+                     <input type="hidden" id="kickUserId" name="userId">
+                     <div class="mb-3">
+                        <label for="kickerName" class="form-label fw-bold"><i class="fas fa-signature me-1 text-muted"></i> Your Name</label>
+                        <input type="text" class="form-control" id="kickerName" name="kickerName" required>
+                     </div>
+                     <div class="mb-3">
+                        <label for="kickReason" class="form-label fw-bold"><i class="fas fa-exclamation-circle me-1 text-muted"></i> Reason</label>
+                        <select class="form-select" id="kickReason" name="kickReason" required>
+                           <option value="Banned">Banned</option>
+                           <option value="Cheating">Cheating</option>
+                           <option value="Harassment">Harassment</option>
+                           <option value="Other">Other</option>
+                        </select>
+                     </div>
+                  </form>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-1"></i> Cancel</button>
+                  <button type="button" class="btn btn-danger" id="confirmKick"><i class="fas fa-user-slash me-1"></i> Kick</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <%- include('partials/blockIfoModal') %>
+      <%- include('partials/adminFooter') %>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="/js/block.js"></script>
+   </body>
+</html>

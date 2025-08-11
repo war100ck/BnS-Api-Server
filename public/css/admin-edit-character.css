@@ -11,4 +11,7 @@
  .money-icon{ width:20px;  height:20px;  margin-right:5px;  vertical-align:text-top}
  .accordion-button{ font-weight:500}
  .card{ box-shadow:0 0.125rem 0.25rem rgba(0,0,0,.075)}
-
+ .dropdown-submenu{ position:relative}
+ .dropdown-submenu .dropdown-menu{ top:0;  left:100%;  margin-top:-1px;  display:none}
+ .dropdown-submenu:hover .dropdown-menu{ display:block}
+ .dropdown-arrow{ font-size:1.2em;  line-height:1}

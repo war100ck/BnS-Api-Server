@@ -1,0 +1,120 @@
+<!-- partials/blockInfoModal.ejs -->
+<div class="modal fade" id="blockInfoModal" tabindex="-1" aria-labelledby="blockInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title fw-bold" id="blockInfoModalLabel">
+                    <i class="fas fa-shield-alt me-2"></i>
+                    Character Blocking Guide
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning mb-4">
+                    <h4 class="alert-heading d-flex align-items-center">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        About Character Blocking
+                    </h4>
+                    <hr>
+                    <p class="mb-0">This interface allows you to block or unblock player characters. Blocked characters cannot be accessed by their owners until unblocked.</p>
+                </div>
+
+                <div class="card border-warning mb-4">
+                    <div class="card-header bg-light">
+                        <i class="fas fa-columns me-2"></i> Key Features
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-danger h-100">
+                                    <div class="card-header bg-danger bg-opacity-10 text-danger">
+                                        <i class="fas fa-lock me-2"></i> Blocking
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li><strong>Immediate Effect:</strong> Character becomes inaccessible immediately</li>
+                                            <li><strong>Reason Tracking:</strong> Document why the character was blocked</li>
+                                            <li><strong>Admin Accountability:</strong> Your name is recorded with the block action</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-success h-100">
+                                    <div class="card-header bg-success bg-opacity-10 text-success">
+                                        <i class="fas fa-unlock me-2"></i> Unblocking
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li><strong>Restore Access:</strong> Character becomes available again</li>
+                                            <li><strong>Audit Trail:</strong> Record why access was restored</li>
+                                            <li><strong>Instant Effect:</strong> No delay in restoration</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-warning mb-4">
+                    <div class="card-header bg-light">
+                        <i class="fas fa-exclamation-circle me-2"></i> Important Notes
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <div class="card h-100">
+                                    <div class="card-header bg-info bg-opacity-10 text-info">
+                                        <i class="fas fa-user-shield me-2"></i> Block Effects
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li>Character cannot be selected or used</li>
+                                            <li>Items and equipment remain intact</li>
+                                            <li>Character remains visible in lists</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header bg-primary bg-opacity-10 text-primary">
+                                        <i class="fas fa-history me-2"></i> Tracking
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li>All blocks are logged with timestamp</li>
+                                            <li>Block history is visible to senior staff</li>
+                                            <li>Comments should be clear and professional</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-danger">
+                    <h5 class="alert-heading d-flex align-items-center">
+                        <i class="fas fa-gavel me-2"></i>
+                        Blocking Guidelines
+                    </h5>
+                    <hr>
+                    <ul class="mb-0">
+                        <li>Always verify the character before blocking</li>
+                        <li>Provide clear, specific reasons for blocking</li>
+                        <li>Blocks should be proportional to the offense</li>
+                        <li>Document all communication with the player</li>
+                        <li>Consult senior staff for questionable cases</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
+                    <i class="fas fa-check-circle me-1"></i> Understood
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+.job-icon{ width:32px;  height:32px;  margin-right:10px}
+ .character-card{ transition:all 0.2s ease;  border-left:3px solid transparent}
+ .character-card:hover{ transform:translateY(-3px);  box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+ .status-badge{ font-size:0.75rem;  padding:4px 8px;  border-radius:8px}
+ .status-normal{ background-color:#28a745;  color:white}
+ .status-deleted{ background-color:#dc3545;  color:white}
+ .status-other{ background-color:#6c757d;  color:white}
+ .status-blocked{ background-color:#ffc107;  color:black}
+ .character-blocked{ border-left-color:#ffc107}
+ .character-deleted{ border-left-color:#dc3545}
+ .character-normal{ border-left-color:#28a745}
+ .card-header{ background-color:rgba(248,249,250,0.8)}
+ .dropdown-submenu{ position:relative}
+ .dropdown-submenu .dropdown-menu{ top:0;  left:100%;  margin-top:-1px;  display:none}
+ .dropdown-submenu:hover .dropdown-menu{ display:block}
+ .dropdown-arrow{ font-size:1.2em;  line-height:1}

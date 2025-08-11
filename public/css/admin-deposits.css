@@ -4,3 +4,7 @@
  .deposit-table{ background-color:#f8f9fa;  border-radius:0.5rem}
  .deposit-summary{ background-color:#e9ecef;  border-radius:0.5rem;  padding:1rem;  margin-top:1rem}
  .badge-currency{ background-color:#6c757d;  color:white}
+ .dropdown-submenu{ position:relative}
+ .dropdown-submenu .dropdown-menu{ top:0;  left:100%;  margin-top:-1px;  display:none}
+ .dropdown-submenu:hover .dropdown-menu{ display:block}
+ .dropdown-arrow{ font-size:1.2em;  line-height:1}

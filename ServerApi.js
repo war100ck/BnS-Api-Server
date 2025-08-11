@@ -66,6 +66,7 @@ import adminNewsRoutes from './routes/adminNewsRoutes.js';
 import processManagerRoutes from './routes/processManagerRoutes.js';
 import fileExplorerRoutes from './routes/fileExplorerRoutes.js';
 import roleManagementRoutes from './routes/roleManagementRoute.js';
+import blockRoutes from './routes/blockRoutes.js';
 
 // Специальные модули
 import discordBot from './utils/discordBot.js';
@@ -145,7 +146,7 @@ app.use((req, res, next) => {
 });
 
 // Подключение маршрутов
-const routesWithRootPrefix = [
+const rootRoutes = [
   adminRoutes,
   editCharacterRoutes,
   updateRoutes,
@@ -163,20 +164,36 @@ const routesWithRootPrefix = [
   donateRoutes,
   updateCheckerRouter,
   promotionsRouterStamp,
+  adminApiConfigRoutes,
+  adminNewsRoutes,
+  processManagerRoutes,
+  fileExplorerRoutes,
+  roleManagementRoutes,
+  blockRoutes
 ];
 
-routesWithRootPrefix.forEach(route => app.use('/', route));
+// Другие маршруты с определенными префиксами
+const prefixedRoutes = [
+  { path: '/check-availability', router: checkAvailabilityRoutes },
+  { path: '/signin', router: signinRoutes }
+];
 
-app.use('/check-availability', checkAvailabilityRoutes);
-app.use('/signin', signinRoutes);
-app.use('/in-game-web', express.static(path.join(__dirname, './views/in-game-web')));
-app.use(kickUserRouter);
-app.use('/', adminApiConfigRoutes);
-app.use(serverRestartRoute);
-app.use('/', adminNewsRoutes);
-app.use('/', processManagerRoutes);
-app.use('/', fileExplorerRoutes);
-app.use('/', roleManagementRoutes);
+// Статические файлы
+const staticRoutes = [
+  { path: '/in-game-web', dir: path.join(__dirname, './views/in-game-web') }
+];
+
+// Маршруты без префикса (используют путь из самого маршрута)
+const noPrefixRoutes = [
+  kickUserRouter,
+  serverRestartRoute
+];
+
+// Подключение всех маршрутов
+rootRoutes.forEach(route => app.use('/', route));
+prefixedRoutes.forEach(route => app.use(route.path, route.router));
+staticRoutes.forEach(route => app.use(route.path, express.static(route.dir)));
+noPrefixRoutes.forEach(route => app.use(route));
 
 // Middleware для добавления UserName
 app.use((req, res, next) => {

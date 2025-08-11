@@ -16,96 +16,106 @@
       <main class="flex-grow-1 pb-5">
          <div class="container py-4">
             <div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-md-row">
-   <div class="account-management-block mb-4 mb-md-0 p-3 rounded-3 shadow-sm" style="background-color: #f8f9fa; border-left: 4px solid #0d6efd;">
-      <div class="d-flex flex-column flex-lg-row gap-3">
-         <!-- Левая часть - Account Management -->
-         <div class="flex-grow-1">
-            <h2 class="mb-3 d-flex align-items-center">
-               <i class="fas fa-user-cog fs-4 text-primary me-2"></i>Account Management
-            </h2>
-            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-               <span class="badge bg-secondary py-2 px-3 d-flex align-items-center">
-               <i class="fas fa-id-card me-2"></i>
-               <span class="fw-medium">User ID: <%= UserId %></span>
-               </span>
-               <span class="badge bg-success py-2 px-3 d-flex align-items-center">
-               <i class="fas fa-user me-2"></i>
-               <a href="/profile?userName=<%= UserName %>" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none fw-medium"><%= UserName %></a>
-               </span>
-            </div>
-            <span class="badge bg-info py-2 px-3 d-flex align-items-center">
-            <i class="far fa-calendar-alt me-2"></i>
-            <small class="fw-medium">Created: <%= Created %></small>
-            </span>
-         </div>
-         <!-- Правая часть - Last Activity -->
-         <div class="flex-grow-1 ps-lg-3 border-start-lg">
-            <h6 class="mb-3 d-flex align-items-center">
-               <i class="fas fa-clock fs-5 text-secondary me-2"></i>Last Activity
-            </h6>
-            <div class="d-flex flex-column">
-               <div class="d-flex align-items-center mb-1">
-                  <i class="fas fa-sign-in-alt text-success me-2"></i>
-                  <span class="fw-medium text-nowrap text-sm-wrap">Last Login:</span>
-                  <span class="ms-2 text-nowrap"><%= lastLoginTime || 'Never' %></span>
+               <div class="account-management-block mb-4 mb-md-0 p-3 rounded-3 shadow-sm" style="background-color: #f8f9fa; border-left: 4px solid #0d6efd;">
+                  <div class="d-flex flex-column flex-lg-row gap-3">
+                     <!-- Левая часть - Account Management -->
+                     <div class="flex-grow-1">
+                        <h2 class="mb-3 d-flex align-items-center">
+                           <i class="fas fa-user-cog fs-4 text-primary me-2"></i>Account Management
+                        </h2>
+                        <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                           <span class="badge bg-secondary py-2 px-3 d-flex align-items-center">
+                           <i class="fas fa-id-card me-2"></i>
+                           <span class="fw-medium">User ID: <%= UserId %></span>
+                           </span>
+                           <span class="badge bg-success py-2 px-3 d-flex align-items-center">
+                           <i class="fas fa-user me-2"></i>
+                           <a href="/profile?userName=<%= UserName %>" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none fw-medium"><%= UserName %></a>
+                           </span>
+                        </div>
+                        <span class="badge bg-info py-2 px-3 d-flex align-items-center">
+                        <i class="far fa-calendar-alt me-2"></i>
+                        <small class="fw-medium">Created: <%= Created %></small>
+                        </span>
+                     </div>
+                     <!-- Правая часть - Last Activity -->
+                     <div class="flex-grow-1 ps-lg-3 border-start-lg">
+                        <h6 class="mb-3 d-flex align-items-center">
+                           <i class="fas fa-clock fs-5 text-secondary me-2"></i>Last Activity
+                        </h6>
+                        <div class="d-flex flex-column">
+                           <div class="d-flex align-items-center mb-1">
+                              <i class="fas fa-sign-in-alt text-success me-2"></i>
+                              <span class="fw-medium text-nowrap text-sm-wrap">Last Login:</span>
+                              <span class="ms-2 text-nowrap"><%= lastLoginTime || 'Never' %></span>
+                           </div>
+                           <div class="d-flex align-items-center mb-1">
+                              <i class="fas fa-sign-out-alt text-danger me-2"></i>
+                              <span class="fw-medium text-nowrap text-sm-wrap">Last Logout:</span>
+                              <span class="ms-2 text-nowrap"><%= lastLogoutTime || 'Never' %></span>
+                           </div>
+                           <!-- <div class="d-flex align-items-center"> -->
+                           <!-- <i class="fas fa-network-wired text-primary me-2"></i> -->
+                           <!-- <span class="fw-medium text-nowrap text-sm-wrap">Last IP:</span> -->
+                           <!-- <span class="ms-2 text-nowrap"><%= lastAccessIP || 'Unknown' %></span> -->
+                           <!-- </div> -->
+                        </div>
+                     </div>
+                  </div>
                </div>
-               <div class="d-flex align-items-center mb-1">
-                  <i class="fas fa-sign-out-alt text-danger me-2"></i>
-                  <span class="fw-medium text-nowrap text-sm-wrap">Last Logout:</span>
-                  <span class="ms-2 text-nowrap"><%= lastLogoutTime || 'Never' %></span>
+               <!-- dropdown меню - теперь центрируется на мобильных -->
+               <div class="d-flex ms-md-auto mt-3 mt-md-0">
+                  <div class="dropdown">
+                     <button class="btn btn-sm btn-outline-primary dropdown-toggle py-1 px-2" type="button" id="userActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                     <i class="fas fa-user-cog fa-sm me-1"></i> Actions
+                     </button>
+                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userActionsDropdown">
+                        <li>
+                           <h6 class="dropdown-header">User Actions</h6>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-deposit?userId=<%= UserId %>">
+                           <i class="fas fa-coins fa-fw me-2 text-success"></i>Add Deposit
+                           </a>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-item?userId=<%= UserId %>">
+                           <i class="fas fa-paper-plane fa-fw me-2 text-info"></i>Sending Items
+                           </a>
+                        </li>
+                        <li>
+                           <hr class="dropdown-divider my-1">
+                        </li>
+                        <li>
+                           <h6 class="dropdown-header">Administration</h6>
+                        </li>
+                        <li class="dropdown-submenu">
+                           <a class="dropdown-item py-2 d-flex justify-content-between align-items-center" href="add-ban?userId=<%= UserId %>">
+                           <span>
+                           <i class="fas fa-gavel fa-fw me-2 text-danger"></i>Ban Management
+                           </span>
+                           <span class="dropdown-arrow ms-2">›</span>
+                           </a>
+                           <ul class="dropdown-menu shadow-sm">
+                              <li>
+                                 <a class="dropdown-item py-2" href="block?userId=<%= UserId %>">
+                                 <i class="fas fa-user-slash fa-fw me-2 text-secondary"></i>Character Block
+                                 </a>
+                              </li>
+                           </ul>
+                        </li>
+                        <li>
+                           <a class="dropdown-item py-2" href="add-vip?userId=<%= UserId %>">
+                           <i class="fas fa-crown fa-fw me-2 text-warning"></i>VIP Management
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+                  <button class="btn btn-sm btn-outline-primary ms-2 py-1 px-2" data-bs-toggle="modal" data-bs-target="#characterInfoModal">
+                  <i class="fas fa-info-circle fa-sm me-1"></i> Info
+                  </button>
                </div>
-               <!-- <div class="d-flex align-items-center"> -->
-                  <!-- <i class="fas fa-network-wired text-primary me-2"></i> -->
-                  <!-- <span class="fw-medium text-nowrap text-sm-wrap">Last IP:</span> -->
-                  <!-- <span class="ms-2 text-nowrap"><%= lastAccessIP || 'Unknown' %></span> -->
-               <!-- </div> -->
             </div>
-         </div>
-      </div>
-   </div>
-   <!-- dropdown меню - теперь центрируется на мобильных -->
-   <div class="d-flex justify-content-center w-100 justify-content-md-end mt-3 mt-md-0">
-      <div class="dropdown">
-         <button class="btn btn-sm btn-outline-primary dropdown-toggle py-1 px-2" type="button" id="userActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-         <i class="fas fa-user-cog fa-sm me-1"></i> Actions
-         </button>
-         <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userActionsDropdown">
-            <li>
-               <h6 class="dropdown-header">User Actions</h6>
-            </li>
-            <li>
-               <a class="dropdown-item py-2" href="add-deposit?userId=<%= UserId %>">
-               <i class="fas fa-coins fa-fw me-2 text-success"></i>Add Deposit
-               </a>
-            </li>
-            <li>
-               <a class="dropdown-item py-2" href="add-item?userId=<%= UserId %>">
-               <i class="fas fa-paper-plane fa-fw me-2 text-info"></i>Sending Items
-               </a>
-            </li>
-            <li>
-               <hr class="dropdown-divider my-1">
-            </li>
-            <li>
-               <h6 class="dropdown-header">Administration</h6>
-            </li>
-            <li>
-               <a class="dropdown-item py-2" href="add-vip?userId=<%= UserId %>">
-               <i class="fas fa-crown fa-fw me-2 text-warning"></i>VIP Management
-               </a>
-            </li>
-            <li>
-               <a class="dropdown-item py-2" href="add-ban?userId=<%= UserId %>">
-               <i class="fas fa-gavel fa-fw me-2 text-danger"></i>Ban Management
-               </a>
-            </li>
-         </ul>
-      </div>
-      <button class="btn btn-sm btn-outline-primary ms-2 py-1 px-2" data-bs-toggle="modal" data-bs-target="#characterInfoModal">
-      <i class="fas fa-info-circle fa-sm me-1"></i> Info
-      </button>
-   </div>
-</div>
             <!-- Deposit Card -->
             <div class="card mb-4">
                <div class="card-header bg-primary d-flex text-white align-items-center">

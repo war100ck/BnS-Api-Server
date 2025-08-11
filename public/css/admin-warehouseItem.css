@@ -36,8 +36,8 @@
 @media (max-width:768px){ .inventory-grid{ grid-template-columns:repeat(6,1fr); } .custom-tooltip{ width:300px; padding:12px; } .tooltip-image{ width:70px; height:70px; } }
 @media (max-width:576px){ #itemModal .modal-dialog{ height:80vh; max-height:80vh; margin:10vh auto; width:95%; } #itemModal .modal-content{ height:100%; } #itemModal .modal-body{ height:calc(100% - 120px); overflow-y:auto; } .inventory-grid{ grid-template-columns:repeat(4,1fr); gap:6px; } .item-id{ font-size:10px; padding:1px 4px; } .pagination-btn{ min-width:30px; height:30px; font-size:12px; } .pagination-info{ font-size:12px; } }
 @media (max-width:400px){ #itemModal .modal-dialog{ height:85vh; max-height:85vh; } .inventory-grid{ grid-template-columns:repeat(3,1fr); } #itemModal .modal-body{ padding:10px; } .inventory-slot img{ max-width:70%; max-height:70%; } }
-.loading {
-    text-align: center;
-    padding: 20px;
-    color: #666;
-}
+.loading { text-align: center; padding: 20px; color: #666; }
+.dropdown-submenu{ position:relative}
+.dropdown-submenu .dropdown-menu{ top:0;  left:100%;  margin-top:-1px;  display:none}
+.dropdown-submenu:hover .dropdown-menu{ display:block}
+.dropdown-arrow{ font-size:1.2em;  line-height:1}
