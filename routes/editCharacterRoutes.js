@@ -22,8 +22,9 @@ const LOGGED_FIELDS = [
     'premium_depository_size', 'acquired_skill_build_up_point',
     'account_exp_to_add', 'account_exp_added', 'account_exp_added_time',
     'account_exp_by_pc', 'activated_badge_page', 'pvp_mode',
-    'guild_invitation_refusal', 'slate_page', 'guild_point'
-
+    'guild_invitation_refusal', 'slate_page', 'guild_point',
+    'duel_point', 'party_battle_point', 'field_play_point', 'builder_right',
+    'achievement_step', 'ability_achievement_step', 'heart_count'
 ];
 
 // Форматирование статуса администратора
@@ -140,6 +141,7 @@ router.get('/admin/edit-character', isAdmin, async(req, res) => {
                 account_exp_to_add, account_exp_added, account_exp_added_time, 
                 account_exp_by_pc, activated_badge_page, pvp_mode, 
                 guild_invitation_refusal, slate_page, guild_point,
+                duel_point, party_battle_point, field_play_point, builder_right,
                 deletion, deletion_time
              FROM CreatureProperty 
              WHERE game_account_id = @game_account_id`,
@@ -286,13 +288,14 @@ router.post('/update-character', isAdmin, async(req, res) => {
 // Функция для определения типа SQL параметра на основе имени поля
 function getSqlType(field) {
     if ([
-        'level', 'exp', 'exp_boost', 'mastery_level', 'mastery_exp', 'mastery_penalty_exp',
-        'hp', 'money', 'money_diff', 'faction_reputation', 'achievement_step', 
-        'ability_achievement_step', 'enter_world_duration', 'combat_duration',
-        'inventory_size', 'depository_size', 'wardrobe_size', 'production_1', 
-        'production_2', 'gathering_1', 'gathering_2', 'production_1_exp', 
-        'production_2_exp', 'gathering_1_exp', 'gathering_2_exp', 'duel_point', 
-        'party_battle_point', 'field_play_point', 'shop_sale_count', 'heart_count'
+        'level', 'exp', 'mastery_level', 'mastery_exp',
+        'hp', 'money', 'money_diff', 'faction_reputation',
+        'inventory_size', 'depository_size', 'wardrobe_size',
+        'premium_depository_size', 'acquired_skill_build_up_point',
+        'account_exp_to_add', 'account_exp_added', 'account_exp_by_pc',
+        'activated_badge_page', 'guild_point',
+        'duel_point', 'party_battle_point', 'field_play_point', 'builder_right',
+        'achievement_step', 'ability_achievement_step', 'heart_count'
     ].includes(field)) {
         return sql.Int;
     }
