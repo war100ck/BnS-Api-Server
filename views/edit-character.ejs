@@ -212,7 +212,11 @@
                               { label: 'PVP Mode', field: 'pvp_mode', type: 'text', icon: 'fas fa-shield-alt' },
                               { label: 'Guild Invitation Refusal', field: 'guild_invitation_refusal', type: 'text', icon: 'fas fa-user-times' },
                               { label: 'Slate Page', field: 'slate_page', type: 'text', icon: 'fas fa-scroll' },
-                              { label: 'Guild Point', field: 'guild_point', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-users' }
+                              { label: 'Guild Point', field: 'guild_point', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-users' },
+                              { label: 'Duel Point', field: 'duel_point', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-crosshairs' },
+                              { label: 'Party Battle Point', field: 'party_battle_point', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-users' },
+                              { label: 'Field Play Point', field: 'field_play_point', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-map-marked-alt' },
+                              { label: 'Builder Right', field: 'builder_right', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-user-shield' }
                               ]; %>
                            <% fields.forEach(field => { %>
                            <div class="form-group">
@@ -305,6 +309,14 @@
                                  The slate page of the character.
                                  <% } else if (field.field === 'guild_point') { %>
                                  The guild points of the character. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'duel_point') { %>
+                                 The duel points of the character. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'party_battle_point') { %>
+                                 The party battle points of the character. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'field_play_point') { %>
+                                 The field play points of the character. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'builder_right') { %>
+                                 The builder rights of the character. The value must be between 0 and 7.
                                  <% } %>
                               </p>
                            </div>
