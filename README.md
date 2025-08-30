@@ -96,6 +96,7 @@ This API server has been tested on the server found at [RaGEZONE](https://forum.
 - **Database Integration**: Utilizes Microsoft SQL Server for managing user accounts, in-game data, and virtual currencies.
 - **Logging**: Optional logging feature, controlled through environment variables, allows detailed logging to console for debugging and monitoring.
 - **Scalability**: Designed to support a large number of users and database operations, ensuring performance and security for a Blade & Soul private server.
+- **Coupon System**: Manage promotional campaigns, generate and redeem coupons, and deliver rewards directly to users' in-game mail.
 
 ## Requirements
 
@@ -284,6 +285,23 @@ If you are looking for the **Blade & Soul** Game API Server for the 2017 version
 [Download Blade & Soul Game API Server 2017](https://github.com/war100ck/Server-Api-BnS-2017)
 
 ## Additions / Fixes
+
+<details>
+  <summary><b>Change Log: 30/08/2025</b></summary>
+
+  1. **Added new functionality in BNS API**:  
+     - Promo Issue Management (create and manage campaigns)  
+     - Coupon Generation (bulk/single codes)  
+     - Reward System (multiple rewards per campaign)  
+     - User Redemption (simple coupon redemption)  
+     - Activation Tracking (monitor coupon usage)  
+     - Admin Dashboard (statistics, activity, quick actions, CRUD)  
+     - Advanced Features (search, bulk ops, expiration, usage limits, reset)  
+     - 📬 Rewards after activation are automatically delivered to in-game mail  
+
+  ⚙️ **Important:** After updating via the web interface, make sure to run **`install.bat`** to install dependencies and apply changes.
+</details>
+
 <details>
   <summary><b>Change Log: 12/08/2025</b></summary>
 

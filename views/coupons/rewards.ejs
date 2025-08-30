@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Rewards - <%= issue.IssueName %></title>
+	<link rel="icon" href="/images/favicon-admin.png" type="image/png">
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/css/coupons.css">
+</head>
+<body>
+<%- include('../partials/nav') %>
+    <div class="container py-4">
+        <nav aria-label="breadcrumb" class="custom-breadcrumb shadow-sm d-flex align-items-center">
+            <ol class="breadcrumb mb-0 flex-grow-1">
+                <li class="breadcrumb-item">
+                    <a href="/admin/coupons" class="d-flex align-items-center text-decoration-none">
+                        <i class="fas fa-ticket-alt me-2"></i>Coupons
+                    </a>
+                </li>
+                <li class="breadcrumb-divider"><i class="fas fa-chevron-right"></i></li>
+                <li class="breadcrumb-item">
+                    <a href="/admin/coupons/issue/<%= issue.IssueId %>" class="d-flex align-items-center text-decoration-none">
+                        <i class="fas fa-file-alt me-2"></i>Issue #<%= issue.IssueId %>
+                    </a>
+                </li>
+                <li class="breadcrumb-divider"><i class="fas fa-chevron-right"></i></li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <i class="fas fa-gift me-2"></i>Rewards
+                </li>
+            </ol>
+            <div class="breadcrumb-actions">
+                <a href="/admin/coupons/issue/<%= issue.IssueId %>" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Issue
+                </a>
+            </div>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Rewards for: <%= issue.IssueName %></h5>
+                    </div>
+                    <div class="card-body">
+                        <% if (rewards && rewards.length > 0) { %>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Item ID</th>
+                                            <th>Name</th>
+                                            <th>Quantity</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% rewards.forEach(reward => { %>
+                                        <tr>
+                                            <td><code><%= reward.ItemID %></code></td>
+                                            <td><%= reward.RewardName || 'No name' %></td>
+                                            <td><span class="badge bg-primary"><%= reward.Quantity %></span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="removeReward(<%= reward.RewardId %>)">
+                                                    <i class="bi bi-trash"></i> Remove
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <% } else { %>
+                            <div class="text-center py-4">
+                                <i class="bi bi-gift display-4 text-muted"></i>
+                                <h5 class="text-muted mt-3">No rewards configured</h5>
+                                <p class="text-muted">Add rewards to this issue below.</p>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h6 class="mb-0"><i class="bi bi-plus-circle"></i> Add New Reward</h6>
+                    </div>
+                    <div class="card-body">
+                        <form id="addRewardForm">
+                            <input type="hidden" name="issueId" value="<%= issue.IssueId %>">
+                            
+                            <div class="mb-3">
+                                <label for="itemId" class="form-label">Item ID *</label>
+                                <input type="number" class="form-control" id="itemId" name="itemId" required>
+                                <div class="form-text">The game item ID to reward</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label">Quantity *</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" 
+                                       min="1" value="1" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="rewardName" class="form-label">Reward Name</label>
+                                <input type="text" class="form-control" id="rewardName" name="rewardName" 
+                                       placeholder="Optional descriptive name">
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-plus-circle"></i> Add Reward
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-header bg-info text-white">
+                        <h6 class="mb-0"><i class="bi bi-info-circle"></i> Information</h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="small text-muted">
+                            Rewards are automatically sent to players when they redeem coupons from this issue.
+                            Multiple rewards can be configured for each issue.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/coupons/rewards-management.js"></script>
+</body>
+</html>

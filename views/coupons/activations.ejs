@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Activations</title>
+	<link rel="icon" href="/images/favicon-admin.png" type="image/png">
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/css/coupons.css">
+</head>
+<body class="bg-light">
+<%- include('../partials/nav') %>
+    
+    <div class="container py-4">
+        <!-- Custom Breadcrumb with Actions -->
+        <nav aria-label="breadcrumb" class="custom-breadcrumb shadow-sm d-flex align-items-center">
+            <ol class="breadcrumb mb-0 flex-grow-1">
+                <li class="breadcrumb-item">
+                    <a href="/admin/coupons" class="d-flex align-items-center text-decoration-none">
+                        <i class="fas fa-ticket-alt me-2"></i>Coupons
+                    </a>
+                </li>
+                <li class="breadcrumb-divider">
+                    <i class="fas fa-chevron-right"></i>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <i class="fas fa-clock-history me-2"></i>All Activations
+                </li>
+            </ol>
+            <div class="breadcrumb-actions">
+                <a href="/admin/coupons" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Coupons
+                </a>
+            </div>
+        </nav>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-info py-3 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-list me-2"></i> All Coupon Activations</h5>
+                <span class="badge bg-primary"><%= total %> Total</span>
+            </div>
+            <div class="card-body">
+                <% if (activations && activations.length > 0) { %>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Activation ID</th>
+                                    <th>User ID</th>
+                                    <th>Coupon Code</th>
+                                    <th>Issue</th>
+                                    <th>Activated At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% activations.forEach(act => { %>
+                                <tr>
+                                    <td><%= act.ActivationId %></td>
+                                    <td><code class="fw-bold"><%= act.UserId %></code></td>
+                                    <td><code class="fw-bold"><%= act.CouponCode %></code></td>
+                                    <td><%= act.IssueName %></td>
+                                    <td><%= new Date(act.ActivatedAt).toLocaleString() %></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-danger btn-reset" 
+                                                onclick="resetActivation(<%= act.ActivationId %>)">
+                                            <i class="fas fa-undo me-1"></i> Reset
+                                        </button>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Пагинация -->
+                    <% if (totalPages > 1) { %>
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                                <a class="page-link" href="?page=<%= currentPage - 1 %>&limit=<%= limit %>">
+                                    <i class="fas fa-chevron-left me-1"></i> Previous
+                                </a>
+                            </li>
+                            
+                            <% for (let i = 1; i <= totalPages; i++) { %>
+                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                <a class="page-link" href="?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
+                            </li>
+                            <% } %>
+                            
+                            <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                <a class="page-link" href="?page=<%= currentPage + 1 %>&limit=<%= limit %>">
+                                    Next <i class="fas fa-chevron-right ms-1"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <% } %>
+                <% } else { %>
+                    <div class="text-center py-5">
+                        <i class="fas fa-inbox display-1 text-muted"></i>
+                        <h4 class="text-muted mt-3">No activations found</h4>
+                        <p class="text-muted">There are no coupon activations to display at this time.</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/adminFooter') %>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/coupons/activations.js"></script>
+</body>
+</html>

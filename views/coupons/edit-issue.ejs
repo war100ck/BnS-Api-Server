@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Issue #<%= issue.IssueId %></title>
+	<link rel="icon" href="/images/favicon-admin.png" type="image/png">
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/css/coupons.css">
+</head>
+<body>
+<%- include('../partials/nav') %>
+    
+    <div class="container py-4">
+        <!-- Custom Breadcrumb with Actions -->
+        <nav aria-label="breadcrumb" class="custom-breadcrumb edit-breadcrumb shadow-sm d-flex align-items-center">
+            <ol class="breadcrumb mb-0 flex-grow-1">
+                <li class="breadcrumb-item">
+                    <a href="/admin/coupons" class="d-flex align-items-center text-decoration-none">
+                        <i class="fas fa-ticket-alt me-2"></i>Coupons
+                    </a>
+                </li>
+                <li class="breadcrumb-divider">
+                    <i class="fas fa-chevron-right"></i>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/admin/coupons/issue/<%= issue.IssueId %>" class="d-flex align-items-center text-decoration-none">
+                        <i class="fas fa-file-alt me-2"></i>Issue #<%= issue.IssueId %>
+                    </a>
+                </li>
+                <li class="breadcrumb-divider">
+                    <i class="fas fa-chevron-right"></i>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <i class="fas fa-edit me-2"></i>Edit
+                </li>
+            </ol>
+            <div class="breadcrumb-actions">
+                <a href="/admin/coupons/issue/<%= issue.IssueId %>" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Issue
+                </a>
+            </div>
+        </nav>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-warning py-3">
+                        <h5 class="mb-0"><i class="fas fa-edit text-dark me-2"></i> Edit Issue: <%= issue.IssueName %></h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="editIssueForm">
+                            <div class="mb-3">
+                                <label for="issueName" class="form-label fw-medium">Issue Name *</label>
+                                <input type="text" class="form-control" id="issueName" name="issueName" 
+                                       value="<%= issue.IssueName %>" required>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="redeemFrom" class="form-label fw-medium">Redeem From</label>
+                                        <input type="datetime-local" class="form-control" id="redeemFrom" 
+                                               name="redeemFrom" value="<%= issue.RedeemFrom ? new Date(issue.RedeemFrom).toISOString().slice(0,16) : '' %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="redeemTo" class="form-label fw-medium">Redeem To</label>
+                                        <input type="datetime-local" class="form-control" id="redeemTo" 
+                                               name="redeemTo" value="<%= issue.RedeemTo ? new Date(issue.RedeemTo).toISOString().slice(0,16) : '' %>">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="expirationDuration" class="form-label fw-medium">Expiration Duration (days)</label>
+                                <input type="number" class="form-control" id="expirationDuration" 
+                                       name="expirationDuration" value="<%= issue.ExpirationDuration || '' %>" min="1">
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-warning py-2">
+                                    <i class="fas fa-check-circle me-2"></i> Update Issue
+                                </button>
+                                <a href="/admin/coupons/issue/<%= issue.IssueId %>" class="btn btn-outline-secondary py-2">
+                                    <i class="fas fa-times-circle me-2"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+	<%- include('../partials/adminFooter') %>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/coupons/edit-issue.js"></script>
+</body>
+</html>

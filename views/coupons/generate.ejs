@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Coupons</title>
+	<link rel="icon" href="/images/favicon-admin.png" type="image/png">
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/css/coupons.css">
+</head>
+<body class="bg-light">
+<%- include('../partials/nav') %>
+    
+    <div class="container py-4">
+        <!-- Custom Breadcrumb with Actions -->
+        <nav aria-label="breadcrumb" class="custom-breadcrumb generate-breadcrumb shadow-sm d-flex align-items-center">
+            <ol class="breadcrumb mb-0 flex-grow-1">
+                <li class="breadcrumb-item">
+                    <a href="/admin/coupons" class="d-flex align-items-center text-decoration-none">
+                        <i class="fas fa-ticket-alt me-2"></i>Coupons
+                    </a>
+                </li>
+                <li class="breadcrumb-divider">
+                    <i class="fas fa-chevron-right"></i>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <i class="fas fa-key me-2"></i>Generate Coupons
+                </li>
+            </ol>
+            <div class="breadcrumb-actions">
+                <a href="/admin/coupons/issue/<%= issues.find(i => i.IssueId == selectedIssueId)?.IssueId %>" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Issue
+                </a>
+            </div>
+        </nav>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0"><i class="fas fa-key text-success me-2"></i> Generate Coupons</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="generateForm">
+                            <div class="mb-3">
+                                <label for="issueId" class="form-label fw-medium">Select Issue *</label>
+                                <select class="form-select" id="issueId" name="issueId" required>
+                                    <option value="">-- Select Issue --</option>
+                                    <% issues.forEach(issue => { %>
+                                        <option value="<%= issue.IssueId %>" 
+                                                <%= selectedIssueId == issue.IssueId ? 'selected' : '' %>>
+                                            #<%= issue.IssueId %> - <%= issue.IssueName %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-medium">Generation Type *</label>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="generateType" 
+                                           id="generateSingle" value="single" checked>
+                                    <label class="form-check-label" for="generateSingle">
+                                        Single Coupon
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="generateType" 
+                                           id="generateMultiple" value="multiple">
+                                    <label class="form-check-label" for="generateMultiple">
+                                        Multiple Coupons
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="singleSection">
+                                <div class="mb-3">
+                                    <label for="couponCode" class="form-label fw-medium">Coupon Code *</label>
+                                    <input type="text" class="form-control" id="couponCode" name="couponCode" 
+                                           placeholder="BNS-SUMMER-2025">
+                                    <div class="form-text text-muted">Enter a unique code for your coupon</div>
+                                </div>
+                            </div>
+
+                            <div id="multipleSection" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="count" class="form-label fw-medium">Number of Coupons *</label>
+                                    <input type="number" class="form-control" id="count" name="count" 
+                                           min="1" max="1000" value="10">
+                                    <div class="form-text text-muted">How many coupons to generate (max 1000)</div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="maxUses" class="form-label fw-medium">Max Uses per Coupon *</label>
+                                <input type="number" class="form-control" id="maxUses" name="maxUses" 
+                                       min="1" value="1">
+                                <div class="form-text text-muted">How many times each coupon can be used</div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success py-2">
+                                    <i class="fas fa-check-circle me-2"></i> Generate Coupons
+                                </button>
+                                <a href="/admin/coupons" class="btn btn-outline-secondary py-2">
+                                    <i class="fas fa-times-circle me-2"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <%- include('../partials/adminFooter') %>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/coupons/coupons-generate.js"></script>
+</body>
+</html>

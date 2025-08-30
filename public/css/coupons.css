@@ -1,0 +1,136 @@
+/* public/css/coupons.css */
+.stats-card {
+    transition: transform 0.2s;
+}
+.stats-card:hover {
+    transform: translateY(-3px);
+}
+.card-header {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.table th {
+    font-weight: 500;
+}
+.badge-activations {
+    font-size: 0.85em;
+}
+.recent-activations {
+    max-height: 110px;
+    overflow-y: auto;
+}
+.recent-activations .list-group-item {
+    border-left: 0;
+    border-right: 0;
+    padding: 0.5rem 1rem;
+}
+.recent-activations .list-group-item:first-child {
+    border-top: 0;
+}
+.recent-activations .list-group-item:last-child {
+    border-bottom: 0;
+}
+.recent-activations::-webkit-scrollbar {
+    width: 6px;
+}
+.recent-activations::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+.recent-activations::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+.recent-activations::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+.custom-breadcrumb {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border-left: 4px solid #0d6efd;
+}
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+.breadcrumb-item a {
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+.breadcrumb-item a:hover {
+    color: #0d6efd;
+    transform: translateY(-1px);
+}
+.breadcrumb-item.active {
+    color: #6c757d;
+    font-weight: 500;
+}
+.breadcrumb-divider {
+    color: #adb5bd;
+    margin: 0 0.7rem;
+}
+.breadcrumb-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+.btn-reset {
+    transition: all 0.2s ease;
+}
+.btn-reset:hover {
+    transform: scale(1.05);
+}
+.form-check-input:checked {
+    background-color: #198754;
+    border-color: #198754;
+}
+.search-results {
+    transition: all 0.3s ease;
+}
+.badge-expired {
+    background-color: #dc3545;
+}
+.badge-active {
+    background-color: #198754;
+}
+.badge-warning {
+    background-color: #ffc107;
+    color: #000;
+}
+
+/* Специфичные стили для разных страниц */
+.breadcrumb-item a:hover.create-breadcrumb {
+    color: #198754;
+}
+.custom-breadcrumb.create-breadcrumb {
+    border-left-color: #198754;
+}
+
+.breadcrumb-item a:hover.edit-breadcrumb {
+    color: #ffc107;
+}
+.custom-breadcrumb.edit-breadcrumb {
+    border-left-color: #ffc107;
+}
+
+.breadcrumb-item a:hover.generate-breadcrumb {
+    color: #198754;
+}
+.custom-breadcrumb.generate-breadcrumb {
+    border-left-color: #198754;
+}
+
+.breadcrumb-item a:hover.search-breadcrumb {
+    color: #ffc107;
+}
+.custom-breadcrumb.search-breadcrumb {
+    border-left-color: #ffc107;
+}
+
+

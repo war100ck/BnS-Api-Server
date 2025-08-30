@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Coupon - <%= coupon.CouponCode %></title>
+    <link rel="icon" href="/images/favicon-admin.png" type="image/png">
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/css/coupons.css">
+</head>
+<body class="bg-light">
+<%- include('../partials/nav') %>
+    
+    <div class="container py-4">
+        <!-- Custom Breadcrumb with Actions -->
+        <nav aria-label="breadcrumb" class="custom-breadcrumb shadow-sm d-flex align-items-center">
+            <ol class="breadcrumb mb-0 flex-grow-1">
+                <li class="breadcrumb-item">
+                    <a href="/admin/coupons" class="d-flex align-items-center text-decoration-none">
+                        <i class="fas fa-ticket-alt me-2"></i>Coupons
+                    </a>
+                </li>
+                <li class="breadcrumb-divider">
+                    <i class="fas fa-chevron-right"></i>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/admin/coupons/issue/<%= parseInt(coupon.IssueId) %>" class="d-flex align-items-center text-decoration-none">
+                        <i class="fas fa-file-alt me-2"></i><%= coupon.IssueName %>
+                    </a>
+                </li>
+                <li class="breadcrumb-divider">
+                    <i class="fas fa-chevron-right"></i>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <i class="fas fa-edit me-2"></i>Edit Coupon
+                </li>
+            </ol>
+            <div class="breadcrumb-actions">
+                <a href="/admin/coupons/issue/<%= parseInt(coupon.IssueId) %>" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Issue
+                </a>
+            </div>
+        </nav>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-warning py-3">
+                        <h5 class="mb-0"><i class="fas fa-edit text-dark me-2"></i> Edit Coupon: <%= coupon.CouponCode %></h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="editCouponForm" data-coupon-id="<%= parseInt(coupon.CouponId) %>">
+                            <div class="mb-3">
+                                <label for="couponCode" class="form-label fw-medium">Coupon Code *</label>
+                                <input type="text" class="form-control" id="couponCode" name="couponCode" 
+                                       value="<%= coupon.CouponCode %>" required>
+                                <div class="form-text text-muted">Unique identifier for the coupon</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="maxUses" class="form-label fw-medium">Max Uses per Coupon *</label>
+                                <input type="number" class="form-control" id="maxUses" name="maxUses" 
+                                       value="<%= coupon.MaxUses %>" min="1" required>
+                                <div class="form-text text-muted">How many times this coupon can be used</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="issueId" class="form-label fw-medium">Issue *</label>
+                                <select class="form-select" id="issueId" name="issueId" required>
+                                    <% issues.forEach(issue => { %>
+                                        <option value="<%= parseInt(issue.IssueId) %>" 
+                                                <%= parseInt(coupon.IssueId) == parseInt(issue.IssueId) ? 'selected' : '' %>>
+                                            #<%= issue.IssueId %> - <%= issue.IssueName %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                                <div class="form-text text-muted">Select which issue this coupon belongs to</div>
+                            </div>
+
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Current usage:</strong> <%= coupon.UsedCount || 0 %> out of <%= coupon.MaxUses %> times used
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-warning py-2">
+                                    <i class="fas fa-save me-2"></i> Update Coupon
+                                </button>
+                                <a href="/admin/coupons/issue/<%= parseInt(coupon.IssueId) %>" class="btn btn-outline-secondary py-2">
+                                    <i class="fas fa-times-circle me-2"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <%- include('../partials/adminFooter') %>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/coupons/edit-coupon.js"></script>
+</body>
+</html>

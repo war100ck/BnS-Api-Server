@@ -1,6 +1,22 @@
 <h3>Update Log</h3>
 
 <details>
+  <summary><b>Change Log: 30/08/2025</b></summary>
+
+  1. **Added new functionality in BNS API**:  
+     - Promo Issue Management (create and manage campaigns)  
+     - Coupon Generation (bulk/single codes)  
+     - Reward System (multiple rewards per campaign)  
+     - User Redemption (simple coupon redemption)  
+     - Activation Tracking (monitor coupon usage)  
+     - Admin Dashboard (statistics, activity, quick actions, CRUD)  
+     - Advanced Features (search, bulk ops, expiration, usage limits, reset)  
+     - 📬 Rewards after activation are automatically delivered to in-game mail  
+
+  ⚙️ **Important:** After updating via the web interface, make sure to run **`install.bat`** to install dependencies and apply changes.
+</details>
+
+<details>
   <summary><b>Change Log: 12/08/2025</b></summary>
 
   1. **Added character blocking functionality**:  

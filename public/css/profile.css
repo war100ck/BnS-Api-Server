@@ -1,8 +1,8 @@
 :root{        --bg-color:#1d242c;          --card-bg:#2a3038;          --card-header-bg:#343b44;          --text-primary:#fff;          --text-secondary:#b8c2cc;          --border-color:#3d4752;          --primary-accent:#fc6b01;          --table-header-bg:#3a424d}
-         body{        background-color:var(--bg-color);          background-image:url('../images/backgrounds/home-style-bg.webp');  background-attachment:fixed;  background-position:center;  background-repeat:no-repeat;  background-size:cover;  color:var(--text-primary);  font-family:Arial,sans-serif;  min-height:100vh;  padding-top:80px;  padding-bottom:80px}
+body{        background-color:var(--bg-color);          background-image:url('../images/backgrounds/home-style-bg.webp');  background-attachment:fixed;  background-position:center;  background-repeat:no-repeat;  background-size:cover;  color:var(--text-primary);  font-family:Arial,sans-serif;  min-height:100vh;  padding-top:80px;  padding-bottom:80px}
+body::-webkit-scrollbar{display:none}
 .custom-navbar .container-fluid{padding-left:55px !important;  padding-right:25px !important}
 .container{width:100%;  max-width:1400px;  margin:0 auto;  padding:20px;  display:grid;  grid-template-columns:300px 1fr;  gap:20px}
- 
 .profile-section{position:sticky;  top:100px;  height:fit-content}
 .profile-card{background:var(--card-bg);  border-radius:10px;  box-shadow:0 4px 12px rgba(0,0,0,0.3);  overflow:hidden;  margin-bottom:20px}
 .profile-header{background:linear-gradient(135deg,#fc6b01 0%,#ff8c00 100%);  padding:15px;  text-align:center}
@@ -82,3 +82,43 @@
 .ban-alert-close{color:#aaa;  font-size:24px;  transition:all 0.3s}
 .ban-alert-close:hover{color:#ff3e3e}
 .swal2-icon.swal2-error{display:none}
+
+.profile-actions{ display:flex;  gap:10px;  margin-top:15px;  justify-content:center}
+.profile-btn{ background:var(--primary-accent);  border:none;  padding:8px 15px;  border-radius:5px;  color:white;  cursor:pointer;  transition:all 0.3s}
+.profile-btn:hover{ background:#ff8c00;  transform:translateY(-2px)}
+.profile-btn.active{ background:#ff8c00;  box-shadow:0 0 10px rgba(252,107,1,0.5)}
+
+ .coupon-history{ margin-top:20px;   overflow-y:visible}
+.coupon-history.scrollable{ max-height:360px;  overflow-y:auto;  -webkit-overflow-scrolling:touch}
+
+.history-item{ padding:10px;  border-bottom:1px solid var(--border-color)}
+.history-item:last-child{ border-bottom:none}
+.history-code{ font-weight:bold;  color:var(--primary-accent)}
+.history-date{ color:var(--text-secondary);  font-size:0.9rem}
+.section-hidden{ display:none}
+.history-rewards{ color:var(--text-secondary);  font-size:0.9rem;  margin-top:5px;  font-style:italic;  word-break:break-word}
+
+.coupon-notification{ position:fixed;  top:20px;  left:50%;  transform:translateX(-50%);  z-index:1070;  min-width:360px;  max-width:640px;  padding:16px 18px;  border-radius:8px;  box-shadow:0 6px 18px rgba(0,0,0,0.25);  display:flex;  align-items:center;  animation:slideIn 0.45s forwards}
+.coupon-notification.success{ background:linear-gradient(90deg,#2ecc71,#27ae60);  color:#fff}
+.coupon-notification.error{ background:linear-gradient(90deg,#e74c3c,#c0392b);  color:#fff}
+.coupon-notification .icon{ font-size:22px;  margin-right:12px}
+.coupon-notification .content{ flex:1;  text-align:left}
+.coupon-notification .title{ font-weight:700;  margin-bottom:6px;  font-size:15px}
+.coupon-notification .rewards{ font-size:13px;  opacity:0.95}
+.coupon-notification .close-btn{ background:transparent;  border:none;  color:rgba(255,255,255,0.95);  font-size:18px;  cursor:pointer;  margin-left:14px}
+@keyframes slideIn{ from{transform:translate(-50%,-120%); opacity:0}
+to{transform:translate(-50%,0); opacity:1}
+}
+@keyframes slideOut{ from{transform:translate(-50%,0); opacity:1}
+to{transform:translate(-50%,-120%); opacity:0}
+}
+
+.history-content{ width:100%}
+.history-issue{ margin-top:5px; font-weight:bold;  font-size:0.9rem;  color:#f1924b}
+.coupon-history.scrollable::-webkit-scrollbar{ width:8px}
+.coupon-history.scrollable::-webkit-scrollbar-track{ background:var(--card-bg);  border-radius:4px}
+.coupon-history.scrollable::-webkit-scrollbar-thumb{ background:var(--primary-accent);  border-radius:4px}
+.coupon-history.scrollable::-webkit-scrollbar-thumb:hover{ background:#ff8c00}
+.coupon-history.scrollable{ scrollbar-width:thin;  scrollbar-color:var(--primary-accent) var(--card-bg)}
+#couponCode::placeholder{ color:#ccc !important;  opacity:0.3}
+

@@ -80,7 +80,7 @@
             </li>
             <!-- Services Dropdown -->
             <li class="nav-item dropdown">
-               <a class="nav-link dropdown-toggle <%= pathname.includes('/admin/donate') || pathname.includes('/admin/promotions') ? 'active' : '' %>" href="#" id="othersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <a class="nav-link dropdown-toggle <%= pathname.includes('/admin/donate') || pathname.includes('/admin/promotions') || pathname.includes('/admin/coupons') ? 'active' : '' %>" href="#" id="othersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                <i class="fas fa-concierge-bell me-1"></i> Services
                </a>
                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="othersDropdown">
@@ -92,6 +92,11 @@
                   <li>
                      <a class="dropdown-item <%= pathname === '/admin/promotions' ? 'active' : '' %>" href="/admin/promotions">
                      <i class="fas fa-bullhorn me-2"></i> Promotions
+                     </a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item <%= pathname === '/admin/coupons' ? 'active' : '' %>" href="/admin/coupons">
+                     <i class="fas fa-ticket-alt me-2"></i> Coupons
                      </a>
                   </li>
                </ul>

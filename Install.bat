@@ -323,6 +323,18 @@ echo. >> .env
 echo ROLE_DB_SERVER=localhost >> .env
 echo. >> .env
 echo ROLE_DB_DATABASE=RoleDb >> .env
+echo. >> .env
+echo # ---------------------------- >> .env
+echo # Coupon System Database >> .env
+echo # ---------------------------- >> .env
+echo. >> .env
+echo COUPON_SYSTEM_DB_USER=sa >> .env
+echo. >> .env
+echo COUPON_SYSTEM_DB_PASSWORD=U6SjJk3ZyQhrv5tq >> .env
+echo. >> .env
+echo COUPON_SYSTEM_DB_SERVER=localhost >> .env
+echo. >> .env
+echo COUPON_SYSTEM_DB_DATABASE=CouponSystemDB >> .env
 timeout /t 1 /nobreak > NUL
 echo ===============================
 echo File creation .... completed

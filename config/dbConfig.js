@@ -11,7 +11,7 @@ const configPlatformAcctDb = {
   server: process.env.PLATFORM_ACCT_DB_SERVER,
   database: process.env.PLATFORM_ACCT_DB_DATABASE,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -20,8 +20,8 @@ const configPlatformAcctDb = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -32,7 +32,7 @@ const configGradeMembersDb = {
   server: process.env.GRADE_MEMBERS_DB_SERVER,
   database: process.env.GRADE_MEMBERS_DB_DATABASE,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -41,8 +41,8 @@ const configGradeMembersDb = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -52,7 +52,7 @@ const configBanDb = {
   server: process.env.BAN_DB_SERVER,
   database: process.env.BAN_DB_DATABASE,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -61,8 +61,8 @@ const configBanDb = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -73,7 +73,7 @@ const configBlGame = {
   server: process.env.BLGAME_DB_SERVER,
   database: process.env.BLGAME_DB_DATABASE,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -82,8 +82,8 @@ const configBlGame = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -94,7 +94,7 @@ const configVirtualCurrencyDb = {
   server: process.env.VIRTUAL_CURRENCY_DB_SERVER,
   database: process.env.VIRTUAL_CURRENCY_DB_DATABASE,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -103,8 +103,8 @@ const configVirtualCurrencyDb = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -115,7 +115,7 @@ const configLobbyDb = {
   server: process.env.LOBBY_DB_SERVER,
   database: process.env.LOBBY_DB_DATABASE,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -124,8 +124,8 @@ const configLobbyDb = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -136,7 +136,7 @@ const WH_config = {
   server: process.env.DB_SERVER,
   database: process.env.DB_NAME,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -145,8 +145,8 @@ const WH_config = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -157,7 +157,7 @@ const configGameWarehouseDB = {
   server: process.env.GAME_WAREHOUSE_DB_SERVER,
   database: process.env.GAME_WAREHOUSE_DB_DATABASE,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -166,8 +166,8 @@ const configGameWarehouseDB = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -178,7 +178,7 @@ const configLevelDb = {
   server: process.env.LEVEL_DB_SERVER,
   database: process.env.LEVEL_DB_DATABASE,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -187,8 +187,8 @@ const configLevelDb = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -199,7 +199,7 @@ const configGameItemsDB = {
   server: process.env.GAME_ITEMS_DB_SERVER,
   database: process.env.GAME_ITEMS_DB_DATABASE,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -208,8 +208,8 @@ const configGameItemsDB = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -220,7 +220,7 @@ const configDonationsDb = {
   server: process.env.DONATIONS_DB_SERVER,
   database: process.env.DONATIONS_DB_DATABASE,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -229,8 +229,8 @@ const configDonationsDb = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -241,7 +241,7 @@ const configPromotionStampDb = {
   server: process.env.PROMOTION_STAMP_DB_SERVER,
   database: process.env.PROMOTION_STAMP_DB_DATABASE,
   pool: {
-    max: 20, // Увеличено с 10 до 20
+    max: 20,
     min: 1,
     idleTimeoutMillis: 30000
   },
@@ -250,8 +250,8 @@ const configPromotionStampDb = {
     encrypt: false,
     trustServerCertificate: true,
     enableArithAbort: true,
-    connectTimeout: 15000, // Увеличено с 5000 до 15000
-    requestTimeout: 15000 // Увеличено с 5000 до 15000
+    connectTimeout: 15000,
+    requestTimeout: 15000
   }
 };
 
@@ -276,6 +276,28 @@ const configRoleDb = {
   }
 };
 
+// Настройки подключения к базе данных CouponSystemDB
+const configCouponSystemDB = {
+  user: process.env.COUPON_SYSTEM_DB_USER,
+  password: process.env.COUPON_SYSTEM_DB_PASSWORD,
+  server: process.env.COUPON_SYSTEM_DB_SERVER,
+  database: process.env.COUPON_SYSTEM_DB_DATABASE || 'CouponSystemDB',
+  pool: {
+    max: 20,
+    min: 1,
+    idleTimeoutMillis: 30000
+  },
+  options: {
+    secure: true,
+    encrypt: false,
+    trustServerCertificate: true,
+    enableArithAbort: true,
+    connectTimeout: 15000,
+    requestTimeout: 15000
+  }
+};
+
+
 export {
   configPlatformAcctDb,
   configGradeMembersDb,
@@ -289,5 +311,6 @@ export {
   configGameItemsDB,
   configDonationsDb,
   configPromotionStampDb,
-  configRoleDb
+  configRoleDb,
+  configCouponSystemDB
 };

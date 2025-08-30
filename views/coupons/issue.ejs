@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue #<%= issue.IssueId %> - <%= issue.IssueName %></title>
+	<link rel="icon" href="/images/favicon-admin.png" type="image/png">
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/css/coupons.css">
+</head>
+<body>
+<%- include('../partials/nav') %>
+    <div class="container py-4">
+        <nav aria-label="breadcrumb" class="custom-breadcrumb shadow-sm d-flex align-items-center">
+            <ol class="breadcrumb mb-0 flex-grow-1">
+                <li class="breadcrumb-item">
+                    <a href="/admin/coupons" class="d-flex align-items-center text-decoration-none">
+                        <i class="fas fa-ticket-alt me-2"></i>Coupons
+                    </a>
+                </li>
+                <li class="breadcrumb-divider"><i class="fas fa-chevron-right"></i></li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <i class="fas fa-file-alt me-2"></i>Issue #<%= issue.IssueId %>
+                </li>
+            </ol>
+            <div class="breadcrumb-actions">
+                <a href="/admin/coupons" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left me-1"></i> Back to List
+                </a>
+            </div>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-file-text me-2"></i> Issue: <%= issue.IssueName %></h5>
+                        <span class="badge bg-light text-dark">#<%= issue.IssueId %></span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="bi bi-calendar me-2 text-primary"></i> Validity Period</h6>
+                                <p>
+                                    <strong>Redeem From:</strong> 
+                                    <%= issue.RedeemFrom ? new Date(issue.RedeemFrom).toLocaleString() : 'No limit' %>
+                                </p>
+                                <p>
+                                    <strong>Redeem To:</strong> 
+                                    <%= issue.RedeemTo ? new Date(issue.RedeemTo).toLocaleString() : 'No limit' %>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="bi bi-graph-up me-2 text-success"></i> Statistics</h6>
+                                <p><strong>Total Coupons:</strong> <span class="badge bg-info"><%= coupons.length %></span></p>
+                                <p><strong>Total Activations:</strong> 
+                                    <span class="badge bg-success">
+                                        <%= coupons.reduce((sum, c) => sum + (c.ActivationCount || 0), 0) %>
+                                    </span>
+                                </p>
+                                <p><strong>Created:</strong> <i class="bi bi-clock me-1 text-muted"></i><%= new Date(issue.CreatedAt).toLocaleDateString() %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="mb-0"><i class="bi bi-gift"></i> Rewards</h6>
+                    </div>
+                    <div class="card-body">
+                        <% if (rewards && rewards.length > 0) { %>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Item ID</th>
+                                            <th>Name</th>
+                                            <th>Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% rewards.forEach(reward => { %>
+                                        <tr>
+                                            <td><code><%= reward.ItemID %></code></td>
+                                            <td><%= reward.RewardName || 'No name' %></td>
+                                            <td><span class="badge bg-primary"><%= reward.Quantity %></span></td>
+                                        </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <% } else { %>
+                            <div class="text-center py-4">
+                                <i class="bi bi-gift display-4 text-muted"></i>
+                                <h5 class="text-muted mt-3">No rewards configured</h5>
+                                <p class="text-muted">Add rewards to this issue in the rewards management section.</p>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="mb-0"><i class="bi bi-key"></i> Coupons (<%= coupons.length %>)</h6>
+                    </div>
+                    <div class="card-body">
+                        <% if (coupons && coupons.length > 0) { %>
+                            <div class="list-group list-group-flush">
+                                <% coupons.forEach(coupon => { %>
+                                <div class="list-group-item border-0 px-0">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1">
+                                            <code class="d-block"><%= coupon.CouponCode %></code>
+                                            <small class="text-muted">
+                                                Uses: <%= coupon.UsedCount %>/<%= coupon.MaxUses %>
+                                            </small>
+                                        </div>
+                                        <span class="badge bg-<%= coupon.UsedCount > 0 ? 'success' : 'secondary' %>">
+                                            <%= coupon.ActivationCount || 0 %>
+                                        </span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <a href="/admin/coupons/edit/<%= coupon.CouponId %>" 
+                                           class="btn btn-sm btn-outline-primary me-1">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </a>
+                                        <button class="btn btn-sm btn-outline-danger" 
+                                                onclick="deleteCoupon(<%= coupon.CouponId %>)" 
+                                                <%= coupon.UsedCount > 0 ? 'disabled' : '' %>>
+                                            <i class="bi bi-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                                <% }); %>
+                            </div>
+                        <% } else { %>
+                            <div class="text-center py-4">
+                                <i class="bi bi-ticket-perforated display-4 text-muted"></i>
+                                <h5 class="text-muted mt-3">No coupons generated</h5>
+                                <p class="text-muted">Generate coupons for this issue using the actions below.</p>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="mb-0"><i class="bi bi-lightning"></i> Actions</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="/admin/coupons/generate?issueId=<%= issue.IssueId %>" 
+                               class="btn btn-outline-primary">
+                                <i class="bi bi-plus-circle"></i> Add Coupons
+                            </a>
+                            <a href="/admin/coupons/issue/<%= issue.IssueId %>/rewards" 
+                               class="btn btn-outline-success">
+                                <i class="bi bi-gift"></i> Manage Rewards
+                            </a>
+                            <a href="/admin/coupons/issue/<%= issue.IssueId %>/edit" 
+                               class="btn btn-outline-warning">
+                                <i class="bi bi-pencil"></i> Edit Issue
+                            </a>
+                            <a href="/admin/coupons/activations" 
+                               class="btn btn-outline-info">
+                                <i class="bi bi-list"></i> View All Activations
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/coupons/coupons-issue.js"></script>
+</body>
+</html>

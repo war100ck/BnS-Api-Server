@@ -22,7 +22,8 @@ import {
   configBlGame, 
   configVirtualCurrencyDb, 
   configLobbyDb, 
-  WH_config 
+  WH_config,
+  configCouponSystemDB 
 } from './config/dbConfig.js';
 
 // Утилиты и хелперы
@@ -67,6 +68,9 @@ import processManagerRoutes from './routes/processManagerRoutes.js';
 import fileExplorerRoutes from './routes/fileExplorerRoutes.js';
 import roleManagementRoutes from './routes/roleManagementRoute.js';
 import blockRoutes from './routes/blockRoutes.js';
+// import SendItemRoute from './routes/SendItemRoute.js';
+import couponRoutes from './routes/couponRoutes.js';
+import couponRewardRoutes from './routes/couponRewardRoutes.js';
 
 // Специальные модули
 import discordBot from './utils/discordBot.js';
@@ -169,7 +173,10 @@ const rootRoutes = [
   processManagerRoutes,
   fileExplorerRoutes,
   roleManagementRoutes,
-  blockRoutes
+  blockRoutes,
+  // SendItemRoute,
+  couponRoutes,
+  couponRewardRoutes
 ];
 
 // Другие маршруты с определенными префиксами

@@ -63,11 +63,17 @@
                      </div>
                      <% } %>
                   </div>
+                  <!-- Кнопки переключения -->
+                  <div class="profile-actions">
+                     <button class="profile-btn active" id="btnCharacters">Characters</button>
+                     <button class="profile-btn" id="btnPromoCode">Promo code</button>
+                  </div>
                </div>
             </div>
          </div>
          <div class="content-section">
-            <div class="data-card">
+            <!-- Блок Characters (по умолчанию видимый) -->
+            <div class="data-card" id="charactersSection">
                <div class="card-title">
                   <i class="fas fa-users"></i> Characters
                </div>
@@ -91,7 +97,7 @@
                         <% if (creature.deletion !== 1) { %>
                         <tr>
                            <td><%= creature.name %></td>
-                           <td><%= creature.worldName %>
+                           <td><%= creature.worldName %></td>
                            <td><%= creature.level %></td>
                            <td>
                               <div class="table-image-text">
@@ -190,7 +196,8 @@
                   </div>
                </div>
             </div>
-            <div class="data-card">
+            <!-- Блок Deposit Information -->
+            <div class="data-card" id="depositSection">
                <div class="card-title">
                   <i class="fas fa-wallet"></i> Deposit Information
                </div>
@@ -219,9 +226,56 @@
                   <% } %>
                </div>
             </div>
+            <!-- Блок Promo Code (по умолчанию скрытый) -->
+            <div class="data-card section-hidden" id="promoCodeSection">
+               <div class="card-title">
+                  <i class="fas fa-ticket-alt"></i> Promo Code Activation
+               </div>
+               <div class="card-content">
+                  <div style="padding: 20px;">
+                     <form id="couponForm">
+                        <div class="mb-3">
+                           <label for="couponCode" class="form-label" style="color: var(--text-secondary);">Enter coupon code:</label>
+                           <div class="input-group">
+                              <input type="text" class="form-control" id="couponCode" 
+                                 placeholder="Enter coupon code" 
+                                 style="background: var(--card-bg); color: var(--text-primary); border-color: var(--border-color);">
+                              <button class="btn btn-primary" type="submit" 
+                                 style="background: var(--primary-accent); border-color: var(--primary-accent);">
+                              Activate
+                              </button>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+            <!-- Блок History (по умолчанию скрытый) -->
+            <div class="data-card section-hidden" id="historySection">
+               <div class="card-title">
+                  <i class="fas fa-history"></i> Activation History
+               </div>
+               <div class="card-content" style="min-height: 200px;">
+                  <div style="padding: 20px;">
+                     <div id="couponHistory" class="coupon-history">
+                        <div style="text-align: center; color: var(--text-secondary); padding: 20px;">
+                           Loading activation history...
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
          </div>
+         <!-- content-section -->
          <% } %>
       </div>
+      <!-- container -->
+      <!-- Контейнер для уведомлений (всегда есть в DOM) -->
+      <div id="couponResult"></div>
+      <!-- Скрытые данные для JavaScript -->
+      <div id="profileData" style="display: none;" 
+         data-user-id="<%= UserId %>"
+         data-user-name="<%= UserName %>"></div>
       <footer class="custom-footer">
          <p>&copy; 2024 Blade & Soul: Private Server</p>
          <p>All rights reserved.</p>
@@ -236,10 +290,11 @@
       <% } %>
       <!-- Скрипты -->
       <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-      <script src="js/preloader.js"></script>
-      <script src="js/navbar.min.js"></script>
+      <script src="/js/preloader.js"></script>
+      <script src="/js/navbar.min.js"></script>
       <script src="/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
-      <script src="js/profile.js"></script>
+      <script src="/js/profile.js"></script>
+      <script src="/js/couponManager.js"></script>
       <script src="/js/banAlert.js"></script>
    </body>
 </html>

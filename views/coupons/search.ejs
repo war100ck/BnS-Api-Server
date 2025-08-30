@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Coupons</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .stats-card { transition: transform 0.2s; }
+        .stats-card:hover { transform: translateY(-3px); }
+        .card-header { border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .table th { font-weight: 500; }
+        .badge-activations { font-size: 0.85em; }
+        .recent-activations { max-height: 110px; overflow-y: auto; }
+        .recent-activations .list-group-item { border-left: 0; border-right: 0; padding: 0.5rem 1rem; }
+        .recent-activations .list-group-item:first-child { border-top: 0; }
+        .recent-activations .list-group-item:last-child { border-bottom: 0; }
+        .recent-activations::-webkit-scrollbar { width: 6px; }
+        .recent-activations::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .recent-activations::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
+        .recent-activations::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+        .custom-breadcrumb {
+            background-color: #f8f9fa; border-radius: 10px; padding: 1rem 1.5rem;
+            margin-bottom: 2rem; border-left: 4px solid #ffc107;
+        }
+        .breadcrumb-item { display: flex; align-items: center; }
+        .breadcrumb-item a { text-decoration: none; transition: all 0.2s ease; display: flex; align-items: center; }
+        .breadcrumb-item a:hover { color: #ffc107; transform: translateY(-1px); }
+        .breadcrumb-item.active { color: #6c757d; font-weight: 500; }
+        .breadcrumb-divider { color: #adb5bd; margin: 0 0.7rem; }
+        .breadcrumb-actions { margin-left: auto; display: flex; align-items: center; }
+        .search-results { transition: all 0.3s ease; }
+        .table-hover tbody tr:hover { background-color: rgba(255, 193, 7, 0.1); }
+        .badge-expired { background-color: #dc3545; }
+        .badge-active { background-color: #198754; }
+        .badge-warning { background-color: #ffc107; color: #000; }
+        .action-buttons { white-space: nowrap; }
+    </style>
+</head>
+<body class="bg-light">
+<%- include('../partials/nav') %>
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="custom-breadcrumb shadow-sm d-flex align-items-center">
+        <ol class="breadcrumb mb-0 flex-grow-1">
+            <li class="breadcrumb-item">
+                <a href="/admin/coupons" class="d-flex align-items-center text-decoration-none">
+                    <i class="fas fa-ticket-alt me-2"></i>Coupons
+                </a>
+            </li>
+            <li class="breadcrumb-divider"><i class="fas fa-chevron-right"></i></li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <i class="fas fa-search me-2"></i>Search Coupons
+            </li>
+        </ol>
+        <div class="breadcrumb-actions">
+            <a href="/admin/coupons" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-arrow-left me-1"></i> Back to List
+            </a>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0"><i class="fas fa-search text-warning me-2"></i> Search Coupons</h5>
+                </div>
+                <div class="card-body">
+                    <form id="searchForm" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="search" class="form-label fw-medium">Search Code</label>
+                            <input type="text" class="form-control" id="search" name="search" placeholder="Enter coupon code...">
+                            <div class="form-text text-muted">Search by coupon code (partial matches supported)</div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="issueId" class="form-label fw-medium">Filter by Issue</label>
+                            <select class="form-select" id="issueId" name="issueId">
+                                <option value="">All Issues</option>
+                                <% issues.forEach(issue => { %>
+                                    <option value="<%= issue.IssueId %>">#<%= issue.IssueId %> - <%= issue.IssueName %></option>
+                                <% }); %>
+                            </select>
+                            <div class="form-text text-muted">Filter by specific issue</div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="expired" class="form-label fw-medium">Expiration Status</label>
+                            <select class="form-select" id="expired" name="expired">
+                                <option value="">All Coupons</option>
+                                <option value="true">Expired Only</option>
+                                <option value="false">Active Only</option>
+                            </select>
+                            <div class="form-text text-muted">Filter by expiration status</div>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-center">
+                            <button type="submit" class="btn btn-warning form-control py-2">
+                                <i class="fas fa-search me-2"></i> Search
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="results" class="search-results mt-4" style="display: none;">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0 fw-medium">Search Results</h6>
+                            <span class="badge bg-light text-dark" id="resultsCount">0 results</span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Issue</th>
+                                        <th>Uses</th>
+                                        <th>Max Uses</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resultsBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/adminFooter') %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('searchForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const params = new URLSearchParams(formData);
+        
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        try {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Searching...';
+            
+            const response = await fetch(`/admin/coupons/search?${params}`);
+            const result = await response.json();
+            
+            if (result.success) {
+                const resultsBody = document.getElementById('resultsBody');
+                resultsBody.innerHTML = '';
+                
+                if (result.coupons && result.coupons.length > 0) {
+                    document.getElementById('resultsCount').textContent = `${result.coupons.length} result(s) found`;
+                    
+                    result.coupons.forEach(coupon => {
+                        const row = document.createElement('tr');
+                        let statusClass = 'badge-active';
+                        let statusText = 'Active';
+                        
+                        if (coupon.UsedCount >= coupon.MaxUses) { 
+                            statusClass = 'badge-expired'; 
+                            statusText = 'Used Up'; 
+                        }
+                        else if (coupon.IsExpired) { 
+                            statusClass = 'badge-warning'; 
+                            statusText = 'Expired'; 
+                        }
+                        
+                        row.innerHTML = `
+                            <td>
+                                <code class="fw-bold">${coupon.CouponCode}</code>
+                            </td>
+                            <td>${coupon.IssueName}</td>
+                            <td>${coupon.UsedCount}</td>
+                            <td>${coupon.MaxUses}</td>
+                            <td><span class="badge ${statusClass}">${statusText}</span></td>
+                            <td>${new Date(coupon.CreatedAt).toLocaleDateString()}</td>
+                            <td class="action-buttons">
+                                <a href="/admin/coupons/edit/${coupon.CouponId}" 
+                                   class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <button class="btn btn-sm btn-outline-danger" 
+                                        onclick="deleteCoupon(${coupon.CouponId})" 
+                                        ${coupon.UsedCount > 0 ? 'disabled' : ''}>
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </td>
+                        `;
+                        resultsBody.appendChild(row);
+                    });
+                    
+                    document.getElementById('results').style.display = 'block';
+                } else {
+                    resultsBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-muted">No coupons found matching your criteria</td></tr>';
+                    document.getElementById('resultsCount').textContent = '0 results';
+                    document.getElementById('results').style.display = 'block';
+                }
+            } else {
+                alert('Search error: ' + result.error);
+            }
+        } catch (error) {
+            alert('Search error: ' + error.message);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }
+    });
+
+    function deleteCoupon(couponId) {
+        if (confirm('Are you sure you want to delete this coupon? This action cannot be undone.')) {
+            fetch('/admin/coupons/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ couponId })
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert('Coupon deleted successfully');
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+            });
+        }
+    }
+</script>
+</body>
+</html>

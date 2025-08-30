@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coupon Management Dashboard</title>
+    <link rel="icon" href="/images/favicon-admin.png" type="image/png">
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/css/coupons.css">
+</head>
+<body class="bg-light">
+    <%- include('../partials/nav') %>
+    
+    <main class="container py-4">
+        <!-- Header Section -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+            <div class="account-management-block mb-3 mb-md-0 p-3 rounded-3 shadow-sm" style="background-color: #f8f9fa; border-left: 4px solid #0d6efd;">
+                <h2 class="mb-2 d-flex align-items-center">
+                    <i class="fas fa-ticket-alt fs-4 text-primary me-2"></i>Coupon Management
+                </h2>
+            </div>
+            
+            <div class="d-flex gap-2 mt-3 mt-md-0">
+                <a href="/admin/coupons/create" class="btn btn-primary">
+                    <i class="fas fa-plus-circle me-1"></i> Create New Issue
+                </a>
+                <a href="/coupon/redeem" class="btn btn-success">
+                    <i class="fas fa-gift me-1"></i> Redeem Coupon
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row mb-4 g-3">
+            <div class="col-md-4">
+                <div class="card stats-card bg-white border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-2">Total Issues</h6>
+                                <div class="stats-value text-primary fs-4">
+                                    <%= issues.length %>
+                                </div>
+                            </div>
+                            <div class="bg-primary bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-ticket-alt text-primary fs-5"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card stats-card bg-white border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-2">Total Coupons</h6>
+                                <%
+                                    let totalCoupons = 0;
+                                    if (issues && issues.length > 0) {
+                                        totalCoupons = issues.reduce((sum, issue) => sum + (issue.TotalCoupons || 0), 0);
+                                    }
+                                %>
+                                <div class="stats-value text-info fs-4">
+                                    <%= totalCoupons %>
+                                </div>
+                            </div>
+                            <div class="bg-info bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-key text-info fs-5"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card stats-card bg-white border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-2">Total Activations</h6>
+                                <%
+                                    let totalActivations = 0;
+                                    if (issues && issues.length > 0) {
+                                        totalActivations = issues.reduce((sum, issue) => sum + (issue.UniqueActivations || 0), 0);
+                                    }
+                                %>
+                                <div class="stats-value text-success fs-4">
+                                    <%= totalActivations %>
+                                </div>
+                            </div>
+                            <div class="bg-success bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-check-circle text-success fs-5"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Promo Issues Table -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 d-flex align-items-center">
+                            <i class="fas fa-ticket-alt text-primary me-2"></i> Promo Issues
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <% if (issues && issues.length > 0) { %>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="ps-4">ID</th>
+                                            <th>Name</th>
+                                            <th>Created</th>
+                                            <th class="text-center">Coupons</th>
+                                            <th class="text-center">Activations</th>
+                                            <th class="text-end pe-4">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% issues.forEach(issue => { %>
+                                        <tr>
+                                            <td class="ps-4 fw-bold">#<%= issue.IssueId %></td>
+                                            <td><%= issue.IssueName %></td>
+                                            <td><%= new Date(issue.CreatedAt).toLocaleDateString() %></td>
+                                            <td class="text-center">
+                                                <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 badge-activations">
+                                                    <%= issue.TotalCoupons || 0 %>
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge bg-<%= issue.UniqueActivations > 0 ? 'success' : 'secondary' %> bg-opacity-10 text-<%= issue.UniqueActivations > 0 ? 'success' : 'secondary' %> border border-<%= issue.UniqueActivations > 0 ? 'success' : 'secondary' %> border-opacity-25 badge-activations">
+                                                    <%= issue.UniqueActivations || 0 %>
+                                                </span>
+                                            </td>
+                                            <td class="text-end pe-4">
+                                                <a href="/admin/coupons/issue/<%= issue.IssueId %>" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye me-1"></i> View
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <% } else { %>
+                            <div class="text-center py-5">
+                                <i class="fas fa-inbox display-1 text-muted opacity-50"></i>
+                                <h4 class="text-muted mt-3">No promo issues found</h4>
+                                <p class="text-muted">Create your first promo issue to get started.</p>
+                                <a href="/admin/coupons/create" class="btn btn-primary mt-2">
+                                    <i class="fas fa-plus-circle me-1"></i> Create First Issue
+                                </a>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar with Recent Activations and Quick Actions -->
+            <div class="col-lg-4">
+                <!-- Recent Activations -->
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 d-flex align-items-center">
+                            <i class="fas fa-history text-success me-2"></i> Recent Activations
+                        </h5>
+                        <a href="/admin/coupons/activations" class="btn btn-sm btn-outline-info">
+                            View All
+                        </a>
+                    </div>
+                    <div class="card-body p-0">
+                        <% if (activations && activations.length > 0) { %>
+                            <div class="recent-activations">
+                                <div class="list-group list-group-flush">
+                                    <% activations.forEach(act => { %>
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <strong class="me-2 text-truncate" style="max-width: 180px;"><%= act.CouponCode %></strong>
+                                                    <span class="badge bg-light text-dark small flex-shrink-0">
+                                                        <%= act.IssueName %>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex align-items-center text-muted small">
+                                                    <i class="fas fa-user me-1"></i>
+                                                    <span class="text-truncate" style="max-width: 280px;">
+                                                        <%= act.UserId.toString().substring(0, 30) %>...
+                                                    </span>
+                                                </div>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    <%= new Date(act.ActivatedAt).toLocaleString() %>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white py-2 text-center">
+                                <small class="text-muted">Showing latest <%= activations.length %> activations</small>
+                            </div>
+                        <% } else { %>
+                            <div class="text-center py-4">
+                                <i class="fas fa-activity display-4 text-muted opacity-50"></i>
+                                <p class="text-muted mt-2">No recent activations</p>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 d-flex align-items-center">
+                            <i class="fas fa-bolt text-warning me-2"></i> Quick Actions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="/admin/coupons/create" class="btn btn-outline-primary text-start py-2">
+                                <i class="fas fa-plus-circle me-2"></i> New Issue
+                            </a>
+                            <a href="/admin/coupons/generate" class="btn btn-outline-success text-start py-2">
+                                <i class="fas fa-key me-2"></i> Generate Coupons
+                            </a>
+                            <a href="/admin/coupons/search-form" class="btn btn-outline-warning text-start py-2">
+                                <i class="fas fa-search me-2"></i> Search Coupons
+                            </a>
+                            <a href="/admin/coupons/activations" class="btn btn-outline-info text-start py-2">
+                                <i class="fas fa-list me-2"></i> All Activations
+                            </a>
+                            <a href="/coupon/redeem" class="btn btn-outline-success text-start py-2">
+                                <i class="fas fa-gift me-2"></i> Redeem Coupon
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <%- include('../partials/adminFooter') %>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
