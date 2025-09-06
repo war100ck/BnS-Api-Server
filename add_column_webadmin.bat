@@ -13,7 +13,7 @@ echo ==========================================%ESC%[0m
 :: Данные для подключения к базе данных
 set SERVER=127.0.0.1
 set DATABASE=PlatformAcctDb
-set USER=SA
+set USER=sa
 set PASSWORD=U6SjJk3ZyQhrv5tq
 
 :: Переменная для отслеживания успешности выполнения
