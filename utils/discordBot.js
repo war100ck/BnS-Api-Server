@@ -1,5 +1,5 @@
 // discordBot.js
-import { Client, GatewayIntentBits, EmbedBuilder, AttachmentBuilder } from 'discord.js';
+import { Client, GatewayIntentBits, EmbedBuilder, AttachmentBuilder, version } from 'discord.js';
 import axios from 'axios';
 import xml2js from 'xml2js';
 import path from 'path';
@@ -185,7 +185,7 @@ class DiscordBot {
 
             const commands = [{
                 name: 'online',
-                description: 'Показать список онлайн игроков'
+                description: 'Show online players count'
             }];
 
             await this.client.application.commands.set(commands);
@@ -236,7 +236,6 @@ class DiscordBot {
                     if (playersMap.has(user.UserId)) return;
 
                     const logins = user?.Logins?.Login || [];
-                    // Исправляем получение pcname
                     const pcnameData = user?.AppDataSet?.AppData?.find(appData => appData.Data?.pcname)?.Data?.pcname;
                     const pcname = typeof pcnameData === 'object' ? pcnameData._ : pcnameData || 'N/A';
 
@@ -279,7 +278,7 @@ class DiscordBot {
 
             const { onlineCount, players, error } = await this.getOnlinePlayers();
             if (error) {
-                await channel.send(`❌ Ошибка получения данных: ${error}`);
+                await channel.send(`❌ Error getting data: ${error}`);
                 return;
             }
 
@@ -294,22 +293,9 @@ class DiscordBot {
                 });
 
             if (onlineCount > 0) {
-                embed.setDescription(`🟢 **Current online:** ${onlineCount} players`);
-                
-                const playerList = players.slice(0, 5).map(player => 
-                    `• ${player.PcName || 'Unknown'}`  // Добавляем fallback на случай отсутствия PcName
-                ).join('\n');
-                
-                embed.addFields({
-                    name: 'Online players:',
-                    value: playerList + (players.length > 5 ? `\n...and ${players.length - 5} more` : '')
-                });
+                embed.setDescription(`🟢 Total online: ${onlineCount} players`);
             } else {
-                embed.setDescription('🌙 **The server is currently empty**')
-                     .addFields({
-                         name: 'No players online',
-                         value: 'There are no players connected to the server at this moment'
-                     });
+                embed.setDescription('🌙 The server is currently empty');
             }
 
             const logoAttachment = new AttachmentBuilder(this.logoPath);
@@ -326,11 +312,22 @@ class DiscordBot {
             return;
         }
 
-        this.client.on('ready', () => {
-            this.log(`Logged in as ${this.client.user.tag}`);
-            this.initialize();
-            this.startAutoUpdates();
-        });
+        const discordJsVersion = version;
+        this.log(`Using discord.js version: ${discordJsVersion}`);
+        
+        if (discordJsVersion.startsWith('14.')) {
+            this.client.on('clientReady', () => {
+                this.log(`Logged in as ${this.client.user.tag}`);
+                this.initialize();
+                this.startAutoUpdates();
+            });
+        } else {
+            this.client.on('ready', () => {
+                this.log(`Logged in as ${this.client.user.tag}`);
+                this.initialize();
+                this.startAutoUpdates();
+            });
+        }
 
         this.client.on('interactionCreate', async interaction => {
             if (!interaction.isCommand()) return;
@@ -344,7 +341,7 @@ class DiscordBot {
                     const { onlineCount, players, error } = await this.getOnlinePlayers();
                     if (error) {
                         this.error(`Error getting online players: ${error}`);
-                        await interaction.editReply({ content: `❌ Ошибка: ${error}` });
+                        await interaction.editReply({ content: `❌ Error: ${error}` });
                         return;
                     }
 
@@ -357,30 +354,9 @@ class DiscordBot {
                         .setTimestamp();
 
                     if (onlineCount > 0) {
-                        embed.setDescription(`🟢 **Total online:** ${onlineCount} players`);
-                        
-                        const playerList = players.slice(0, 10).map(player => 
-                            `• ${player.PcName}`
-                        ).join('\n');
-                        
-                        embed.addFields({
-                            name: 'Player list:',
-                            value: playerList
-                        });
-                        
-                        if (players.length > 10) {
-                            embed.addFields({
-                                name: 'Additional',
-                                value: `...and ${players.length - 10} more players`,
-                                inline: true
-                            });
-                        }
+                        embed.setDescription(`🟢 Total online: ${onlineCount} players`);
                     } else {
-                        embed.setDescription('🌙 **The server is currently empty**')
-                             .addFields({
-                                 name: 'No players online',
-                                 value: 'There are no players connected to the server at this moment'
-                             });
+                        embed.setDescription('🌙 The server is currently empty');
                     }
 
                     const logoAttachment = new AttachmentBuilder(this.logoPath);
@@ -395,7 +371,7 @@ class DiscordBot {
                     this.error(`Error handling interaction: ${error.message}`);
                     if (interaction.isRepliable()) {
                         await interaction.reply({ 
-                            content: '❌ Произошла ошибка при обработке команды', 
+                            content: '❌ An error occurred while processing the command', 
                             ephemeral: true 
                         }).catch(e => this.error(`Failed to send error reply: ${e.message}`));
                     }
