@@ -89,14 +89,29 @@ This API server has been tested on the server found at [RaGEZONE](https://forum.
 
 ## Key Features
 
+- **WebSite**: A comprehensive website offering seamless user experience with account profile viewing, including detailed character data, alongside an administrative panel for efficient user and content management.
 - **User Authentication**: Secure user registration and login with email and password validation.
+- **Admin Control Panel**: Comprehensive Admin Dashboard for efficient server and user management.
 - **Profile Management**: Full support for viewing and updating user profiles, including character data and account information.
 - **Character Management**: Tools for editing character details like faction, race, job, and other attributes.
 - **Virtual Currency Transactions**: APIs to manage and add in-game currency to user accounts.
+- **Item Management and Distribution**: Search the database for items by ItemID and dispatch them to user account characters via the admin panel.
+- **Account Banning and Player Kicking**: Ability to impose a temporary or permanent account ban on a user, as well as the ability to promptly kick a player from the server.
+- **VIP Privileges Management**: Effortlessly manage and assign VIP privileges to users through the admin panel. This feature allows administrators to grant special in-game benefits and access to premium content, ensuring an enhanced experience for VIP players.
+- **Game Server Monitoring**: Real-time server monitoring that provides detailed insights into the number of players online, and their activity. This feature enables administrators to track server health, and monitor player.
+- **Game Server Statistics**: Game statistics with insightful charts displaying the number of registered accounts, including breakdowns by character races, genders, classes, factions, and levels.
 - **Database Integration**: Utilizes Microsoft SQL Server for managing user accounts, in-game data, and virtual currencies.
 - **Logging**: Optional logging feature, controlled through environment variables, allows detailed logging to console for debugging and monitoring.
 - **Scalability**: Designed to support a large number of users and database operations, ensuring performance and security for a Blade & Soul private server.
+- **System Statistics**: Monitor CPU Usage, Memory Usage, and Server API Process Information to assess server load and performance in real time, helping ensure smooth operation and quick issue resolution.
+- **API Configuration Management**: Real-time administration of `.env` parameters via the web interface, including sections for Server Configuration, Database Configurations, and Registration Logs, with automatic backup on changes and API server restart capability.
+- **Server Process Management**: Ability to start, stop, and monitor server daemons and background processes directly from the admin panel.
+- **News Management**: Integrated news editor module for creating, editing, and publishing news content on the main website page through the admin interface.
+- **Promotions Management**: Control over in-game promotional events such as the Daily Dash login reward, with options for manual activation and automatic renewal.
+- **Discord Integration**: Automated Discord bot support sending periodic server monitoring data to designated channels and supporting the `/online` chat command for current player counts.
+- **Contextual Information Modals**: Context-sensitive informational pop-ups on all admin panel pages for enhanced usability and guidance.
 - **Coupon System**: Manage promotional campaigns, generate and redeem coupons, and deliver rewards directly to users' in-game mail.
+- **Mail & Item Monitoring**: Manage and track mail and items between players, including in-game mailbox.
 
 ## Requirements
 
@@ -285,6 +300,36 @@ If you are looking for the **Blade & Soul** Game API Server for the 2017 version
 [Download Blade & Soul Game API Server 2017](https://github.com/war100ck/Server-Api-BnS-2017)
 
 ## Additions / Fixes
+
+<details>
+  <summary><b>Change Log: 04/10/2025</b></summary>
+
+### 📧 Mail Monitoring
+   - View sent mail between players
+   - Search by username, character, or item ID
+   - Display mail contents (items and gold)
+
+### 🎁 In-Game Mail Monitoring
+   - Track items in the Warehouse system
+   - Filter by user and item ID
+   - Manage item statuses (in mail, received, used)
+
+### 🔧 Additional Features
+   - Cache item database for fast search
+   - Delete items from in-game mail
+   - Automatic cache updates every 5 minutes
+   - Visual indicators for item statuses and types
+
+## Technical Details
+   - Support for multiple databases (GameItemsDB, BlGame01, GameWarehouseDB)
+   - Optimized SQL queries with JOINs between tables
+   - Asynchronous data processing
+---
+### ⚙️ Important Notes ⚠️
+   - Before starting the server, run **``Install.bat``** to refresh new database connections.
+   - Restart the API server after updating to apply all changes.
+---
+</details>
 
 <details>
   <summary><b>Change Log: 30/08/2025</b></summary>

@@ -297,6 +297,27 @@ const configCouponSystemDB = {
   }
 };
 
+// Настройки подключения к базе данных GoodsDb
+const configGoodsDb = {
+  user: process.env.GOODS_DB_USER,
+  password: process.env.GOODS_DB_PASSWORD,
+  server: process.env.GOODS_DB_SERVER,
+  database: process.env.GOODS_DB_DATABASE,
+  pool: {
+    max: 20,
+    min: 1,
+    idleTimeoutMillis: 30000
+  },
+  options: {
+    secure: true,
+    encrypt: false,
+    trustServerCertificate: true,
+    enableArithAbort: true,
+    connectTimeout: 15000,
+    requestTimeout: 15000
+  }
+};
+
 
 export {
   configPlatformAcctDb,
@@ -312,5 +333,6 @@ export {
   configDonationsDb,
   configPromotionStampDb,
   configRoleDb,
-  configCouponSystemDB
+  configCouponSystemDB,
+  configGoodsDb
 };

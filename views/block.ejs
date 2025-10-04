@@ -64,20 +64,25 @@
                            <i class="fas fa-paper-plane fa-fw me-2 text-info"></i>Sending Items
                            </a>
                         </li>
+						<li>
+                           <a class="dropdown-item py-2" href="item-tracking?userId=<%= userId %>">
+                           <i class="fas fa-envelope-open-text fa-fw me-2 text-info"></i>Game Mail
+                           </a>
+                        </li>
                         <li>
                            <hr class="dropdown-divider my-1">
                         </li>
                         <li>
                            <h6 class="dropdown-header">Administration</h6>
                         </li>
-                        <li>
-                           <a class="dropdown-item py-2" href="add-ban?userId=<%= userId %>">
-                           <i class="fas fa-gavel fa-fw me-2 text-danger"></i>Ban Management
+						<li>
+                           <a class="dropdown-item py-2" href="add-vip?userId=<%= userId %>">
+                           <i class="fas fa-crown fa-fw me-2 text-warning"></i>VIP Management
                            </a>
                         </li>
                         <li>
-                           <a class="dropdown-item py-2" href="add-vip?userId=<%= userId %>">
-                           <i class="fas fa-crown fa-fw me-2 text-warning"></i>VIP Management
+                           <a class="dropdown-item py-2" href="add-ban?userId=<%= userId %>">
+                           <i class="fas fa-gavel fa-fw me-2 text-danger"></i>Ban Management
                            </a>
                         </li>
                      </ul>

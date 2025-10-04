@@ -6,8 +6,9 @@
       <title>VIP Management for <%= userName %></title>
       <link rel="icon" href="/images/favicon-admin.png" type="image/png">
       <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
       <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
-      <link rel="stylesheet" href="/css/add-vip.css">
+	  <link rel="stylesheet" href="/css/add-vip.css">
    </head>
    <body class="bg-light d-flex flex-column min-vh-100">
       <%- include('partials/nav') %>
@@ -15,33 +16,34 @@
          <div class="container py-4" id="pageContent">
             <!-- Toast Container -->
             <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
-               <!-- Success Toast -->
+               <!-- Success Toast Template -->
                <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
                   <div class="d-flex">
                      <div class="toast-body">
-                        <i class="fas fa-check-circle me-2"></i>
+                        <i class="bi bi-check-circle-fill me-2"></i>
                         <span id="successToastMessage"></span>
                      </div>
                      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                   </div>
                </div>
-               <!-- Error Toast -->
+               <!-- Error Toast Template -->
                <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
                   <div class="d-flex">
                      <div class="toast-body">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
                         <span id="errorToastMessage"></span>
                      </div>
                      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                   </div>
                </div>
             </div>
-            <!-- Header and User Info -->
+            <!-- Заголовок и информация о пользователе -->
             <div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-md-row">
                <div class="account-management-block mb-4 mb-md-0 p-3 rounded-3 shadow-sm" style="background-color: #f8f9fa; border-left: 4px solid #ffc107;">
                   <h2 class="mb-3 d-flex align-items-center">
-                     <i class="fas fa-crown text-warning me-2"></i>VIP Management
+                     <i class="bi bi-stars fs-4 text-warning me-2"></i>VIP Management
                   </h2>
+                  <!-- Первый ряд бейджей -->
                   <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
                      <span class="badge bg-secondary py-2 px-3 d-flex align-items-center">
                      <i class="fas fa-id-card me-2"></i>
@@ -54,20 +56,22 @@
                      </a>
                      </span>
                   </div>
+                  <!-- Второй ряд бейджей -->
                   <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
                      <span class="badge bg-warning py-2 px-3 d-flex align-items-center">
-                     <i class="fas fa-star me-2"></i>
+                     <i class="bi bi-award me-2"></i>
                      <span class="fw-medium">VIP Level: <%= vipLevel || 'Not assigned' %></span>
                      </span>
                      <span class="badge bg-primary py-2 px-3 d-flex align-items-center">
-                     <i class="fas fa-clock me-2"></i>
+                     <i class="bi bi-hourglass-split me-2"></i>
                      <span class="fw-medium">
-                     Remaining Time: <%= subscriptionDetails && subscriptionDetails.TotalRemainingTimeFormatted ? subscriptionDetails.TotalRemainingTimeFormatted : 'Not set' %>
+                     Remaining Time:
+                     <%= subscriptionDetails && subscriptionDetails.TotalRemainingTimeFormatted ? subscriptionDetails.TotalRemainingTimeFormatted : 'Not set' %>
                      </span>
                      </span>
                   </div>
                </div>
-               <!-- Actions Dropdown -->
+               <!-- dropdown меню -->
                <div class="d-flex ms-md-auto mt-3 mt-md-0">
                   <div class="dropdown">
                      <button class="btn btn-sm btn-outline-warning dropdown-toggle py-1 px-2" type="button" id="userActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -80,6 +84,7 @@
                         <li><a class="dropdown-item py-2" href="edit-character?userId=<%= userId %>"><i class="fas fa-user-edit fa-fw me-2 text-primary"></i>Edit Character</a></li>
                         <li><a class="dropdown-item py-2" href="add-deposit?userId=<%= userId %>"><i class="fas fa-coins fa-fw me-2 text-success"></i>Add Deposit</a></li>
                         <li><a class="dropdown-item py-2" href="add-item?userId=<%= userId %>"><i class="fas fa-paper-plane fa-fw me-2 text-info"></i>Sending Items</a></li>
+						<li><a class="dropdown-item py-2" href="item-tracking?userId=<%= userId %>"><i class="fas fa-envelope-open-text fa-fw me-2 text-info"></i>Game Mail</a></li>
                         <li>
                            <hr class="dropdown-divider my-1">
                         </li>
@@ -117,11 +122,11 @@
                      else if (statusMessage === 'VIP subscription has expired') { %>alert-danger<% } 
                      else { %>alert-warning<% } %> 
                   d-flex align-items-center mb-4" role="alert">
-                  <i class="fas 
-                     <% if (statusMessage === 'VIP subscription is being extended') { %>fa-info-circle<% } 
-                        else if (statusMessage === 'VIP subscription is currently active') { %>fa-check-circle<% } 
-                        else if (statusMessage === 'VIP subscription has expired') { %>fa-exclamation-triangle<% } 
-                        else { %>fa-question-circle<% } %> 
+                  <i class="bi 
+                     <% if (statusMessage === 'VIP subscription is being extended') { %>bi-info-circle<% } 
+                        else if (statusMessage === 'VIP subscription is currently active') { %>bi-check-circle<% } 
+                        else if (statusMessage === 'VIP subscription has expired') { %>bi-exclamation-triangle<% } 
+                        else { %>bi-question-circle<% } %> 
                      me-2"></i>
                   <div>
                      <strong>Subscription Status:</strong> <%= statusMessage %>
@@ -134,7 +139,7 @@
                </div>
                <% } else { %>
                <div class="alert alert-warning d-flex align-items-center mb-4" role="alert">
-                  <i class="fas fa-exclamation-triangle me-2"></i>
+                  <i class="bi bi-exclamation-triangle me-2"></i>
                   <div>Subscription status not found!</div>
                </div>
                <% } %>
@@ -144,7 +149,7 @@
                <% if (typeof memberData !== 'undefined' && memberData) { %>
                <div class="card border-0 shadow-sm mb-4">
                   <div class="card-header bg-warning text-dark d-flex align-items-center">
-                     <i class="fas fa-user-circle me-2"></i>
+                     <i class="bi bi-person-lines-fill text-dark  me-2"></i>
                      <h5 class="mb-0">User Details</h5>
                   </div>
                   <div class="card-body p-0">
@@ -152,43 +157,43 @@
                         <table class="table table-hover mb-0">
                            <tbody>
                               <tr>
-                                 <td class="fw-bold"><i class="fas fa-id-badge me-2"></i>MemberId</td>
+                                 <td class="fw-bold"><i class="bi bi-person-badge me-2"></i>MemberId</td>
                                  <td><%= memberData.MemberId %></td>
                               </tr>
                               <tr>
-                                 <td class="fw-bold"><i class="fas fa-users me-2"></i>AppGroupCode</td>
+                                 <td class="fw-bold"><i class="bi bi-people me-2"></i>AppGroupCode</td>
                                  <td><%= memberData.AppGroupCode %></td>
                               </tr>
                               <tr>
-                                 <td class="fw-bold"><i class="fas fa-user-tag me-2"></i>UserId</td>
+                                 <td class="fw-bold"><i class="bi bi-person-vcard me-2"></i>UserId</td>
                                  <td><%= memberData.UserId %></td>
                               </tr>
                               <tr>
-                                 <td class="fw-bold"><i class="fas fa-trophy me-2"></i>GameGradeKey</td>
+                                 <td class="fw-bold"><i class="bi bi-trophy me-2"></i>GameGradeKey</td>
                                  <td><%= memberData.GameGradeKey %></td>
                               </tr>
                               <tr>
-                                 <td class="fw-bold"><i class="fas fa-calendar-alt me-2"></i>Effective Duration</td>
-                                 <td><%= Math.floor(memberData.EffectiveDuration / 1440) %> days</td>
+                                 <td class="fw-bold"><i class="bi bi-calendar-range me-2"></i>Effective Duration</td>
+                                 <td><%= memberData.EffectiveDuration %> days</td>
                               </tr>
                               <tr>
-                                 <td class="fw-bold"><i class="fas fa-hourglass-half me-2"></i>Remaining Duration</td>
+                                 <td class="fw-bold"><i class="bi bi-clock-history me-2"></i>Remaining Duration</td>
                                  <td><%= memberData.RemainingEffectiveDurationPerSecond %> sec</td>
                               </tr>
                               <tr>
-                                 <td class="fw-bold"><i class="fas fa-calendar-plus me-2"></i>Start Date</td>
+                                 <td class="fw-bold"><i class="bi bi-calendar-plus me-2"></i>Start Date</td>
                                  <td><%= memberData.FirstFrom ? new Date(memberData.FirstFrom).toLocaleString() : 'Not set' %></td>
                               </tr>
                               <tr>
-                                 <td class="fw-bold"><i class="fas fa-calendar-minus me-2"></i>End Date</td>
+                                 <td class="fw-bold"><i class="bi bi-calendar-x me-2"></i>End Date</td>
                                  <td><%= memberData.ExpiredTo ? new Date(memberData.ExpiredTo).toLocaleString() : 'Not set' %></td>
                               </tr>
                               <tr>
-                                 <td class="fw-bold"><i class="fas fa-clock me-2"></i>Remaining Time</td>
+                                 <td class="fw-bold"><i class="bi bi-hourglass-split me-2"></i>Remaining Time</td>
                                  <td><%= subscriptionDetails && subscriptionDetails.TotalRemainingTimeFormatted ? subscriptionDetails.TotalRemainingTimeFormatted : 'Not set' %></td>
                               </tr>
                               <tr>
-                                 <td class="fw-bold"><i class="fas fa-hourglass-end me-2"></i>Expiration Date</td>
+                                 <td class="fw-bold"><i class="bi bi-hourglass-bottom me-2"></i>Expiration Date</td>
                                  <td><%= subscriptionDetails && subscriptionDetails.ExpirationDateTime ? new Date(subscriptionDetails.ExpirationDateTime).toLocaleString() : 'Not set' %></td>
                               </tr>
                            </tbody>
@@ -201,7 +206,7 @@
             <!-- Subscription Form -->
             <div class="card border-0 shadow-sm mb-4">
                <div class="card-header bg-warning text-dark d-flex align-items-center">
-                  <i class="fas fa-plus-circle me-2"></i>
+                  <i class="bi bi-plus-circle me-2"></i>
                   <h5 class="mb-0">Create New Subscription</h5>
                </div>
                <div class="card-body">
@@ -209,26 +214,23 @@
                      <input type="hidden" name="userId" value="<%= userId %>">
                      <div class="d-flex flex-wrap align-items-end gap-3">
                         <div class="flex-grow-1" style="min-width: 180px;">
-                           <label for="duration" class="form-label small mb-1"><i class="fas fa-calendar-alt text-warning me-1"></i> Duration</label>
+                           <label for="duration" class="form-label small mb-1"><i class="bi bi-calendar-range text-warning me-1"></i> Duration</label>
                            <select name="duration" class="form-select form-select-sm" id="duration" required>
-                              <option value="1">1 min</option>
-                              <option value="60">1 hour</option>
-                              <option value="1440">1 day</option>
-                              <option value="4320">3 days</option>
-                              <option value="10080">7 days</option>
-                              <option value="43200">30 days</option>
-                              <option value="129600">90 days</option>
-                              <option value="525600">365 days</option>
+                              <option value="1">1 day</option>
+                              <option value="3">3 days</option>
+                              <option value="7">7 days</option>
+                              <option value="30" selected>30 days</option>
+                              <option value="90">90 days</option>
+                              <option value="365">365 days</option>
                            </select>
                         </div>
                         <div class="flex-grow-1" style="min-width: 180px;">
-                           <label for="gradeScore" class="form-label small mb-1"><i class="fas fa-chart-line text-warning me-1"></i> Grade</label>
+                           <label for="gradeScore" class="form-label small mb-1"><i class="bi bi-bar-chart-line text-warning me-1"></i> Grade</label>
                            <select name="gradeScore" class="form-select form-select-sm" id="gradeScore" required>
-                              <option value="10">10</option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
+                              <option value="100">100</option>
+                              <option value="200">200</option>
+                              <option value="300">300</option>
+                              <option value="400">400</option>
                               <option value="500">500</option>
                               <option value="600">600</option>
                               <option value="700">700</option>
@@ -247,7 +249,7 @@
                         </div>
                         <div class="flex-shrink-0">
                            <button type="submit" class="btn btn-warning btn-sm">
-                           <i class="fas fa-save me-1"></i> Create
+                           <i class="bi bi-save me-1"></i> Create
                            </button>
                         </div>
                      </div>
@@ -259,7 +261,7 @@
                <% if (subscriptions && subscriptions.length > 0) { %>
                <div class="card border-0 shadow-sm">
                   <div class="card-header bg-warning text-dark d-flex align-items-center">
-                     <i class="fas fa-list-alt me-2"></i>
+                     <i class="bi bi-list-check me-2"></i>
                      <h5 class="mb-0">All Subscriptions</h5>
                   </div>
                   <div class="card-body p-0">
@@ -267,10 +269,10 @@
                         <table class="table table-hover mb-0">
                            <thead class="table-light">
                               <tr>
-                                 <th><i class="fas fa-calendar-alt me-1"></i> Duration</th>
-                                 <th><i class="fas fa-calendar-plus me-1"></i> Start Date</th>
-                                 <th><i class="fas fa-calendar-minus me-1"></i> End Date</th>
-                                 <th><i class="fas fa-clock me-1"></i> Registered</th>
+                                 <th><i class="bi bi-calendar-range me-1"></i> Duration</th>
+                                 <th><i class="bi bi-calendar-plus me-1"></i> Start Date</th>
+                                 <th><i class="bi bi-calendar-x me-1"></i> End Date</th>
+                                 <th><i class="bi bi-clock-history me-1"></i> Registered</th>
                               </tr>
                            </thead>
                            <tbody>

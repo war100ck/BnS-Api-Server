@@ -71,6 +71,7 @@ import blockRoutes from './routes/blockRoutes.js';
 // import SendItemRoute from './routes/SendItemRoute.js';
 import couponRoutes from './routes/couponRoutes.js';
 import couponRewardRoutes from './routes/couponRewardRoutes.js';
+import itemTrackingRoutes from './routes/itemTrackingRoutes.js';
 
 // Специальные модули
 import discordBot from './utils/discordBot.js';
@@ -176,7 +177,8 @@ const rootRoutes = [
   blockRoutes,
   // SendItemRoute,
   couponRoutes,
-  couponRewardRoutes
+  couponRewardRoutes,
+  itemTrackingRoutes 
 ];
 
 // Другие маршруты с определенными префиксами

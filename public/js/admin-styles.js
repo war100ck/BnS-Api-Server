@@ -179,6 +179,9 @@
                             <a href="admin/add-item?userId=${user.UserId}" class="btn btn-action btn-outline-info" title="Sending Items">
                                 <i class="fas fa-paper-plane"></i>
                             </a>
+							<a href="admin/item-tracking?userId=${user.UserId}" class="btn btn-action btn-outline-info" title="Game Mail">
+						        <i class="fas fa-envelope-open-text"></i>
+					        </a>
                             <a href="admin/add-vip?userId=${user.UserId}" class="btn btn-action btn-outline-warning" title="VIP Management">
                                 <i class="fas fa-crown"></i>
                             </a>

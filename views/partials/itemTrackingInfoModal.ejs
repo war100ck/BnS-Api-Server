@@ -1,0 +1,217 @@
+<!-- partials/itemTrackingInfoModal.ejs -->
+<div class="modal fade" id="itemTrackingInfoModal" tabindex="-1" aria-labelledby="itemTrackingInfoModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title fw-bold" id="itemTrackingInfoModalLabel">
+               <i class="bi bi-envelope-open-fill me-2"></i>
+               Item Tracking Guide
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-12">
+                  <div class="alert alert-info">
+                     <h6 class="alert-heading mb-2">
+                        <i class="bi bi-info-circle me-2"></i>System Overview
+                     </h6>
+                     <p class="mb-0">The Item Tracking system allows you to monitor and manage items in both in-game mail and post office storage for all users.</p>
+                  </div>
+               </div>
+            </div>
+            
+            <div class="row mt-3">
+               <div class="col-md-6">
+                  <div class="card h-100 border-primary">
+                     <div class="card-header bg-primary text-white py-2">
+                        <h6 class="mb-0">
+                           <i class="bi bi-envelope me-2"></i>
+                           Mail Box Tracking
+                        </h6>
+                     </div>
+                     <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                           <li class="mb-2">
+                              <i class="bi bi-check-circle text-success me-2"></i>
+                              <strong>Search by:</strong> Username, Character Name, Item IDs
+                           </li>
+                           <li class="mb-2">
+                              <i class="bi bi-check-circle text-success me-2"></i>
+                              <strong>Shows:</strong> Mail content, gold, sender/receiver info
+                           </li>
+                           <li class="mb-2">
+                              <i class="bi bi-check-circle text-success me-2"></i>
+                              <strong>Includes:</strong> Send time and delivery status
+                           </li>
+                           <li>
+                              <i class="bi bi-check-circle text-success me-2"></i>
+                              <strong>Real-time:</strong> Live data from mail system
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+               
+               <div class="col-md-6">
+                  <div class="card h-100 border-success">
+                     <div class="card-header bg-success text-white py-2">
+                        <h6 class="mb-0">
+                           <i class="bi bi-shop me-2"></i>
+                           Post Office Tracking
+                        </h6>
+                     </div>
+                     <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                           <li class="mb-2">
+                              <i class="bi bi-check-circle text-success me-2"></i>
+                              <strong>Search by:</strong> Username, Item IDs
+                           </li>
+                           <li class="mb-2">
+                              <i class="bi bi-check-circle text-success me-2"></i>
+                              <strong>Shows:</strong> Item details, quantities, ownership
+                           </li>
+                           <li class="mb-2">
+                              <i class="bi bi-check-circle text-success me-2"></i>
+                              <strong>Status:</strong> In Mail, Received, Used
+                           </li>
+                           <li>
+                              <i class="bi bi-check-circle text-success me-2"></i>
+                              <strong>Actions:</strong> Delete items from post office
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+            <div class="row mt-4">
+               <div class="col-12">
+                  <div class="card border-warning">
+                     <div class="card-header bg-warning text-dark py-2">
+                        <h6 class="mb-0">
+                           <i class="bi bi-gear me-2"></i>
+                           System Features
+                        </h6>
+                     </div>
+                     <div class="card-body">
+                        <div class="row">
+                           <div class="col-md-6">
+                              <h6 class="text-primary">
+                                 <i class="bi bi-database me-2"></i>Data Management
+                              </h6>
+                              <ul class="small mb-3">
+                                 <li>Real-time item database tracking</li>
+                                 <li>Manual cache refresh capability</li>
+                                 <li>Advanced search filters</li>
+                                 <li>Multiple search criteria support</li>
+                              </ul>
+                           </div>
+                           <div class="col-md-6">
+                              <h6 class="text-primary">
+                                 <i class="bi bi-tools me-2"></i>Administrative Tools
+                              </h6>
+                              <ul class="small mb-3">
+                                 <li>Item deletion from post office</li>
+                                 <li>Status tracking and monitoring</li>
+                                 <li>User-specific item viewing</li>
+                                 <li>Export-ready data formatting</li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+            <div class="row mt-4">
+               <div class="col-12">
+                  <div class="card border-info">
+                     <div class="card-header bg-info text-white py-2">
+                        <h6 class="mb-0">
+                           <i class="bi bi-lightbulb me-2"></i>
+                           Usage Tips
+                        </h6>
+                     </div>
+                     <div class="card-body">
+                        <div class="row">
+                           <div class="col-md-6">
+                              <div class="d-flex align-items-start mb-2">
+                                 <i class="bi bi-search text-primary mt-1 me-2"></i>
+                                 <div>
+                                    <strong>Quick Search:</strong> Use partial character names for broader results
+                                 </div>
+                              </div>
+                              <div class="d-flex align-items-start mb-2">
+                                 <i class="bi bi-funnel text-primary mt-1 me-2"></i>
+                                 <div>
+                                    <strong>Multiple Items:</strong> Separate item IDs with commas
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="d-flex align-items-start mb-2">
+                                 <i class="bi bi-arrow-clockwise text-primary mt-1 me-2"></i>
+                                 <div>
+                                    <strong>Cache Refresh:</strong> Use when items are not appearing
+                                 </div>
+                              </div>
+                              <div class="d-flex align-items-start">
+                                 <i class="bi bi-trash text-danger mt-1 me-2"></i>
+                                 <div>
+                                    <strong>Safe Deletion:</strong> Only "In Mail" items can be deleted
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+            <div class="alert alert-warning mt-4">
+               <h6 class="alert-heading mb-2">
+                  <i class="bi bi-exclamation-triangle me-2"></i>Important Notes
+               </h6>
+               <ul class="mb-0 small">
+                  <li>Item deletion is permanent and cannot be undone</li>
+                  <li>Only items with "In Mail" status can be deleted from post office</li>
+                  <li>Service items (yellow background) have special handling</li>
+                  <li>Account-bound items show "Account" in the Owner column</li>
+                  <li>Regular cache refreshes ensure data accuracy</li>
+               </ul>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+               <i class="bi bi-x me-2"></i>Close
+            </button>
+            <button type="button" class="btn btn-primary" onclick="showAdvancedGuide()">
+               <i class="bi bi-book me-2"></i>Advanced Guide
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<script>
+   function showAdvancedGuide() {
+      alert('Advanced Item Tracking Guide:\n\n' +
+            '1. MAIL BOX TRACKING:\n' +
+            '   - Searches exact username matches\n' +
+            '   - Supports partial character name searches\n' +
+            '   - Shows mail content and transaction details\n\n' +
+            '2. POST OFFICE TRACKING:\n' +
+            '   - Tracks items stored at post office\n' +
+            '   - Shows item status (In Mail/Received/Used)\n' +
+            '   - Allows deletion of "In Mail" items only\n\n' +
+            '3. SEARCH TIPS:\n' +
+            '   - Use commas to separate multiple item IDs\n' +
+            '   - Empty fields search all records\n' +
+            '   - Refresh cache if items are missing\n\n' +
+            '4. SECURITY:\n' +
+            '   - All actions are logged\n' +
+            '   - Deletion requires confirmation\n' +
+            '   - User-specific data isolation');
+   }
+</script>

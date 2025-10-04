@@ -1,0 +1,53 @@
+.item-tracking-primary{ color:#1E90FF}
+.item-tracking-bg-primary{ background-color:#1E90FF;  border-color:#1E90FF}
+.item-tracking-card{ border-color:#1E90FF}
+.item-tracking-card-header{ background-color:#1E90FF;  color:white}
+.item-tracking-nav-tabs .nav-link.active{ background-color:#1E90FF;  color:white !important;  border-color:#1E90FF}
+.item-tracking-nav-tabs .nav-link{ color:#1E90FF !important}
+.item-tracking-table th{ color:#1E90FF}
+.search-form .form-label{ font-weight:bold}
+.loading{ opacity:0.6;  pointer-events:none}
+.items-info{ background-color:#e9ecef;  border-radius:4px;  padding:8px 12px;  font-size:0.875rem}
+.btn-danger-sm{ padding:0.15rem 0.5rem;  font-size:0.75rem}
+.table-responsive{ max-height:70vh;  overflow-y:auto}
+.character-name{ max-width:120px;  overflow:hidden;  text-overflow:ellipsis;  white-space:nowrap}
+.account-item{ color:#6c757d;  font-style:italic}
+.status-on-mail{ color:#28a745}
+.status-received{ color:#6c757d}
+.status-used{ color:#dc3545}
+.service-item{ background-color:#fff3cd}
+.status-badge{ font-size:0.75rem;  padding:0.25rem 0.5rem}
+.legend-container{ background-color:#f8f9fa;  border-radius:4px;  padding:10px;  margin-bottom:15px;  border-left:4px solid #1E90FF}
+.legend-item{ display:inline-flex;  align-items:center;  margin-right:15px;  font-size:0.875rem}
+.legend-icon{ margin-right:5px;  font-size:1rem}
+.icon-cell{ text-align:center;  font-size:1.1rem}
+.toast-container{ position:fixed;  top:20px;  right:20px;  z-index:9999}
+.toast{ background-color:white;  border-radius:8px;  box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.user-id-info{ background-color:#d1ecf1;  border:1px solid #bee5eb;  border-radius:4px;  padding:8px 12px;  margin-bottom:15px;  font-size:0.9rem}
+.btn-disabled{ opacity:0.5;  cursor:not-allowed}
+.action-cell{ text-align:center;  min-width:80px}
+ 
+.item-tracking-container .btn-primary{ background-color:#1E90FF;  border-color:#1E90FF}
+.item-tracking-container .btn-outline-primary{ color:#1E90FF;  border-color:#1E90FF}
+.item-tracking-container .btn-outline-primary:hover{ background-color:#1E90FF;  border-color:#1E90FF;  color:white}
+.item-tracking-container .badge.bg-primary{ background-color:#1E90FF !important}
+
+.account-management-block{ background-color:#f8f9fa;  border-left:4px solid #1E90FF}
+.dropdown-submenu{ position:relative}
+.dropdown-submenu .dropdown-menu{ top:0;  left:100%;  margin-top:-6px;  margin-left:-1px;  border-radius:0 6px 6px 6px}
+.dropdown-submenu:hover .dropdown-menu{ display:block}
+.dropdown-arrow{ font-size:0.8rem}
+
+.item-tracking-table thead th{ position:sticky;  top:0;  background-color:#1E90FF;  color:white;  z-index:10;  border-bottom:2px solid #dee2e6;  font-weight:600;  padding:12px 8px;  text-align:center}
+.item-tracking-table thead th:first-child{ border-top-left-radius:0}
+.item-tracking-table thead th:last-child{ border-top-right-radius:0}
+.table-responsive{ position:relative}
+#giftboxTable thead th{ background-color:#1E90FF;  color:white;  position:sticky;  top:0;  z-index:10}
+#mailTable thead th{ background-color:#1E90FF;  color:white;  position:sticky;  top:0;  z-index:10}
+#giftboxTable thead th.text-center, 
+#mailTable thead th.text-center{ text-align:center}
+#giftboxTable thead th, 
+#mailTable thead th{ text-align:left}
+.item-tracking-table thead th{ box-shadow:0 2px 2px -1px rgba(0,0,0,0.1)}
+@media (max-width:768px){ .item-tracking-table thead th{ padding:8px 4px;  font-size:0.875rem}
+}

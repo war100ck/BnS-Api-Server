@@ -335,6 +335,18 @@ echo. >> .env
 echo COUPON_SYSTEM_DB_SERVER=localhost >> .env
 echo. >> .env
 echo COUPON_SYSTEM_DB_DATABASE=CouponSystemDB >> .env
+echo. >> .env
+echo # ---------------------------- >> .env
+echo # GoodsDb System Database >> .env
+echo # ---------------------------- >> .env
+echo. >> .env
+echo GOODS_DB_USER=sa >> .env
+echo. >> .env
+echo GOODS_DB_PASSWORD=U6SjJk3ZyQhrv5tq >> .env
+echo. >> .env
+echo GOODS_DB_SERVER=localhost >> .env
+echo. >> .env
+echo GOODS_DB_DATABASE=GoodsDb >> .env
 timeout /t 1 /nobreak > NUL
 echo ===============================
 echo File creation .... completed

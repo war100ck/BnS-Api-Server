@@ -54,16 +54,16 @@
                               <span class="fw-medium text-nowrap text-sm-wrap">Last Logout:</span>
                               <span class="ms-2 text-nowrap"><%= lastLogoutTime || 'Never' %></span>
                            </div>
-                           <!-- <div class="d-flex align-items-center"> -->
-                           <!-- <i class="fas fa-network-wired text-primary me-2"></i> -->
-                           <!-- <span class="fw-medium text-nowrap text-sm-wrap">Last IP:</span> -->
-                           <!-- <span class="ms-2 text-nowrap"><%= lastAccessIP || 'Unknown' %></span> -->
-                           <!-- </div> -->
+                           <div class="d-flex align-items-center">
+                              <i class="fas fa-network-wired text-primary me-2"></i>
+                              <span class="fw-medium text-nowrap text-sm-wrap">Last IP:</span>
+                              <span class="ms-2 text-nowrap"><%= lastAccessIP || 'Unknown' %></span>
+                           </div>
                         </div>
                      </div>
                   </div>
                </div>
-               <!-- dropdown меню - теперь центрируется на мобильных -->
+               <!-- dropdown меню -->
                <div class="d-flex ms-md-auto mt-3 mt-md-0">
                   <div class="dropdown">
                      <button class="btn btn-sm btn-outline-primary dropdown-toggle py-1 px-2" type="button" id="userActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -83,11 +83,21 @@
                            <i class="fas fa-paper-plane fa-fw me-2 text-info"></i>Sending Items
                            </a>
                         </li>
+						<li>
+                           <a class="dropdown-item py-2" href="item-tracking?userId=<%= UserId %>">
+                           <i class="fas fa-envelope-open-text fa-fw me-2 text-info"></i>Game Mail
+                           </a>
+                        </li>
                         <li>
                            <hr class="dropdown-divider my-1">
                         </li>
                         <li>
                            <h6 class="dropdown-header">Administration</h6>
+                        </li>
+						<li>
+                           <a class="dropdown-item py-2" href="add-vip?userId=<%= UserId %>">
+                           <i class="fas fa-crown fa-fw me-2 text-warning"></i>VIP Management
+                           </a>
                         </li>
                         <li class="dropdown-submenu">
                            <a class="dropdown-item py-2 d-flex justify-content-between align-items-center" href="add-ban?userId=<%= UserId %>">
@@ -103,11 +113,6 @@
                                  </a>
                               </li>
                            </ul>
-                        </li>
-                        <li>
-                           <a class="dropdown-item py-2" href="add-vip?userId=<%= UserId %>">
-                           <i class="fas fa-crown fa-fw me-2 text-warning"></i>VIP Management
-                           </a>
                         </li>
                      </ul>
                   </div>
@@ -188,35 +193,41 @@
                               { label: 'Sex', field: 'sex', type: 'text', icon: 'fas fa-venus-mars' },
                               { label: 'Job', field: 'job', type: 'text', icon: 'fas fa-briefcase' },
                               { label: 'Name', field: 'name', type: 'text', icon: 'fas fa-signature' },
-                              { label: 'Yaw', field: 'yaw', type: 'text', icon: 'fas fa-compass' },
                               { label: 'Level', field: 'level', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-level-up-alt' },
                               { label: 'EXP', field: 'exp', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-star' },
-                              { label: 'Mastery Level', field: 'mastery_level', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-award' },
+                              { label: 'EXP Boost', field: 'exp_boost', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-bolt' },
+                              { label: 'Mastery Level', field: 'mastery_level', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-award' },
                               { label: 'Mastery EXP', field: 'mastery_exp', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-medal' },
+                              { label: 'Mastery Penalty EXP', field: 'mastery_penalty_exp', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-exclamation-triangle' },
                               { label: 'HP', field: 'hp', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-heart' },
                               { label: 'Money', field: 'money', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-coins' },
                               { label: 'Money Diff', field: 'money_diff', type: 'number', min: -2147483648, max: 2147483647, step: 1, icon: 'fas fa-exchange-alt' },
                               { label: 'Faction', field: 'faction', type: 'text', icon: 'fas fa-flag' },
                               { label: 'Faction2', field: 'faction2', type: 'text', icon: 'fas fa-flag' },
                               { label: 'Faction Reputation', field: 'faction_reputation', type: 'number', min: -2147483648, max: 2147483647, step: 1, icon: 'fas fa-handshake' },
+                              { label: 'Achievement ID', field: 'achievement_id', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-trophy' },
+                              { label: 'Achievement Step', field: 'achievement_step', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-step-forward' },
+                              { label: 'Ability Achievement ID', field: 'ability_achievement_id', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-magic' },
+                              { label: 'Ability Achievement Step', field: 'ability_achievement_step', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-forward' },
+                              { label: 'Enter World Duration', field: 'enter_world_duration', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-hourglass-start' },
+                              { label: 'Combat Duration', field: 'combat_duration', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-fist-raised' },
                               { label: 'Inventory Size', field: 'inventory_size', type: 'number', min: 8, max: 96, step: 1, icon: 'fas fa-box-open' },
                               { label: 'Depository Size', field: 'depository_size', type: 'number', min: 8, max: 80, step: 1, icon: 'fas fa-archive' },
                               { label: 'Wardrobe Size', field: 'wardrobe_size', type: 'number', min: 8, max: 80, step: 1, icon: 'fas fa-tshirt' },
-                              { label: 'Premium Depository Size', field: 'premium_depository_size', type: 'number', min: 8, max: 80, step: 1, icon: 'fas fa-archive' },
-                              { label: 'Acquired Skill Build Up Point', field: 'acquired_skill_build_up_point', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-magic' },
-                              { label: 'Account EXP to Add', field: 'account_exp_to_add', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-plus-circle' },
-                              { label: 'Account EXP Added', field: 'account_exp_added', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-check-circle' },
-                              { label: 'Account EXP Added Time', field: 'account_exp_added_time', type: 'text', icon: 'fas fa-clock' },
-                              { label: 'Account EXP by PC', field: 'account_exp_by_pc', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-laptop' },
-                              { label: 'Activated Badge Page', field: 'activated_badge_page', type: 'text', icon: 'fas fa-id-badge' },
-                              { label: 'PVP Mode', field: 'pvp_mode', type: 'text', icon: 'fas fa-shield-alt' },
-                              { label: 'Guild Invitation Refusal', field: 'guild_invitation_refusal', type: 'text', icon: 'fas fa-user-times' },
-                              { label: 'Slate Page', field: 'slate_page', type: 'text', icon: 'fas fa-scroll' },
-                              { label: 'Guild Point', field: 'guild_point', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-users' },
-                              { label: 'Duel Point', field: 'duel_point', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-crosshairs' },
+                              { label: 'Builder Right', field: 'builder_right', type: 'text', icon: 'fas fa-hammer' },
+                              { label: 'Production 1', field: 'production_1', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-industry' },
+                              { label: 'Production 2', field: 'production_2', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-industry' },
+                              { label: 'Gathering 1', field: 'gathering_1', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-dungeon' },
+                              { label: 'Gathering 2', field: 'gathering_2', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-dungeon' },
+                              { label: 'Production 1 EXP', field: 'production_1_exp', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-chart-line' },
+                              { label: 'Production 2 EXP', field: 'production_2_exp', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-chart-line' },
+                              { label: 'Gathering 1 EXP', field: 'gathering_1_exp', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-chart-line' },
+                              { label: 'Gathering 2 EXP', field: 'gathering_2_exp', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-chart-line' },
+                              { label: 'Duel Point', field: 'duel_point', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-shield-alt' },
                               { label: 'Party Battle Point', field: 'party_battle_point', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-users' },
                               { label: 'Field Play Point', field: 'field_play_point', type: 'number', min: 0, max: 2147483647, step: 1, icon: 'fas fa-map-marked-alt' },
-                              { label: 'Builder Right', field: 'builder_right', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-user-shield' }
+                              { label: 'Shop Sale Count', field: 'shop_sale_count', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-store' },
+                              { label: 'Heart Count', field: 'heart_count', type: 'number', min: 0, max: 32767, step: 1, icon: 'fas fa-heartbeat' }
                               ]; %>
                            <% fields.forEach(field => { %>
                            <div class="form-group">
@@ -259,16 +270,18 @@
                                  The job or class of the character.
                                  <% } else if (field.field === 'name') { %>
                                  The name of the character.
-                                 <% } else if (field.field === 'yaw') { %>
-                                 The yaw angle of the character.
                                  <% } else if (field.field === 'level') { %>
-                                 The level of the character. The value must be between 1 and 60.
+                                 The level of the character. The value must be between 0 and 2147483647.
                                  <% } else if (field.field === 'exp') { %>
                                  The experience points of the character. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'exp_boost') { %>
+                                 The experience boost multiplier for the character.
                                  <% } else if (field.field === 'mastery_level') { %>
-                                 The mastery level of the character. The value must be between 0 and 25
+                                 The mastery level of the character. The value must be between 0 and 32767.
                                  <% } else if (field.field === 'mastery_exp') { %>
                                  The mastery experience points of the character. The value must be between 0 and 2147483647.
+                                 <% } else if (field.field === 'mastery_penalty_exp') { %>
+                                 The penalty experience points for mastery, which are deducted from the character's mastery EXP.
                                  <% } else if (field.field === 'hp') { %>
                                  The health points of the character. The value must be between 0 and 2147483647.
                                  <% } else if (field.field === 'money') { %>
@@ -276,47 +289,57 @@
                                  <% } else if (field.field === 'money_diff') { %>
                                  The difference in money for the character. The value must be between -2147483648 and 2147483647.
                                  <% } else if (field.field === 'faction') { %>
-                                 The faction of the character. 1- Crimson Legion. 2- Cerulean Order
+                                 The faction of the character. Possible values: 1 - Crimson Legion, 2 - Cerulean Order.
                                  <% } else if (field.field === 'faction2') { %>
                                  The secondary faction of the character.
                                  <% } else if (field.field === 'faction_reputation') { %>
                                  The reputation with factions. The value must be between -2147483648 and 2147483647.
+                                 <% } else if (field.field === 'achievement_id') { %>
+                                 The achievement ID for the character.
+                                 <% } else if (field.field === 'achievement_step') { %>
+                                 The achievement step or progress for the character.
+                                 <% } else if (field.field === 'ability_achievement_id') { %>
+                                 The ability achievement ID for the character.
+                                 <% } else if (field.field === 'ability_achievement_step') { %>
+                                 The ability achievement step or progress for the character.
+                                 <% } else if (field.field === 'enter_world_duration') { %>
+                                 The duration (in seconds) the character has spent in the world.
+                                 <% } else if (field.field === 'combat_duration') { %>
+                                 The total time (in seconds) the character has spent in combat.
                                  <% } else if (field.field === 'inventory_size') { %>
-                                 The size of the character's inventory. The value must be between 8 and 96. Offline only.
+                                 The size of the character's inventory. The value must be between 8 and 96.
                                  <% } else if (field.field === 'depository_size') { %>
-                                 The size of the character's depository. The value must be between 8 and 80. Offline only.
+                                 The size of the character's depository. The value must be between 8 and 80.
                                  <% } else if (field.field === 'wardrobe_size') { %>
-                                 The size of the character's wardrobe. The value must be between 8 and 80. Offline only.
-                                 <% } else if (field.field === 'premium_depository_size') { %>
-                                 The size of the character's premium depository. The value must be between 8 and 80. Offline only.
-                                 <% } else if (field.field === 'acquired_skill_build_up_point') { %>
-                                 The number of acquired skill build-up points. The value must be between 0 and 32767.
-                                 <% } else if (field.field === 'account_exp_to_add') { %>
-                                 The account experience points to be added. The value must be between 0 and 2147483647.
-                                 <% } else if (field.field === 'account_exp_added') { %>
-                                 The account experience points that have been added. The value must be between 0 and 2147483647.
-                                 <% } else if (field.field === 'account_exp_added_time') { %>
-                                 The time when account experience points were added.
-                                 <% } else if (field.field === 'account_exp_by_pc') { %>
-                                 The account experience points added by the PC. The value must be between 0 and 2147483647.
-                                 <% } else if (field.field === 'activated_badge_page') { %>
-                                 The activated badge page.
-                                 <% } else if (field.field === 'pvp_mode') { %>
-                                 The PVP mode of the character.
-                                 <% } else if (field.field === 'guild_invitation_refusal') { %>
-                                 The guild invitation refusal status.
-                                 <% } else if (field.field === 'slate_page') { %>
-                                 The slate page of the character.
-                                 <% } else if (field.field === 'guild_point') { %>
-                                 The guild points of the character. The value must be between 0 and 2147483647.
-                                 <% } else if (field.field === 'duel_point') { %>
-                                 The duel points of the character. The value must be between 0 and 2147483647.
-                                 <% } else if (field.field === 'party_battle_point') { %>
-                                 The party battle points of the character. The value must be between 0 and 2147483647.
-                                 <% } else if (field.field === 'field_play_point') { %>
-                                 The field play points of the character. The value must be between 0 and 2147483647.
+                                 The size of the character's wardrobe. The value must be between 8 and 80.
                                  <% } else if (field.field === 'builder_right') { %>
-                                 The builder rights of the character. The value must be between 0 and 7.
+                                 The builder rights of the character (can the character build structures in the world?).
+                                 <% } else if (field.field === 'production_1') { %>
+                                 The production skill level for the first production activity of the character.
+                                 <% } else if (field.field === 'production_2') { %>
+                                 The production skill level for the second production activity of the character.
+                                 <% } else if (field.field === 'gathering_1') { %>
+                                 The gathering skill level for the first gathering activity of the character.
+                                 <% } else if (field.field === 'gathering_2') { %>
+                                 The gathering skill level for the second gathering activity of the character.
+                                 <% } else if (field.field === 'production_1_exp') { %>
+                                 The experience points for the first production activity.
+                                 <% } else if (field.field === 'production_2_exp') { %>
+                                 The experience points for the second production activity.
+                                 <% } else if (field.field === 'gathering_1_exp') { %>
+                                 The experience points for the first gathering activity.
+                                 <% } else if (field.field === 'gathering_2_exp') { %>
+                                 The experience points for the second gathering activity.
+                                 <% } else if (field.field === 'duel_point') { %>
+                                 The points earned by the character in duels.
+                                 <% } else if (field.field === 'party_battle_point') { %>
+                                 The points earned by the character in party battles.
+                                 <% } else if (field.field === 'field_play_point') { %>
+                                 The points earned by the character in field play activities.
+                                 <% } else if (field.field === 'shop_sale_count') { %>
+                                 The number of items the character has sold in the shop.
+                                 <% } else if (field.field === 'heart_count') { %>
+                                 The number of hearts the character has collected.
                                  <% } %>
                               </p>
                            </div>
