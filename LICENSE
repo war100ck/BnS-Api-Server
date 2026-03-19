@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2024 WAR100CK
+Copyright (c) 2024 war100ck
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
---------------------------------------------------------------------
+---
 
-Additional Notice:
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         ДОПОЛНИТЕЛЬНЫЕ УСЛОВИЯ                               ║
+║                           ADDITIONAL TERMS                                   ║
+╚══════════════════════════════════════════════════════════════════════════════╝
 
-Regardless of the permissions granted under the MIT License, **all references to the original author (WAR100CK)** must be preserved.  
-This includes, but is not limited to: author names in the source code, links to the original repository, credits in user interfaces, and documentation mentions.
+ENGLISH:
+1.  Prohibition of RAGEZONE Distribution. Distribution, publication, or sharing
+    of download links to this Software (or its substantial portions) on the
+    RAGEZONE forum or any related platforms is strictly prohibited.
 
-**Removing, obscuring, or altering credits to the original author or repository is strictly prohibited.**
+2.  Copyright Retention. You must not remove or alter the copyright notice
+    ("Copyright (c) 2026 war100ck") or any references to the original developer
+    from any files of the project.
 
---------------------------------------------------------------------
+Violation of these terms constitutes copyright infringement.
+
+────────────────────────────────────────────────────────────────────────────────
+
+РУССКИЙ:
+1.  Запрет на распространение на RAGEZONE. Распространение, публикация или
+    размещение ссылок на загрузку данного Программного обеспечения (или его
+    существенных частей) на форуме RAGEZONE и любых связанных с ним платформах
+    строго запрещены.
+
+2.  Сохранение авторства. Запрещено удалять или изменять уведомление об
+    авторских правах ("Copyright (c) 2026 war100ck"), а также любые ссылки на
+    оригинального разработчика в файлах проекта.
+
+Нарушение данных условий является нарушением авторских прав.
