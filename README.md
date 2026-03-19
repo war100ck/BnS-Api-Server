@@ -9,7 +9,6 @@
 
 This repository contains the backend API server for the **Blade & Soul** private game server. The API facilitates user registration, login, profile management, virtual currency transactions, and character management. It integrates multiple databases and provides secure and scalable routes to handle user data efficiently. **Currently, it is designed only for the 2020 version of the game.**
 
-This API server has been tested on the server found at [RaGEZONE](https://forum.ragezone.com/threads/bns-2020-server-vm-client-simple-installation.1210163/), ensuring compatibility and performance within that specific environment.
 
 ![Server Api B&S Server](https://raw.githubusercontent.com/war100ck/Server-Api-BnS-Server/main/screen/0-1.png)
 
