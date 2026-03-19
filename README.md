@@ -3,6 +3,10 @@
 ![Dev.to blog](https://img.shields.io/badge/dev.to-0A0A0A?style=for-the-badge&logo=dev.to&logoColor=white)![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 # Blade & Soul Game API Server 2020
 
+> Prohibition of RAGEZONE Distribution. Distribution, publication, or sharing
+> of download links to this Software (or its substantial portions) on the
+> RAGEZONE forum or any related platforms is strictly prohibited.
+
 This repository contains the backend API server for the **Blade & Soul** private game server. The API facilitates user registration, login, profile management, virtual currency transactions, and character management. It integrates multiple databases and provides secure and scalable routes to handle user data efficiently. **Currently, it is designed only for the 2020 version of the game.**
 
 This API server has been tested on the server found at [RaGEZONE](https://forum.ragezone.com/threads/bns-2020-server-vm-client-simple-installation.1210163/), ensuring compatibility and performance within that specific environment.
@@ -84,7 +88,6 @@ This API server has been tested on the server found at [RaGEZONE](https://forum.
 - [Dependencies](#dependencies)
 - [B&S Game Launcher](#bns-game-launcher)
 - [License](#license)
-- [Discussion](#Discussion)
 - [Additions / Fixes](#additions--fixes)
 
 ## Key Features
@@ -283,15 +286,7 @@ This project relies on the following npm packages:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Discussion on Blade & Soul Game API Server
-
-For further information and discussions related to the **Blade & Soul Game API Server** and **Game Launcher**, visit the active discussion on the forum:
-
-[Discussion on RageZone](https://forum.ragezone.com/threads/blade-soul-game-api-server-game-launcher.1234817/)
-
-Here you will find project details, exchange of experiences, and solutions to various technical issues related to the setup and launch of the Blade & Soul API server.
-
-...
+---
 
 ## Blade & Soul Game API Server for 2017
 
